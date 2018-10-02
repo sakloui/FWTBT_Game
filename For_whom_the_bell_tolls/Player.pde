@@ -119,12 +119,12 @@ class Player
   void Update()
   {
     //saves the position before moving the player
-    //ResolveCollision();
+    ResolveCollision();
     SetOldPos();
     Move();
     //HandleJump();
     //ApplyGravity();
-    //position.add(velocity);
+    position.add(velocity);
     //updates the new player position
     UpdateAABB();
     //reset colliding booleans
