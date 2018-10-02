@@ -42,19 +42,10 @@ void draw(){
       rect(map[p].x, map[p].y, map[p].tileWidth, map[p].tileHeight);
     }
   }
-
-<<<<<<< HEAD
-=======
   
   
-  
->>>>>>> 2fa6334b50e347a6e63cef0faefa6c62d7aabcd7
   player.gravity();
   player.collision();
   player.render();
-  
-<<<<<<< HEAD
+   //<>//
 }
-=======
-} //<>//
->>>>>>> 2fa6334b50e347a6e63cef0faefa6c62d7aabcd7
