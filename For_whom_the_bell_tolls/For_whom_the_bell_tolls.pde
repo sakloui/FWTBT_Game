@@ -36,7 +36,7 @@ void setup()
       int p = x + (y * img.width);
       if(img.pixels[p] == color(0,0,0)){
         coll = true; 
-      } else {
+      } else { //<>//
         coll = false;
       }
       boxes[x][y] = new Box(new PVector(size/2 + size*x, size/2 + size*y), size, coll);
