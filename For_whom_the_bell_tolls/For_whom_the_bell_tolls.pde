@@ -1,7 +1,7 @@
 Player player;
 Input input = new Input();
 int amount = 32;
-float size;
+float boxSize;
 int rows = 32;
 int columns = 18;
 Box[][] boxes = new Box[rows][columns];
@@ -15,9 +15,9 @@ void setup()
   rectMode(CENTER);
   frameRate(100);
 
-   player= new Player();
+  player= new Player();
 
-  size = 40;
+  boxSize = 40;
     
   boolean coll;
   
@@ -45,7 +45,7 @@ void setup()
       }
       else
         coll = false;
-      boxes[i][j] = new Box(new PVector(size/2 + size*i, size/2 + size*j), size, coll);
+      boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
     }
   }
 }
@@ -57,15 +57,16 @@ void draw()
   lastTime = millis();
   
   //----------Updates----------
+  player.Update();
+  
   for(int i = 0; i < rows; i++)
   {
     for(int j = 0; j < columns; j++)
     {
       if(boxes[i][j].collides)
-      boxes[i][j].CheckCollision();
+        boxes[i][j].CheckCollision();
     }
   }
-  player.Update();
   
   //----------Draws----------
   background(200, 200, 200);
