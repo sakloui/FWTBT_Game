@@ -1,10 +1,15 @@
 Player player;
 Input input = new Input();
 int amount = 32;
-float boxSize = 40;
+
+float size;
 int rows = 32;
 int columns = 18;
-Box[][] boxes = new Box[rows][columns];
+
+PImage img;
+  
+ Box[][] boxes;
+
 
 float lastTime;
 float deltaTime;
@@ -15,37 +20,33 @@ void setup()
   rectMode(CENTER);
   frameRate(100);
 
-  player= new Player();
-    
+
+  img = loadImage("map.png");
+  img.loadPixels();
+
+  boxes = new Box[img.width][img.height];
+
+  player = new Player();
+
+  size = 40;
+
   boolean coll;
   
-  for(int i = 0; i < rows; i++)
+  for(int x = 0; x < img.width; x++)
   {
-    for(int j = 0; j < columns; j++)
+    for(int y = 0; y < img.height; y++)
     {
-      if(i == 19)
-      {
-        if(j > 14)
-        {
-          coll = true;
-        }
-        else
-          coll = false;
-      }
-      else if(j == 17)
-      {
-        if(i < 20)
-        {
-          coll = true;
-        }
-        else
-          coll = false;
-      }
-      else
+      int p = x + (y * img.width);
+      if(img.pixels[p] == color(0,0,0)){
+        coll = true; 
+      } else { 
         coll = false;
-      boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
+      }
+      boxes[x][y] = new Box(new PVector(boxSize/2 + boxSize*x, boxSize/2 + boxSize*y), boxSize, coll);
     }
   }
+  
+
 }
 
 void draw()
@@ -55,24 +56,22 @@ void draw()
   lastTime = millis();
   
   //----------Updates----------
-  player.Update();
-  
-  for(int i = 0; i < rows; i++)
-  {
-    for(int j = 0; j < columns; j++)
-    {
-      if(boxes[i][j].collides)
-        boxes[i][j].CheckCollision();
+
+  for(int i = 0; i < img.height - 1; i++){
+    for(int j = 0; j < img.width - 1; j++){
+      if(boxes[j][i].collides)
+      boxes[j][i].CheckCollision();
     }
   }
+  player.Update();
   
   //----------Draws----------
   background(200, 200, 200);
-  for(int i = 0; i < rows; i++)
+  for(int i = 0; i < img.height; i++)
   {
-    for(int j = 0; j < columns; j++)
+    for(int j = 0; j < img.width; j++)
     {
-      boxes[i][j].Draw();
+      boxes[j][i].Draw();
     }
   }
   player.Draw();
