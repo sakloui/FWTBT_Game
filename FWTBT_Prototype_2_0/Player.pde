@@ -185,7 +185,7 @@ class Player
   void Draw()
   {
     pushMatrix();
-    textSize(20);
+    textSize(28);
     fill(textColor);
     translate(100, 100);
     text("CanJump: " + canJump, 0, 0);

@@ -73,7 +73,7 @@ class Menu
     
     }
     level = null;
-    level = new Levels(10,74);
+    level = new Levels(5,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
@@ -82,8 +82,6 @@ class Menu
   }
   void updateMenu()
   { 
-    //if(menuState == 0)
-    //{
       for(int i = 0; i < button.length; i++)
       {
         if(button[i] != null)
@@ -141,14 +139,6 @@ class Menu
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
       }
-      //------End of input handling------
-    //}
-    //if(menuState == 1)
-    //{
-    //  level.updateLevel();
-      
-      
-    //}
   }
     
 }

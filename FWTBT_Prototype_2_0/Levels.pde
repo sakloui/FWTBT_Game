@@ -65,7 +65,7 @@ class Levels
       image(greyPanel,width/4*3,height/2,150,200);
       textSize(16);
       text("level " + (i+1),width/4*3,height/2);
-      textSize(32);
+      textSize(28);
       popMatrix();
       }
       if(i == selectedLevel - 1)
@@ -74,7 +74,7 @@ class Levels
       image(greyPanel,width/4,height/2,150,200);
       textSize(16);
       text("level " + (i+1),width/4,height/2);
-      textSize(32);
+      textSize(28);
       popMatrix();
       }
     }

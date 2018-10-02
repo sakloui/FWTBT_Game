@@ -99,6 +99,12 @@ void loadMap(int level)
       if(map.pixels[p] == color(255,0,0)){
         coll = 2; 
       }
+      if(map.pixels[p] == color(0,255,0)){
+        coll = 3; 
+      }      
+      if(map.pixels[p] == color(255,255,0)){
+        coll = 4; 
+      }    
       if(map.pixels[p] == color(255)) { 
         coll = 0;
       }

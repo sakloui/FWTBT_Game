@@ -7,7 +7,7 @@ void extraSetup()
   
   
   //------Font stuff------
-  font = createFont("kenvector_future.ttf", 32);
+  font = createFont("kenvector_future.ttf", 28);
   textFont(font);
   textMode(SHAPE);
   textAlign(CENTER,CENTER);
