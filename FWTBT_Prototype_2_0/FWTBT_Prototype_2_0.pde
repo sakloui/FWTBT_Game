@@ -1,3 +1,6 @@
+import ddf.minim.*;
+
+
 //------Classes------
 Menu menu;
 Player player;
@@ -7,11 +10,15 @@ PImage map;
 
 //------Font stuff------
 PFont font;
+
 //------Variables------
 float lastTime,deltaTime;
 boolean isMenu;
 int currentLevel;
 
+//------Sounds------
+Minim minim;
+AudioPlayer click;
 //------Keys------
 boolean isUp,isDown,isRight,isLeft,isSpace;
 

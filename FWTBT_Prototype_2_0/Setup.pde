@@ -14,4 +14,8 @@ void extraSetup()
   //------Variables------
   isMenu = true;
   
+  //------Sounds------
+  minim = new Minim(this);
+  click = minim.loadFile("click.mp3");
+  click.setGain(10);
 }

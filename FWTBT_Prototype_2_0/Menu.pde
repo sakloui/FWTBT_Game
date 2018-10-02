@@ -1,5 +1,6 @@
 class Menu
 {
+
   //------Menu------
   private int menuState;
   //------Classes------
@@ -7,6 +8,9 @@ class Menu
   private Levels level;
   //------Variables------
   private int currentSel;
+  //------Sound------
+
+  
   Menu()
   {
     menuState = 0;
@@ -14,6 +18,7 @@ class Menu
     createMainMenu();
     button[0].selected = true;
     currentSel = 0;
+    
   }
   
   void update()
@@ -90,12 +95,14 @@ class Menu
       //------Input handling------
       if(isUp)
       {
+        click.rewind();
+        click.play();
         if(currentSel <= 0)
         {
           isUp = false;
         }
         else
-        { //<>//
+        { 
           button[currentSel].selected = false;
           button[currentSel].selected= false;
           button[currentSel-1].selected = true;
@@ -106,6 +113,8 @@ class Menu
       }
       if(isDown)
       {
+        click.rewind();
+        click.play();
         if(currentSel > button.length)
         {
           isDown = false;

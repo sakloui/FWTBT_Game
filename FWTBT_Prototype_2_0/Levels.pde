@@ -38,11 +38,15 @@ class Levels
   {
     if(isRight && selectedLevel < levels-1)
     {
+      click.rewind();
+      click.play();      
       selectedLevel++;
       isRight = false;
     }
     if(isLeft && selectedLevel > 0)
     {
+      click.rewind();
+      click.play();      
       selectedLevel--;
       isLeft = false;
     }
