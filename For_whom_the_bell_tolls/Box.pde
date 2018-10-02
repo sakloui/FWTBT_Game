@@ -26,12 +26,10 @@ class Box
   
   void CheckCollision()
   {
-
     if(position.x + size/2 > player.position.x - player.playerWidth/2 && 
        position.x - size/2 < player.position.x + player.playerWidth/2 && 
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
-
        {
          player.GetCollisionDirection(this);
        }
