@@ -42,12 +42,10 @@ void draw(){
       rect(map[p].x, map[p].y, map[p].tileWidth, map[p].tileHeight);
     }
   }
-
-  
   
   
   player.gravity();
   player.collision();
   player.render();
-  
-} //<>//
+   //<>//
+}
