@@ -1,19 +1,17 @@
 class Menu
 {
   //------Menu------
-  private int menuState;
 
   //------Classes------
-  private Objects[] object;
-  
+  private Buttons[] button;
+  private Levels level;
   //------Variables------
   private int currentSel;
   Menu()
   {
-    menuState = 0;
-    object = new Objects[10];
+    button = new Buttons[10];
     createMainMenu();
-    object[0].selected = true;
+    button[0].selected = true;
     currentSel = 0;
   }
   
@@ -29,44 +27,59 @@ class Menu
   }
   void createMainMenu()
   {
-    for(int i = 0; i < object.length;i++)
+    for(int i = 0; i < button.length;i++)
     {
-      object[i] = null;
+      button[i] = null;
     }
-    object[0] = new Objects(width/2,height/2-75,"Play",74);
-    object[0].createButton();
-    object[1] = new Objects(width/2,height/2,"Options",74);
-    object[1].createButton();
-    object[2] = new Objects(width/2,height/2+75,"Exit",74);
-    object[2].createButton();    
+    level = null;
+    button[0] = new Buttons(width/2,height/2-75,"Play","button",74);
+    button[0].createButton();
+    button[1] = new Buttons(width/2,height/2,"Options","button",74);
+    button[1].createButton();
+    button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
+    button[2].createButton();    
 
   }
   void createOptions()
   {
-    for(int i = 0; i < object.length;i++)
+    for(int i = 0; i < button.length;i++)
     {
-      object[i] = null;
+      button[i] = null;
     }
-    object[0] = new Objects(width/3 ,height/2-75,"Option 1",74);
-    object[0].createButton();
-    object[1] = new Objects(width/3,height/2,"Option 2",74);
-    object[1].createButton();
-    object[2] = new Objects(width/3*2 ,height/2-75,"Option 3",74);
-    object[2].createButton();
-    object[3] = new Objects(width/3*2,height/2,"Back",74);
-    object[3].createButton();
+
+    level = null;
+
+    button[0] = new Buttons(width/2 ,height/2-75,"Option 1","button",74);
+    button[0].createButton();
+    button[1] = new Buttons(width/2,height/2,"Option 2","button",74);
+    button[1].createButton();
+    button[2] = new Buttons(width/2,height/2+75,"Back","button",74);
+    button[2].createButton();
 
 
+  }
+  void createLevelSelect()
+  {
+    for(int i = 0; i < button.length;i++)
+    {
+      button[i] = null;
+    
+    }
+    level = null;
+    level = new Levels(10,74);
+    level.createLevel();
+    button[0] = new Buttons(width/2,height-100,"Back","button",74);
+    button[0].createButton();  
   }
   void updateMenu()
   { 
     
-    for(int i = 0; i < object.length; i++)
+    for(int i = 0; i < button.length; i++)
     {
-      if(object[i] != null)
+      if(button[i] != null)
       {
-        object[i].updateButton();
-        if(object[i].selected)currentSel = i;
+        button[i].update();
+        if(button[i].selected)currentSel = i;
       }
     }
     //------Input handling------
@@ -77,9 +90,10 @@ class Menu
         isUp = false;
       }
       else
-      {
-        object[currentSel].selected = false;
-        object[currentSel-1].selected = true;
+      { //<>//
+        button[currentSel].selected = false;
+        button[currentSel].selected= false;
+        button[currentSel-1].selected = true;
         currentSel--;
         isUp = false;
       }
@@ -87,16 +101,16 @@ class Menu
     }
     if(isDown)
     {
-      if(currentSel > object.length)
+      if(currentSel > button.length)
       {
         isDown = false;
       }
       else
       {
-        if(object[currentSel+1] != null)
+        if(button[currentSel+1] != null)
         {
-          object[currentSel].selected = false;
-          object[currentSel+1].selected = true;
+          button[currentSel].selected = false;
+          button[currentSel+1].selected = true;
           currentSel++;
           isDown = false;
         }
@@ -105,11 +119,12 @@ class Menu
     }
     if(isSpace)
     {
-      println(object[currentSel].text);
-      if(object[currentSel].text == "Exit")exit();
-      if(object[currentSel].text == "Options"){object[currentSel].selected = false;currentSel = 0;createOptions();object[currentSel].selected = true;}
-      if(object[currentSel].text == "Back"){object[currentSel].selected = false;currentSel = 0;createMainMenu();object[currentSel].selected = true;}
       isSpace = false;
+      println(button[currentSel].text);
+      if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;return;}
+      if(button[currentSel].text == "Exit")exit();
+      if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
+      if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;return;}
     }
     //------End of input handling------
     

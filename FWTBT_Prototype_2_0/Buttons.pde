@@ -1,4 +1,4 @@
-class Objects
+class Buttons
 {
   //------Position------
   private float x;
@@ -6,7 +6,9 @@ class Objects
   
   //------Object variables------
   String text;
+  String type;
   boolean selected;
+  boolean selectedLevel;
   
   //------Images-------
   private PImage buttonUp;
@@ -15,15 +17,17 @@ class Objects
   //------Color------
   private color rgb;
   
-  Objects(float x, float y, String text, int rgb)
+  Buttons(float x, float y, String text, String type ,int rgb)
   {
    this.x = x;
    this.y = y;
    this.text = text;
    this.rgb = rgb;
+   this.type = type;
    buttonUp = loadImage("grey_button_up.png");
    buttonDown = loadImage("grey_button_down.png");
   }
+  
   
   void createButton()
   {
@@ -33,24 +37,26 @@ class Objects
     text(text,x,y);
     popMatrix();
   }
-  void updateButton()
+  void update()
   {
-    if(selected)
+    if(type == "button")
     {
-      pushMatrix();
-      fill(rgb);
-      image(buttonDown,x,y);
-      text(text,x,y+2);
-      popMatrix();
+      if(selected)
+      {
+        pushMatrix();
+        fill(rgb);
+        image(buttonDown,x,y);
+        text(text,x,y+2);
+        popMatrix();
+      }
+      else
+      {
+        pushMatrix();
+        fill(rgb);
+        image(buttonUp,x,y);
+        text(text,x,y);
+        popMatrix();
+      }
     }
-    else
-    {
-      pushMatrix();
-      fill(rgb);
-      image(buttonUp,x,y);
-      text(text,x,y);
-      popMatrix();
-    }
-        
   }
 }
