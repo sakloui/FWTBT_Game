@@ -9,6 +9,9 @@ class Player
   PVector position;
   PVector velocity;
   float speed;
+  float jumpVel;
+  float gravity;
+  float maxGrav;
 
   //----------collisions----------
   float top, bottom, right, left;
@@ -17,6 +20,8 @@ class Player
 
   //----------Other----------
   color textColor = color(0);
+  boolean grounded = false;
+  boolean canJump = false;
 
   Player()
   {
@@ -27,6 +32,10 @@ class Player
     velocity = new PVector(0, 0);
     position = new PVector(width/2, height - 100);
     speed = 150f;
+    
+    jumpVel = 200f;
+    gravity = 9.81f;
+    maxGrav = 20f;
     
     //set values once for the first time SetOldPos() is called
     SetNewPos();
@@ -56,6 +65,14 @@ class Player
       velocity.x = 0;
     }
     
+    if (input.isUp && grounded)
+    {
+      velocity.y -= jumpVel * deltaTime;
+      grounded = false;
+    } 
+
+    
+    /*
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -68,8 +85,17 @@ class Player
     {
       velocity.y = 0;
     }
-    
-    position.add(velocity);
+    */
+  }
+  
+  void ApplyGravity()
+  {
+    if(!grounded)
+    {
+      velocity.y += gravity * deltaTime;
+      if(velocity.y > maxGrav)
+        velocity.y = maxGrav * deltaTime;
+    }
   }
   
   void SetNewPos()
@@ -84,6 +110,9 @@ class Player
   {
     SetOldPos();
     Move();
+    ApplyGravity();
+    position.add(velocity);
+    println(velocity.y);
     SetNewPos();
   }
   
@@ -120,15 +149,16 @@ class Player
     if (collidedTop)
     {
       println("top");
-      position.y = box.position.y + box.size/2 + playerHeight/2 + 1;
+      position.y = box.position.y + box.size/2 + playerHeight/2 + 0.1f;
       velocity.y = 0;
       collidedTop = false;
     }
     if (collidedBottom)
     {
       println("bottom");
-      position.y = box.position.y - box.size/2 - playerHeight/2 - 1;
+      position.y = box.position.y - box.size/2 - playerHeight/2 - 0.1f;
       velocity.y = 0;
+      grounded = true;
       collidedBottom = false;
     }
     if (collidedRight)
@@ -137,14 +167,14 @@ class Player
       //corr2 = box.size/2 + player.size/2 - corr;
       //player.position -= corrr2;
       println("right");
-      position.x = box.position.x - box.size/2 - playerWidth/2 - 1;
+      position.x = box.position.x - box.size/2 - playerWidth/2 - 0.1f;
       velocity.x = 0;
       collidedRight = false;
     }
     if (collidedLeft)
     {
       println("left");
-      position.x = box.position.x + box.size/2 + playerWidth/2 + 1;
+      position.x = box.position.x + box.size/2 + playerWidth/2 + 0.1f;
       velocity.x = 0;
       collidedLeft = false;
     }
@@ -154,6 +184,13 @@ class Player
   
   void Draw()
   {
+    pushMatrix();
+    textSize(20);
+    fill(textColor);
+    translate(100, 100);
+    text("CanJump: " + canJump, 0, 0);
+    popMatrix();
+    
     pushMatrix();
     fill(playerColor);
     noStroke();

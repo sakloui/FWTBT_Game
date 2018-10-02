@@ -1,7 +1,7 @@
 Player player;
 Input input = new Input();
 int amount = 32;
-float boxSize;
+float boxSize = 40;
 int rows = 32;
 int columns = 18;
 Box[][] boxes = new Box[rows][columns];
@@ -16,8 +16,6 @@ void setup()
   frameRate(100);
 
   player= new Player();
-
-  boxSize = 40;
     
   boolean coll;
   
