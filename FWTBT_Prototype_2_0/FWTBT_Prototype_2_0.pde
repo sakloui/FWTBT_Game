@@ -1,5 +1,6 @@
 //------Classes------
 Menu menu;
+Player player;
 
 //------Image stuff------
 PImage map;
@@ -9,6 +10,7 @@ PFont font;
 //------Variables------
 float lastTime,deltaTime;
 boolean isMenu;
+int currentLevel;
 
 //------Keys------
 boolean isUp,isDown,isRight,isLeft,isSpace;
@@ -40,8 +42,16 @@ void draw()
   }
   else
   {
-  
+    image(map,width/2,height/2);
+    player.Update();
+    player.Draw();
   }
+  
+}
+
+void loadMap(int level)
+{
+  map = loadImage("level"+level+".png");
   
 }
 
