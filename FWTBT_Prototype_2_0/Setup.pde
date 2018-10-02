@@ -2,7 +2,7 @@ void extraSetup()
 {
   //------Classes------
   menu = new Menu();
-  player = new Player(50);
+  //player = new Player(50);
   //------Image stuff------
   
   
