@@ -7,7 +7,7 @@ Player player;
 
 //------Image stuff------
 PImage map;
-
+PImage tile;
 //------Font stuff------
 PFont font;
 

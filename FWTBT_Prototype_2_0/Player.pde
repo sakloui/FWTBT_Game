@@ -33,9 +33,9 @@ class Player
     position = new PVector(width/2, height - 100);
     speed = 150f;
     
-    jumpVel = 500f;
+    jumpVel = 20f;
     gravity = 9.81f;
-    maxGrav = 20f;
+    maxGrav = 30f;
     
     //set values once for the first time SetOldPos() is called
     SetNewPos();
@@ -67,7 +67,7 @@ class Player
     
     if (isUp && grounded)
     {
-      velocity.y -= jumpVel * deltaTime;
+      velocity.y -= jumpVel;
       grounded = false;
     } 
 

@@ -39,9 +39,7 @@ class Box
   
   void Draw()
   {
-    pushMatrix();
-    if(collides == 1)
-      fill(0, 0, 200);
+    pushMatrix();     
     if(collides == 2)
       fill(255, 0, 0);
     if(collides == 3)
@@ -54,6 +52,8 @@ class Box
     strokeWeight(2);
     translate(position.x, position.y);
     rect(0, 0, size, size);
+    if(collides == 1)
+      image(tile,0,0, size, size);
     popMatrix();
     if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= 30)
     {
