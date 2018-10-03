@@ -33,7 +33,7 @@ class Player
     position = new PVector(width/2, height - 100);
     speed = 150f;
     
-    jumpVel = 20f;
+    jumpVel = 10f;
     gravity = 9.81f;
     maxGrav = 30f;
     
@@ -112,7 +112,6 @@ class Player
     Move();
     ApplyGravity();
     position.add(velocity);
-    println(velocity.y);
     SetNewPos();
   }
   

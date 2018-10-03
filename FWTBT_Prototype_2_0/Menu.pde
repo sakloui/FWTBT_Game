@@ -73,7 +73,7 @@ class Menu
     
     }
     level = null;
-    level = new Levels(5,74);
+    level = new Levels(7 ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
@@ -131,6 +131,8 @@ class Menu
       }
       if(isSpace)
       {
+        click2.rewind();
+        click2.play();
         isSpace = false;
         println(button[currentSel].text);
         if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}

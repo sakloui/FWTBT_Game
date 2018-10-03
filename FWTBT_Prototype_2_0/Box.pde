@@ -39,23 +39,31 @@ class Box
   
   void Draw()
   {
-    pushMatrix();     
-    if(collides == 2)
-      fill(255, 0, 0);
-    if(collides == 3)
-      fill(0, 255, 0); 
-    if(collides == 4)
-      fill(255, 255, 0); 
-    if (collides == 0)
-      fill(groundColor);
-    stroke(0);
-    strokeWeight(2);
-    translate(position.x, position.y);
-    rect(0, 0, size, size);
-    if(collides == 1)
-      image(tile,0,0, size, size);
-    popMatrix();
-    if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= 30)
+    if (collides != 0)
+    {
+      pushMatrix();   
+      //if(collides == 0)
+      //  fill(0);
+      if(collides == 2)
+        fill(255, 0, 0);
+      if(collides == 3)
+        fill(0, 255, 0); 
+      if(collides == 4)
+        fill(255, 255, 0); 
+      if(collides == 5)
+        fill(0, 0, 255);         
+      stroke(0);
+      strokeWeight(2);
+      translate(position.x, position.y);
+      noStroke();
+      rect(0, 0, size, size);
+      if(collides == 1)
+        image(tile,0,0, size, size);
+      if(collides == 6)
+        image(tile,0,0, size, size);         
+      popMatrix();
+    }
+    if(collides == 2 && dist(player.position.x,player.position.y,position.x,position.y) <= 20)
     {
       menu.menuState = 0;
       menu.createMainMenu();
@@ -63,6 +71,13 @@ class Box
       menu.button[0].selected = true;
       menu.button[0].update();
       isMenu = true;
+    }
+    if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= 20)
+    {
+      currentLevel++;
+      loadMap(currentLevel);
+      menu.level.selectedLevel++;
+      
     }
   }
 }
