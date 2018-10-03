@@ -6,6 +6,9 @@ int rows = 32;
 int columns = 18;
 Box[][] boxes = new Box[rows][columns];
 
+int[] xTile = new int[6];
+int[] yTile = new int[6];
+
 float lastTime;
 float deltaTime;
 
@@ -48,6 +51,18 @@ void setup()
   }
 }
 
+void CalculateCurrentTiles()
+{
+  float xPercentage, yPercentage;
+  for(int i = 0; i < player.corners.length; i++)
+  {
+    xPercentage = player.corners[i].x / width * 100;
+    xTile[i] = floor(rows / 100f * xPercentage);  
+    yPercentage = player.corners[i].y / height * 100;
+    yTile[i] = floor(columns / 100f * yPercentage);
+  }
+}
+
 void draw()
 {
   //----------Time----------
@@ -57,13 +72,31 @@ void draw()
   //----------Updates----------
   player.Update();
   
+  CalculateCurrentTiles();
+
   for(int i = 0; i < rows; i++)
   {
     for(int j = 0; j < columns; j++)
     {
+      boxes[i][j].groundColor = color(255);
       if(boxes[i][j].collides)
         boxes[i][j].CheckCollision();
     }
+  }
+  ArrayList<Box> surrounding = new ArrayList<Box>();
+  for(int k = 0; k < 6; k++)
+  {
+    Box box = boxes[xTile[k]][yTile[k]];
+    //boxes[xTile[k]][yTile[k]].groundColor = color(0, 200, 0);
+    if(!surrounding.contains(box))
+    {
+      surrounding.add(box);
+    }
+  }
+  
+  for(int i = 0; i < surrounding.size(); i++)
+  {
+    surrounding.get(i).groundColor = color(0, 200, 0);
   }
   
   //----------Draws----------
@@ -74,6 +107,10 @@ void draw()
     {
       boxes[i][j].Draw();
     }
+  }
+  for(int i = 0; i < surrounding.size(); i++)
+  {
+    surrounding.get(i).Draw();
   }
   player.Draw();
 }

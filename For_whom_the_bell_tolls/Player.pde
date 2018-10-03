@@ -16,6 +16,8 @@ class Player
   //----------collisions----------
   float top, bottom, right, left;
   float oldTop, oldBottom, oldRight, oldLeft;
+  PVector[] corners = new PVector[6];
+  //topLeft, topRight, bottomLeft, bottomRight;
   boolean collidedTop, collidedBottom, collidedRight, collidedLeft;
 
   //----------Other----------
@@ -33,7 +35,7 @@ class Player
     position = new PVector(width/2, height - 100);
     speed = 150f;
     
-    jumpVel = 200f;
+    jumpVel = 6f;
     gravity = 9.81f;
     maxGrav = 20f;
     
@@ -47,6 +49,23 @@ class Player
     oldBottom = bottom;
     oldRight = right;
     oldLeft = left;
+  }
+  
+  void SetPlayerCorners()
+  {
+    corners[0] = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
+    corners[1] = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
+    corners[2] = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
+    corners[3] = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
+    corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
+    corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
+    
+    /*
+    topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
+    topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
+    bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
+    bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
+    */
   }
   
   void Move()
@@ -65,14 +84,15 @@ class Player
       velocity.x = 0;
     }
     
+    /*
     if (input.isUp && grounded)
     {
-      velocity.y -= jumpVel * deltaTime;
+      velocity.y -= jumpVel;
       grounded = false;
-    } 
+    }
+    */
 
     
-    /*
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -85,7 +105,7 @@ class Player
     {
       velocity.y = 0;
     }
-    */
+    
   }
   
   void ApplyGravity()
@@ -109,10 +129,10 @@ class Player
   void Update()
   {
     SetOldPos();
+    SetPlayerCorners();
     Move();
-    ApplyGravity();
+    //ApplyGravity();
     position.add(velocity);
-    println(velocity.y);
     SetNewPos();
   }
   
@@ -161,6 +181,8 @@ class Player
       grounded = true;
       collidedBottom = false;
     }
+    else
+      grounded = false;
     if (collidedRight)
     {
       //corr = box.position - player.position;
@@ -188,7 +210,7 @@ class Player
     textSize(20);
     fill(textColor);
     translate(100, 100);
-    text("CanJump: " + canJump, 0, 0);
+    text("grounded: " + grounded, 0, 0);
     popMatrix();
     
     pushMatrix();
