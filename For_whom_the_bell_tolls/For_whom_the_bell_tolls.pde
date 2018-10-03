@@ -83,20 +83,53 @@ void draw()
         boxes[i][j].CheckCollision();
     }
   }
+
+  ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
-  for(int k = 0; k < 6; k++)
+
+  for(int i = 0; i < 6; i++)
   {
-    Box box = boxes[xTile[k]][yTile[k]];
-    //boxes[xTile[k]][yTile[k]].groundColor = color(0, 200, 0);
-    if(!surrounding.contains(box))
+    Box box = boxes[xTile[i]][yTile[i]];
+       
+    if(!over.contains(box))
     {
-      surrounding.add(box);
+      over.add(box);
     }
   }
   
+  for(int i = 0; i < 6; i++)
+  {
+    //TODO, check for end of array
+    Box boxTop = boxes[xTile[i]][yTile[i]-1];
+    Box boxBottom = boxes[xTile[i]][yTile[i]+1];
+    Box boxRight = boxes[xTile[i]-1][yTile[i]];
+    Box boxLeft = boxes[xTile[i]+1][yTile[i]]; 
+    
+    if(!surrounding.contains(boxTop) && !over.contains(boxTop))
+    {
+      surrounding.add(boxTop);
+    }
+    if(!surrounding.contains(boxBottom) && !over.contains(boxBottom))
+    {
+      surrounding.add(boxBottom);
+    }
+    if(!surrounding.contains(boxRight) && !over.contains(boxRight))
+    {
+      surrounding.add(boxRight);
+    }
+    if(!surrounding.contains(boxLeft) && !over.contains(boxLeft))
+    {
+      surrounding.add(boxLeft);
+    }
+  }
+  
+  for(int i = 0; i < over.size(); i++)
+  {
+    over.get(i).groundColor = color(0, 200, 0);
+  }
   for(int i = 0; i < surrounding.size(); i++)
   {
-    surrounding.get(i).groundColor = color(0, 200, 0);
+    surrounding.get(i).groundColor = color(150, 0, 150);
   }
   
   //----------Draws----------
