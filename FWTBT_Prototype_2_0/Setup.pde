@@ -16,7 +16,12 @@ void extraSetup()
   
   //------Sounds------
   minim = new Minim(this);
+  minim2 = new Minim(this);
   click = minim.loadFile("click.mp3");
   click.setGain(10);
   click2 = minim.loadFile("click2.mp3");
+  int rand = round(random(1,2));
+  mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
+  mainMusic.play();
+  mainMusic.loop();
 }

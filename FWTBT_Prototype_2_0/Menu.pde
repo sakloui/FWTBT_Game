@@ -18,7 +18,7 @@ class Menu
     createMainMenu();
     button[0].selected = true;
     currentSel = 0;
-    
+
   }
   
   void update()
@@ -34,6 +34,7 @@ class Menu
   }
   void createMainMenu()
   {
+   
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;
@@ -45,7 +46,8 @@ class Menu
     button[1].createButton();
     button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
     button[2].createButton();    
-
+    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","text",74);
+    button[4].createButton();
   }
   void createOptions()
   {
@@ -137,7 +139,7 @@ class Menu
         println(button[currentSel].text);
         if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}
         if(button[currentSel].text == "Exit")exit();
-        if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;loadMap(currentLevel);isMenu = false;}
+        if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;loadMap(currentLevel);isMenu = false;mainMusic.pause();}
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
       }

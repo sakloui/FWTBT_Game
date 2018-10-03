@@ -26,8 +26,10 @@ Box[][] boxes;// = new Box[rows][columns];
 
 //------Sounds------
 Minim minim;
+Minim minim2;
 AudioPlayer click;
 AudioPlayer click2;
+AudioPlayer mainMusic;
 //------Keys------
 boolean isUp,isDown,isRight,isLeft,isSpace,isP;
 
@@ -53,7 +55,7 @@ void draw()
   background(0);
   
   //------Gamestate------
-  if(isP)isMenu = true;
+  if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
   
   if(isMenu)
   {
