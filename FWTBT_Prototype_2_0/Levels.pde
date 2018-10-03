@@ -15,6 +15,8 @@ class Levels
   
   //------Images------
   private PImage greyPanel;
+  private PImage map2;
+  private PImage map3;
   
   Levels(int levels,int rgb)
   {
@@ -56,6 +58,8 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/2,height/2,300,400);
+      map = loadImage("level" + (selectedLevel + 1) + ".png");
+      image(map,width/2,height/2,200,150);
       text("level " + (i+1),width/2,height/2);
       popMatrix();
       }
@@ -63,6 +67,8 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/4*3,height/2,150,200);
+      map2 = loadImage("level" + (selectedLevel + 2) + ".png");
+      image(map2,width/4*3,height/2,100,75);      
       textSize(16);
       text("level " + (i+1),width/4*3,height/2);
       textSize(28);
@@ -72,6 +78,11 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/4,height/2,150,200);
+      if(selectedLevel != 0)
+      {
+      map3 = loadImage("level" + (selectedLevel) + ".png");
+      image(map3,width/4,height/2,100,75);   
+      }
       textSize(16);
       text("level " + (i+1),width/4,height/2);
       textSize(28);
