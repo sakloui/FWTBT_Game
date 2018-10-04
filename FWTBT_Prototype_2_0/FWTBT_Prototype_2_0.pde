@@ -55,7 +55,7 @@ void draw()
   background(0);
   
   //------Gamestate------
-  if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
+  
   
   if(isMenu)
   {
@@ -63,6 +63,7 @@ void draw()
   }
   else
   {
+    if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
     player.Update();
     
