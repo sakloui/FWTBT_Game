@@ -7,6 +7,7 @@ class Box
   float top, bottom, right, left;
   
   int collides;
+  int dist = 20;
   
   Box(PVector position, float size, int collide)
   {
@@ -51,7 +52,9 @@ class Box
       if(collides == 4)
         fill(255, 255, 0); 
       if(collides == 5)
-        fill(0, 0, 255);         
+        fill(0, 0, 255);  
+      if(collides == 7)
+        fill(150,150,150);
       stroke(0);
       strokeWeight(2);
       translate(position.x, position.y);
@@ -63,7 +66,7 @@ class Box
         image(tile,0,0, size, size);         
       popMatrix();
     }
-    if(collides == 2 && dist(player.position.x,player.position.y,position.x,position.y) <= 20)
+    if(collides == 2 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
       menu.menuState = 0;
       menu.createMainMenu();
@@ -72,7 +75,7 @@ class Box
       menu.button[0].update();
       isMenu = true;
     }
-    if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= 20)
+    if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
       currentLevel++;
       loadMap(currentLevel);

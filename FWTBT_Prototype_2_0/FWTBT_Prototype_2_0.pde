@@ -100,16 +100,18 @@ void loadMap(int level)
   {
     menu.level.selectedLevel--;
     isMenu = true;
+    mainMusic.rewind();
+    mainMusic.play();
     return;
   }
   rows = map.width;
   columns = map.height;
   boxes = new Box[rows][columns];
-  if(rows == 64){
-    boxSize = 20;
-    player.playerWidth = 20;
-    player.playerHeight = 30;
-    player.jumpVel = 7.5f;
+  if(rows > 32){
+    boxSize = 40/(map.width/32);
+    player.playerWidth = 40/(map.width/32);
+    player.playerHeight = 60/(map.width/32);
+    player.jumpVel = 15f/(map.width/32);
   }
   else 
   {
@@ -142,11 +144,16 @@ void loadMap(int level)
       }      
       if(map.pixels[p] == color(0,160,255)){
         coll = 6; 
-      }         
+      }      
+      if(map.pixels[p] == color(150,150,150)){
+        coll = 7; 
+      }
       if(map.pixels[p] == color(255)) { 
         coll = 0;
       }
-      boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);    
+      boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
+      if(rows > 32)boxes[i][j].dist = 30/(rows/32);
+      
     }
   } 
   return;
