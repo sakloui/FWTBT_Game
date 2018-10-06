@@ -19,32 +19,28 @@ void setup()
   frameRate(100);
 
   player= new Player();
-    
+
   boolean coll;
-  
-  for(int i = 0; i < rows; i++)
+
+  for (int i = 0; i < rows; i++)
   {
-    for(int j = 0; j < columns; j++)
+    for (int j = 0; j < columns; j++)
     {
-      if(i == 19)
+      if (i == 19)
       {
-        if(j > 14)
+        if (j > 14)
         {
           coll = true;
-        }
-        else
+        } else
           coll = false;
-      }
-      else if(j == 17)
+      } else if (j == 17)
       {
-        if(i < 20)
+        if (i < 20)
         {
           coll = true;
-        }
-        else
+        } else
           coll = false;
-      }
-      else
+      } else
         coll = false;
       boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
     }
@@ -54,7 +50,7 @@ void setup()
 void CalculateCurrentTiles()
 {
   float xPercentage, yPercentage;
-  for(int i = 0; i < player.corners.length; i++)
+  for (int i = 0; i < player.corners.length; i++)
   {
     xPercentage = player.corners[i].x / width * 100;
     xTile[i] = floor(rows / 100f * xPercentage);  
@@ -68,80 +64,93 @@ void draw()
   //----------Time----------
   deltaTime = (millis() - lastTime) / 1000;
   lastTime = millis();
-  
+
   //----------Updates----------
   player.Update();
-  
+
   CalculateCurrentTiles();
 
-  for(int i = 0; i < rows; i++)
+  for (int i = 0; i < rows; i++)
   {
-    for(int j = 0; j < columns; j++)
+    for (int j = 0; j < columns; j++)
     {
       boxes[i][j].groundColor = color(255);
+      /*
       if(boxes[i][j].collides)
-        boxes[i][j].CheckCollision();
+       boxes[i][j].CheckCollision();
+       */
     }
   }
 
   ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
 
-  for(int i = 0; i < 6; i++)
+  for (int i = 0; i < 6; i++)
   {
-    Box box = boxes[xTile[i]][yTile[i]];
-       
-    if(!over.contains(box))
+    if (xTile[i] >= 32 || xTile[i] <= 0);
+    else if (yTile[i] >= 18 || yTile[i] <= 0);
+    else
     {
-      over.add(box);
+      Box box = boxes[xTile[i]][yTile[i]];
+
+      if (!over.contains(box))
+      {
+        over.add(box);
+      }
     }
   }
-  
-  for(int i = 0; i < 6; i++)
+
+  for (int i = 0; i < 6; i++)
   {
-    //TODO, check for end of array
-    Box boxTop = boxes[xTile[i]][yTile[i]-1];
-    Box boxBottom = boxes[xTile[i]][yTile[i]+1];
-    Box boxRight = boxes[xTile[i]-1][yTile[i]];
-    Box boxLeft = boxes[xTile[i]+1][yTile[i]]; 
-    
-    if(!surrounding.contains(boxTop) && !over.contains(boxTop))
+    if (xTile[i] >= 32 || xTile[i] + 1 >= 32 || xTile[i] <= 0 || xTile[i] - 1 <= 0);
+    else if (yTile[i] >= 18 || yTile[i] + 1 >= 18 || yTile[i] <= 0 || yTile[i] - 1 <= 0);
+    else
     {
-      surrounding.add(boxTop);
-    }
-    if(!surrounding.contains(boxBottom) && !over.contains(boxBottom))
-    {
-      surrounding.add(boxBottom);
-    }
-    if(!surrounding.contains(boxRight) && !over.contains(boxRight))
-    {
-      surrounding.add(boxRight);
-    }
-    if(!surrounding.contains(boxLeft) && !over.contains(boxLeft))
-    {
-      surrounding.add(boxLeft);
+      Box boxTop = boxes[xTile[i]][yTile[i]-1];
+      Box boxBottom = boxes[xTile[i]][yTile[i]+1];
+      Box boxRight = boxes[xTile[i]-1][yTile[i]];
+      Box boxLeft = boxes[xTile[i]+1][yTile[i]]; 
+
+      if (!surrounding.contains(boxTop) && !over.contains(boxTop))
+      {
+        surrounding.add(boxTop);
+      }
+      if (!surrounding.contains(boxBottom) && !over.contains(boxBottom))
+      {
+        surrounding.add(boxBottom);
+      }
+      if (!surrounding.contains(boxRight) && !over.contains(boxRight))
+      {
+        surrounding.add(boxRight);
+      }
+      if (!surrounding.contains(boxLeft) && !over.contains(boxLeft))
+      {
+        surrounding.add(boxLeft);
+      }
     }
   }
-  
-  for(int i = 0; i < over.size(); i++)
+
+  for (int i = 0; i < over.size(); i++)
   {
     over.get(i).groundColor = color(0, 200, 0);
   }
-  for(int i = 0; i < surrounding.size(); i++)
+  for (int i = 0; i < surrounding.size(); i++)
   {
     surrounding.get(i).groundColor = color(150, 0, 150);
+    if (surrounding.get(i).collides)
+      surrounding.get(i).CheckCollision();
   }
-  
+
   //----------Draws----------
   background(200, 200, 200);
-  for(int i = 0; i < rows; i++)
+  for (int i = 0; i < rows; i++)
   {
-    for(int j = 0; j < columns; j++)
+    for (int j = 0; j < columns; j++)
     {
       boxes[i][j].Draw();
     }
   }
-  for(int i = 0; i < surrounding.size(); i++)
+  for (int i = 0; i < surrounding.size(); i++)
   {
     surrounding.get(i).Draw();
   }
