@@ -148,6 +148,12 @@ void loadMap(int level)
       if(map.pixels[p] == color(150,150,150)){
         coll = 7; 
       }
+      if(map.pixels[p] == color(255,255,100)){
+        coll = 8;
+      }
+      if(map.pixels[p] == color(0,0,100)){
+        coll = 9;
+      }      
       if(map.pixels[p] == color(255)) { 
         coll = 0;
       }
@@ -157,6 +163,19 @@ void loadMap(int level)
     }
   } 
   return;
+}
+
+void updateGrid()
+{
+  for(int i = 0; i < rows; i++)
+  {
+    for(int j = 0; j < columns; j++)
+    {  
+      if(boxes[i][j].collides == 9){
+        boxes[i][j].collides = 0;
+      }
+    }
+  }
 }
 
 
