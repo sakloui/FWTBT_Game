@@ -1,4 +1,4 @@
-public class IdleState extends State
+public class JumpState extends State
 {
 
   public void OnStateEnter()

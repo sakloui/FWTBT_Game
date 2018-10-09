@@ -50,7 +50,7 @@ class Player
     position = new PVector(width/2, height - 100);
     speed = 150f;
 
-    jumpVel = 10f;
+    jumpVel = 7f;
     gravity = 9.81f;
     maxGrav = 20f;
 
@@ -158,21 +158,23 @@ class Player
     {
       velocity.y = speed * deltaTime;
     } 
-    */
     if (!input.isUp && !input.isDown)
     {
       velocity.y = 0;
     }
+    */
   }
 
   void ApplyGravity()
   {
     if (!grounded)
     {
-      velocity.y += gravity * deltaTime * 10;
+      velocity.y += gravity * deltaTime;
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
     }
+    else
+      velocity.y = 0;
   }
 
   void SetNewPos()
@@ -191,14 +193,14 @@ class Player
 
     if (velocity.x == 0 && velocity.y == 0)
       inMotion = false;
+    else if (velocity.y < 0)
+      currentDirection = UP;
+    else if (velocity.y > 0)
+      currentDirection = DOWN;
     else if (velocity.x > 0 && velocity.y == 0)
       currentDirection = RIGHT;
     else if (velocity.x < 0 && velocity.y == 0)
       currentDirection = LEFT;
-    else if (velocity.x == 0 && velocity.y < 0)
-      currentDirection = UP;
-    else if (velocity.x == 0 && velocity.y > 0)
-      currentDirection = DOWN;
   }
 
   void Update()
@@ -278,7 +280,7 @@ class Player
     textSize(20);
     fill(textColor);
     translate(100, 100);
-    text("grounded: " + grounded, 0, 0);
+    text("Velocity.y: " + velocity.y, 0, 0);
     popMatrix();
 
     pushMatrix();
@@ -287,7 +289,7 @@ class Player
     translate(position.x, position.y);
     if(velocity.x == 0 && velocity.y == 0)
       image(idle[int(currentFrame)], 0, 0);
-    else if(currentDirection == TOP)
+    else if(currentDirection == UP)
     {
       image(jump[int(currentFrame)], 0, 0);
     }
@@ -297,12 +299,15 @@ class Player
     }
     else if(currentDirection == RIGHT)
     {
-      println("float: " + currentRunFrame + "\t\tint: " + int(currentRunFrame));
       image(run[int(currentRunFrame)], 0, 0);
     }
     else if(currentDirection == LEFT)
     {
-      image(run[int(currentRunFrame)], 0, 0);
+       pushMatrix();
+       scale(-1.0, 1.0);
+       image(run[int(currentRunFrame)],0 ,0);
+       popMatrix();
+       //image(run[int(currentRunFrame)], 0, 0);
     }
       
     //rect(0, 0, playerWidth, playerHeight);
