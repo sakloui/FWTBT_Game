@@ -20,8 +20,11 @@ void extraSetup()
   click = minim.loadFile("click.mp3");
   click.setGain(10);
   click2 = minim.loadFile("click2.mp3");
-  int rand = round(random(1,2));
-  mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
-  mainMusic.play();
+  if(month() == 10 && day() == 31)
+  mainMusic = minim2.loadFile("mainMusic3.mp3");
+  else {
+    int rand = round(random(1,2));
+    mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
+  }
   mainMusic.loop();
 }

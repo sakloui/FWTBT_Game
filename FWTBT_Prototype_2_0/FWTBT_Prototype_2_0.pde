@@ -59,12 +59,13 @@ void draw()
   if(isMenu)
   {
     menu.draw();
+    println(frameRate);
   }
   else
   {
     if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
-    
+    println(frameRate);
     
     player.Update();
     boxManager.Update();

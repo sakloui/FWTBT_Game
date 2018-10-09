@@ -101,6 +101,8 @@ class Box
       menu.button[0].selected = true;
       menu.button[0].update();
       isMenu = true;
+      mainMusic.rewind();
+      mainMusic.play();
     }
     if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
