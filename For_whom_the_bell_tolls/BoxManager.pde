@@ -8,9 +8,11 @@ class BoxManager
 
   ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
+  Box bottomBox;
 
   int[] xTile = new int[6];
   int[] yTile = new int[6];
+  int xBottom, yBottom;
 
   BoxManager()
   {
@@ -70,6 +72,10 @@ class BoxManager
       yPercentage = player.corners[i].y / height * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
+    xPercentage = player.playerBottom.x / width * 100;
+    xBottom = floor(rows / 100f * xPercentage);  
+    yPercentage = player.playerBottom.y / height * 100;
+    yBottom = floor(columns / 100f * yPercentage);
   }
 
   void SetOverCells()
@@ -95,8 +101,8 @@ class BoxManager
     for (int i = 0; i < 6; i++)
     {
       //if cell is within the array of cells
-      if (xTile[i] >= 32 || xTile[i] + 1 >= 32 || xTile[i] <= 0 || xTile[i] - 1 <= 0);
-      else if (yTile[i] >= 18 || yTile[i] + 1 >= 18 || yTile[i] <= 0 || yTile[i] - 1 <= 0);
+      if (xTile[i] + 1 >= rows || xTile[i] - 1 < 0);
+      else if (yTile[i] + 1 >= columns ||yTile[i] - 1 < 0);
       else
       {
         Box boxTop = boxes[xTile[i]][yTile[i]-1];
@@ -143,6 +149,10 @@ class BoxManager
         }
       }
     }
+    if (xBottom + 1 >= rows || xBottom - 1 < 0);
+    else if (yBottom + 1 >= columns || yBottom - 1 < 0);
+    else
+      bottomBox = boxes[xBottom][yBottom];
   }
 
   void SetGridColor()

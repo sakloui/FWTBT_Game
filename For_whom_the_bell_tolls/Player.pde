@@ -17,6 +17,7 @@ class Player
   float top, bottom, right, left;
   float oldTop, oldBottom, oldRight, oldLeft;
   PVector[] corners = new PVector[6];
+  PVector playerBottom;
   //topLeft, topRight, bottomLeft, bottomRight;
   boolean collidedTop, collidedBottom, collidedRight, collidedLeft;
 
@@ -38,7 +39,7 @@ class Player
 
   State playerState;
 
-  final int UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3;
+  
 
   Player()
   {
@@ -54,10 +55,14 @@ class Player
     gravity = 9.81f;
     maxGrav = 20f;
 
+    currentDirection = 1;
+
     SetupSprites();
 
     //set values once for the first time SetOldPos() is called
     SetNewPos();
+    
+    this.SetState(new IdleState());
   }
 
   void SetupSprites()
@@ -117,6 +122,8 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
+    playerBottom = new PVector(position.x, position.y + playerHeight/2);
+
     /*
     topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
     topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
@@ -141,15 +148,16 @@ class Player
       velocity.x = 0;
     }
 
-    
+    /*
     if (input.isUp && grounded)
     {
       velocity.y = -jumpVel;
       grounded = false;
     }
+    */
     
 
-    /*
+    
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -162,7 +170,7 @@ class Player
     {
       velocity.y = 0;
     }
-    */
+    
   }
 
   void ApplyGravity()
@@ -187,8 +195,7 @@ class Player
   
   void SetDirection()
   {
-    currentFrame = (currentFrame + animationSpeed) % 10;
-    currentRunFrame = (currentRunFrame + animationSpeed) % 8;
+    
     inMotion = true;
 
     if (velocity.x == 0 && velocity.y == 0)
@@ -208,10 +215,15 @@ class Player
     SetOldPos();
     SetPlayerCorners();
     Move();
+    playerState.OnTick();
     ApplyGravity();
-    SetDirection();
+    //SetDirection();
     position.add(velocity);
-    SetNewPos();
+    SetNewPos(); 
+    if(bottom != oldBottom || right != oldRight)
+    {
+      ResolveCollision(boxManager.bottomBox);
+    }
   }
 
   void GetCollisionDirection(Box box)
@@ -286,30 +298,7 @@ class Player
     pushMatrix();
     fill(playerColor);
     noStroke();
-    translate(position.x, position.y);
-    if(velocity.x == 0 && velocity.y == 0)
-      image(idle[int(currentFrame)], 0, 0);
-    else if(currentDirection == UP)
-    {
-      image(jump[int(currentFrame)], 0, 0);
-    }
-    else if(currentDirection == DOWN)
-    {
-      image(jump[int(currentFrame)], 0, 0);
-    }
-    else if(currentDirection == RIGHT)
-    {
-      image(run[int(currentRunFrame)], 0, 0);
-    }
-    else if(currentDirection == LEFT)
-    {
-       pushMatrix();
-       scale(-1.0, 1.0);
-       image(run[int(currentRunFrame)],0 ,0);
-       popMatrix();
-       //image(run[int(currentRunFrame)], 0, 0);
-    }
-      
+    playerState.OnDraw();
     //rect(0, 0, playerWidth, playerHeight);
     popMatrix();
   }
