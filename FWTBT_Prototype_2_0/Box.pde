@@ -33,6 +33,8 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
+         
+         println("coolio");
          player.GetCollisionDirection(this);
        }
 
@@ -61,7 +63,7 @@ class Box
     {
       pushMatrix();   
       //if(collides == 0)
-      //  fill(0);
+      //  fill(groundColor);
       if(collides == 2)
         fill(255, 0, 0);
       if(collides == 3)
@@ -103,7 +105,7 @@ class Box
     if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
       currentLevel++;
-      loadMap(currentLevel);
+      boxManager = new BoxManager(currentLevel);
       menu.level.selectedLevel++;
       
     }

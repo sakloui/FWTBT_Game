@@ -75,7 +75,7 @@ class Menu
     
     }
     level = null;
-    level = new Levels(9 ,74);
+    level = new Levels(8 ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
@@ -139,7 +139,7 @@ class Menu
         println(button[currentSel].text);
         if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}
         if(button[currentSel].text == "Exit")exit();
-        if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;loadMap(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
+        if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
       }
