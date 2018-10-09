@@ -25,6 +25,21 @@ class Player
   boolean grounded = false;
   boolean canJump = false;
 
+  PImage sheet;
+  PImage[] idle;
+  PImage[] run;
+  PImage[] slide;
+  PImage[] jump;
+  boolean inMotion;
+  int currentDirection;
+  float currentFrame;
+  float currentRunFrame;
+  float animationSpeed = 0.3f;
+
+  State playerState;
+
+  final int UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3;
+
   Player()
   {
     playerWidth = 40;
@@ -34,15 +49,57 @@ class Player
     velocity = new PVector(0, 0);
     position = new PVector(width/2, height - 100);
     speed = 150f;
-    
-    jumpVel = 6f;
+
+    jumpVel = 10f;
     gravity = 9.81f;
     maxGrav = 20f;
-    
+
+    SetupSprites();
+
     //set values once for the first time SetOldPos() is called
     SetNewPos();
   }
-  
+
+  void SetupSprites()
+  {
+    idle = new PImage[10];
+    String idleName;
+
+    slide = new PImage[10];
+    String slideName;
+
+    jump = new PImage[10];
+    String jumpName;
+
+    run = new PImage[8];
+    String runName;
+
+    for (int i = 0; i < 10; i++)
+    {
+      //load idle sprites
+      idleName = "Sprites/Idle (" + i + ").png";
+      idle[i] = loadImage(idleName);
+      idle[i].resize(80, 0);
+
+      //load jump sprites
+      jumpName = "Sprites/Jump (" + i + ").png";
+      jump[i] = loadImage(jumpName);
+      jump[i].resize(80, 0);
+      //load slide sprites
+      slideName = "Sprites/Slide (" + i + ").png";
+      slide[i] = loadImage(slideName);
+      slide[i].resize(80, 0);
+    }
+
+    for (int i = 0; i < 8; i++)
+    {
+      //load run sprites
+      runName = "Sprites/Run (" + i + ").png";
+      run[i] = loadImage(runName);
+      run[i].resize(80, 0);
+    }
+  }
+
   void SetOldPos()
   {
     oldTop = top;
@@ -50,7 +107,7 @@ class Player
     oldRight = right;
     oldLeft = left;
   }
-  
+
   void SetPlayerCorners()
   {
     corners[0] = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
@@ -59,7 +116,7 @@ class Player
     corners[3] = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
-    
+
     /*
     topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
     topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
@@ -67,7 +124,7 @@ class Player
     bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
     */
   }
-  
+
   void Move()
   {
     if (input.isRight)
@@ -78,21 +135,21 @@ class Player
     {
       velocity.x = -speed * deltaTime;
     }
-    
-    if(!input.isRight && !input.isLeft)
+
+    if (!input.isRight && !input.isLeft)
     {
       velocity.x = 0;
     }
-    
-    /*
-    if (input.isUp && grounded)
-    {
-      velocity.y -= jumpVel;
-      grounded = false;
-    }
-    */
 
     
+    if (input.isUp && grounded)
+    {
+      velocity.y = -jumpVel;
+      grounded = false;
+    }
+    
+
+    /*
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -101,23 +158,23 @@ class Player
     {
       velocity.y = speed * deltaTime;
     } 
-    if(!input.isUp && !input.isDown)
+    */
+    if (!input.isUp && !input.isDown)
     {
       velocity.y = 0;
     }
-    
   }
-  
+
   void ApplyGravity()
   {
-    if(!grounded)
+    if (!grounded)
     {
-      velocity.y += gravity * deltaTime;
-      if(velocity.y > maxGrav)
-        velocity.y = maxGrav * deltaTime;
+      velocity.y += gravity * deltaTime * 10;
+      if (velocity.y > maxGrav)
+        velocity.y = maxGrav;
     }
   }
-  
+
   void SetNewPos()
   {
     top = position.y - playerHeight/2;
@@ -126,16 +183,35 @@ class Player
     left = right - playerWidth;
   }
   
+  void SetDirection()
+  {
+    currentFrame = (currentFrame + animationSpeed) % 10;
+    currentRunFrame = (currentRunFrame + animationSpeed) % 8;
+    inMotion = true;
+
+    if (velocity.x == 0 && velocity.y == 0)
+      inMotion = false;
+    else if (velocity.x > 0 && velocity.y == 0)
+      currentDirection = RIGHT;
+    else if (velocity.x < 0 && velocity.y == 0)
+      currentDirection = LEFT;
+    else if (velocity.x == 0 && velocity.y < 0)
+      currentDirection = UP;
+    else if (velocity.x == 0 && velocity.y > 0)
+      currentDirection = DOWN;
+  }
+
   void Update()
   {
     SetOldPos();
     SetPlayerCorners();
     Move();
-    //ApplyGravity();
+    ApplyGravity();
+    SetDirection();
     position.add(velocity);
     SetNewPos();
   }
-  
+
   void GetCollisionDirection(Box box)
   {
     if (oldBottom < box.top && // was not colliding
@@ -163,47 +239,39 @@ class Player
       ResolveCollision(box);
     }
   }
-  
+
   void ResolveCollision(Box box)
   {
     if (collidedTop)
     {
-      println("top");
       position.y = box.position.y + box.size/2 + playerHeight/2 + 0.1f;
       velocity.y = 0;
       collidedTop = false;
     }
     if (collidedBottom)
     {
-      println("bottom");
       position.y = box.position.y - box.size/2 - playerHeight/2 - 0.1f;
       velocity.y = 0;
       grounded = true;
       collidedBottom = false;
-    }
-    else
+    } else
       grounded = false;
     if (collidedRight)
     {
-      //corr = box.position - player.position;
-      //corr2 = box.size/2 + player.size/2 - corr;
-      //player.position -= corrr2;
-      println("right");
       position.x = box.position.x - box.size/2 - playerWidth/2 - 0.1f;
       velocity.x = 0;
       collidedRight = false;
     }
     if (collidedLeft)
     {
-      println("left");
       position.x = box.position.x + box.size/2 + playerWidth/2 + 0.1f;
       velocity.x = 0;
       collidedLeft = false;
     }
-    
+
     SetNewPos();
   }
-  
+
   void Draw()
   {
     pushMatrix();
@@ -212,13 +280,47 @@ class Player
     translate(100, 100);
     text("grounded: " + grounded, 0, 0);
     popMatrix();
-    
+
     pushMatrix();
     fill(playerColor);
     noStroke();
     translate(position.x, position.y);
-    rect(0, 0, playerWidth, playerHeight);
+    if(velocity.x == 0 && velocity.y == 0)
+      image(idle[int(currentFrame)], 0, 0);
+    else if(currentDirection == TOP)
+    {
+      image(jump[int(currentFrame)], 0, 0);
+    }
+    else if(currentDirection == DOWN)
+    {
+      image(jump[int(currentFrame)], 0, 0);
+    }
+    else if(currentDirection == RIGHT)
+    {
+      println("float: " + currentRunFrame + "\t\tint: " + int(currentRunFrame));
+      image(run[int(currentRunFrame)], 0, 0);
+    }
+    else if(currentDirection == LEFT)
+    {
+      image(run[int(currentRunFrame)], 0, 0);
+    }
+      
+    //rect(0, 0, playerWidth, playerHeight);
     popMatrix();
   }
-  
+
+  void SetState(State state)
+  {
+    if (playerState != null)
+    {
+      playerState.OnStateExit();
+    }
+
+    playerState = state;
+
+    if (playerState != null)
+    {
+      playerState.OnStateEnter();
+    }
+  }
 }
