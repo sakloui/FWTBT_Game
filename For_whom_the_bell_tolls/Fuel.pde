@@ -21,7 +21,8 @@ class Fuel
     for (int i = 0; i < fuel.length; i++)
     {
       //load fuel sprites
-      fuelName = "Fuel/Fuel" + i + ".png";
+      //fuelName = "Fuel/Fuel" + i + ".png";
+      fuelName = "Character/Robot" + i + ".png";
       fuel[i] = loadImage(fuelName);
       //fuel[i].resize(80, 0);
     }
@@ -52,7 +53,7 @@ class Fuel
   {
     pushMatrix();
     translate(position.x, position.y);
-    image(fuel[int(currentFrame)], 0, 0);
+    image(fuel[int(round(currentFrame))], 0, 0);
     popMatrix();
   }
 }

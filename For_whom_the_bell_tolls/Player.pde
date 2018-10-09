@@ -37,9 +37,13 @@ class Player
   float currentRunFrame;
   float animationSpeed = 0.3f;
 
+  PVector acceleration = new PVector(0, 0);
+  float accelRate = 8.5f;
+  float decelRate = 15f;
+  float maxSpeed = 5f;
+
   State playerState;
 
-  
 
   Player()
   {
@@ -136,6 +140,42 @@ class Player
   {
     if (input.isRight)
     {
+      acceleration.x = accelRate;
+      if(velocity.x > maxSpeed)
+        velocity.x = maxSpeed;
+      else
+        velocity.add(acceleration.mult(deltaTime));
+    } 
+    else if (input.isLeft)
+    {
+      acceleration.x = accelRate;
+      if(velocity.x < -maxSpeed)
+        velocity.x = -maxSpeed;
+      else
+        velocity.sub(acceleration.mult(deltaTime));
+    }
+    else
+    {
+      if (velocity.x > accelRate * deltaTime)
+      {
+        acceleration.x = decelRate;
+        velocity.sub(acceleration.mult(deltaTime));
+      } 
+      else if (velocity.x < -accelRate * deltaTime)
+      {
+        acceleration.x = decelRate;
+        velocity.add(acceleration.mult(deltaTime));
+      } 
+      else
+      {
+        acceleration.x = 0;
+        velocity.x = 0;
+      }
+    }
+    
+    /*
+    if (input.isRight)
+    {
       velocity.x = speed * deltaTime;
     }    
     if (input.isLeft)
@@ -147,13 +187,13 @@ class Player
     {
       velocity.x = 0;
     }
-
     
     if (input.isUp && grounded)
     {
       velocity.y = -jumpVel;
       grounded = false;
     }
+    */
     
     /*
     if (input.isUp)
