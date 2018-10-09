@@ -1,6 +1,7 @@
 Player player;
 BoxManager boxManager;
 Input input = new Input();
+Fuel fuel;
 
 State currentState;
 
@@ -17,6 +18,7 @@ void setup()
   //SetState(new MenuState());
   player= new Player();
   boxManager = new BoxManager();
+  fuel = new Fuel(new PVector(250, 250));
 }
 
 void draw()
@@ -24,15 +26,17 @@ void draw()
   //----------Time----------
   deltaTime = (millis() - lastTime) / 1000;
   lastTime = millis();
-
+  
   //----------Updates----------
   player.Update();
   boxManager.Update();
-
+  fuel.Update();
+  
   //----------Draws----------
   background(200, 200, 200);
   boxManager.DrawBoxes();
-  player.Draw(); 
+  player.Draw();
+  fuel.Draw();
 }
 
 void SetState(State state)

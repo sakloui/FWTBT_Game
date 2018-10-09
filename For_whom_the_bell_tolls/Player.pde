@@ -148,16 +148,14 @@ class Player
       velocity.x = 0;
     }
 
-    /*
+    
     if (input.isUp && grounded)
     {
       velocity.y = -jumpVel;
       grounded = false;
     }
-    */
     
-
-    
+    /*
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -170,7 +168,7 @@ class Player
     {
       velocity.y = 0;
     }
-    
+    */
   }
 
   void ApplyGravity()
