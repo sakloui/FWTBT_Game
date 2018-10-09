@@ -24,7 +24,8 @@ class Player
   color textColor = color(0);
   boolean grounded = false;
   boolean canJump = false;
-
+  int Health = 3;
+  boolean isDead;
   Player()
   {
     playerWidth = 40;
@@ -134,7 +135,12 @@ class Player
     //ApplyGravity();
     position.add(velocity);
     SetNewPos();
+    
+    if(Health <= 0) {
+      isDead = true;
+    }
   }
+  
   
   void GetCollisionDirection(Box box)
   {
@@ -217,7 +223,10 @@ class Player
     fill(playerColor);
     noStroke();
     translate(position.x, position.y);
-    rect(0, 0, playerWidth, playerHeight);
+    if(!isDead) {
+      rect(0, 0, playerWidth, playerHeight);
+    } 
+  
     popMatrix();
   }
   

@@ -1,4 +1,5 @@
 Player player;
+Enemy enemy; 
 Input input = new Input();
 int amount = 32;
 float boxSize = 40;
@@ -19,7 +20,7 @@ void setup()
   frameRate(100);
 
   player= new Player();
-    
+  enemy = new Enemy();
   boolean coll;
   
   for(int i = 0; i < rows; i++)
@@ -71,6 +72,7 @@ void draw()
   
   //----------Updates----------
   player.Update();
+  enemy.Update();
   
   CalculateCurrentTiles();
 
@@ -113,6 +115,7 @@ void draw()
     surrounding.get(i).Draw();
   }
   player.Draw();
+  enemy.Draw();
 }
 
 void keyPressed()
