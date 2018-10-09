@@ -194,7 +194,7 @@ class Player
     fill(playerColor);
     noStroke();
     translate(position.x, position.y);
-    rect(0, 0, playerWidth, playerHeight);
+    rect(0 - camera.shiftX, 0 - camera.shiftY, playerWidth, playerHeight);
     popMatrix();
   }
     

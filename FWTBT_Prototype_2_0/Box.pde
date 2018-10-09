@@ -82,11 +82,28 @@ class Box
       strokeWeight(2);
       translate(position.x, position.y);
       noStroke();
-      rect(0, 0, size, size);
+      rect(0 - camera.shiftX, 0 - camera.shiftY, size, size);
       if(collides == 1)
-        image(tile,0,0, size, size);
-      if(collides == 6){
-        image(tile,0,0, size, size); 
+        image(tileBox,0 - camera.shiftX,0 - camera.shiftY, size, size);
+
+      if(collides == 10){
+        image(tileSmallPlatformTopRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+        CheckCollisionInvis();
+      }
+      if(collides == 11){
+        image(tileSmallPlatformPillarRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+        CheckCollisionInvis();
+      }
+      if(collides == 12){
+        image(tileSmallPlatformTopLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+        CheckCollisionInvis();
+      }
+      if(collides == 13){
+        image(tileSmallPlatformPillarLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+        CheckCollisionInvis();
+      }
+      if(collides == 14){
+        image(tileMiniPlatformTop,0- camera.shiftX,0 - camera.shiftY, size, size); 
         CheckCollisionInvis();
       }
       popMatrix();

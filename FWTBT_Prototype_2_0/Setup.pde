@@ -4,7 +4,14 @@ void extraSetup()
   menu = new Menu();
   //player = new Player(50);
   //------Image stuff------
-  tile = loadImage("Floor2.png");
+  tileBox = loadImage("textures/box.png");
+  tileSteelPillar = loadImage("textures/steel_pillar.png");
+  tileSmallPlatformTopRight = loadImage("textures/small_platform_top_right.png");
+  tileSmallPlatformPillarRight = loadImage("textures/small_platform_pillar_right.png");
+  tileSmallPlatformTopLeft = loadImage("textures/small_platform_top_left.png");
+  tileSmallPlatformPillarLeft = loadImage("textures/small_platform_pillar_left.png");
+  tileMiniPlatformTop = loadImage("textures/mini_platform_top.png");
+  
   background = loadImage("background.png");
   //------Font stuff------
   font = createFont("kenvector_future.ttf", 28);

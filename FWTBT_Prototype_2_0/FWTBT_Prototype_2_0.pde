@@ -4,9 +4,18 @@ import ddf.minim.*;
 //------Classes------
 Menu menu;
 Player player;
+Camera camera;
 //------Image stuff------
 PImage map;
-PImage tile;
+
+PImage tileBox;
+PImage tileSteelPillar;
+PImage tileSmallPlatformTopRight;
+PImage tileSmallPlatformPillarRight;
+PImage tileSmallPlatformTopLeft;
+PImage tileSmallPlatformPillarLeft;
+PImage tileMiniPlatformTop;
+
 PImage background;
 //------Font stuff------
 PFont font;
@@ -41,7 +50,8 @@ void setup()
   ellipseMode(CENTER);
   background(0);
   extraSetup();
-  player= new Player();
+  player = new Player();
+  camera = new Camera();
 
 }
 
@@ -65,7 +75,15 @@ void draw()
   {
     if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
+    
     player.Update();
+    
+    if (rows > 32){
+      camera.UpdateX();
+    }
+    if (columns > 18){
+      camera.UpdateY();
+    }
     
     for(int i = 0; i < rows; i++)
     {
@@ -107,19 +125,10 @@ void loadMap(int level)
   rows = map.width;
   columns = map.height;
   boxes = new Box[rows][columns];
-  if(rows > 32){
-    boxSize = 40/(map.width/32);
-    player.playerWidth = 40/(map.width/32);
-    player.playerHeight = 60/(map.width/32);
-    player.jumpVel = 15f/(map.width/32);
-  }
-  else 
-  {
-    boxSize = 40;
-    player.playerWidth = 40;
-    player.playerHeight = 60;  
-    player.jumpVel = 10f;  
-  }
+  boxSize = 40;
+  player.playerWidth = 40;
+  player.playerHeight = 60;  
+  player.jumpVel = 10f;  
   int coll = 0;
   
   for(int i = 0; i < rows; i++)
@@ -127,33 +136,70 @@ void loadMap(int level)
     for(int j = 0; j < columns; j++)
     {
       int p = i + (j * rows);
-      if(map.pixels[p] == color(0,0,0)){
-        coll = 1; 
-      }
-      if(map.pixels[p] == color(255,100,0)){
-        coll = 2; 
-      }
+      
+      //gameplay
+      
+      //spawn
       if(map.pixels[p] == color(0,255,0)){
         coll = 3; 
       }      
+      
+      //victory
       if(map.pixels[p] == color(255,255,0)){
         coll = 4; 
-      }   
+      }  
+      
+      //water
       if(map.pixels[p] == color(0,0,255)){
         coll = 5; 
-      }      
+      }
+      
+      //secret
       if(map.pixels[p] == color(0,160,255)){
         coll = 6; 
-      }      
+      }
+      
+      //magneet
       if(map.pixels[p] == color(150,150,150)){
         coll = 7; 
       }
+      
+      //victory condition change  
       if(map.pixels[p] == color(255,255,100)){
         coll = 8;
       }
-      if(map.pixels[p] == color(0,0,100)){
-        coll = 9;
-      }      
+      //elektrisch draad
+      if(map.pixels[p] == color(255,100,0)){
+        coll = 2; 
+      }
+      
+      //graphics
+      //box
+      if(map.pixels[p] == color(0,0,0)){
+        coll = 1; 
+      }
+      
+      //small platform top right
+      if(map.pixels[p] == color(0,5,0)){
+        coll = 10;
+      }  
+      //small platform pillar right
+      if(map.pixels[p] == color(0,10,0)){
+        coll = 11;
+      }  
+      //small platform top left
+      if(map.pixels[p] == color(5,0,0)){
+        coll = 12;
+      }
+      //small platform pillar right
+      if(map.pixels[p] == color(10,0,0)){
+        coll = 13;
+      } 
+      //mini platform top
+      if(map.pixels[p] == color(0,0,5)){
+        coll = 14;
+      } 
+      
       if(map.pixels[p] == color(255)) { 
         coll = 0;
       }
