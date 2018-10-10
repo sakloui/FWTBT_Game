@@ -60,13 +60,13 @@ void draw()
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
-  
+
   //------Background Stuff------
   background(0);
-  
+
   //------Gamestate------
-  
-  
+
+
   if(isMenu)
   {
     menu.draw();
@@ -75,16 +75,16 @@ void draw()
   {
     if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
-    
+
     player.Update();
-    
+
     if (rows > 32){
       camera.UpdateX();
     }
     if (columns > 18){
       camera.UpdateY();
     }
-    
+
     for(int i = 0; i < rows; i++)
     {
       for(int j = 0; j < columns; j++)
@@ -93,7 +93,7 @@ void draw()
           boxes[i][j].CheckCollision();
       }
     }
-    
+
     //----------Draws----------
     //background(200, 200, 200);
     for(int i = 0; i < rows; i++)
@@ -104,9 +104,9 @@ void draw()
       }
     }
     player.Draw();
-    
+
   }
-  
+
 }
 
 void loadMap(int level)
@@ -127,66 +127,66 @@ void loadMap(int level)
   boxes = new Box[rows][columns];
   boxSize = 40;
   player.playerWidth = 40;
-  player.playerHeight = 60;  
-  player.jumpVel = 10f;  
+  player.playerHeight = 60;
+  player.jumpVel = 10f;
   int coll = 0;
-  
+
   for(int i = 0; i < rows; i++)
   {
     for(int j = 0; j < columns; j++)
     {
       int p = i + (j * rows);
-      
+
       //gameplay
-      
+
       //spawn
       if(map.pixels[p] == color(0,255,0)){
-        coll = 3; 
-      }      
-      
+        coll = 3;
+      }
+
       //victory
       if(map.pixels[p] == color(255,255,0)){
-        coll = 4; 
-      }  
-      
+        coll = 4;
+      }
+
       //water
       if(map.pixels[p] == color(0,0,255)){
-        coll = 5; 
+        coll = 5;
       }
-      
+
       //secret
       if(map.pixels[p] == color(0,160,255)){
-        coll = 6; 
+        coll = 6;
       }
-      
+
       //magneet
       if(map.pixels[p] == color(150,150,150)){
-        coll = 7; 
+        coll = 7;
       }
-      
-      //victory condition change  
+
+      //victory condition change
       if(map.pixels[p] == color(255,255,100)){
         coll = 8;
       }
       //elektrisch draad
       if(map.pixels[p] == color(255,100,0)){
-        coll = 2; 
+        coll = 2;
       }
-      
+
       //graphics
       //box
       if(map.pixels[p] == color(0,0,0)){
-        coll = 1; 
+        coll = 1;
       }
-      
+
       //small platform top right
       if(map.pixels[p] == color(0,5,0)){
         coll = 10;
-      }  
+      }
       //small platform pillar right
       if(map.pixels[p] == color(0,10,0)){
         coll = 11;
-      }  
+      }
       //small platform top left
       if(map.pixels[p] == color(5,0,0)){
         coll = 12;
@@ -194,20 +194,20 @@ void loadMap(int level)
       //small platform pillar right
       if(map.pixels[p] == color(10,0,0)){
         coll = 13;
-      } 
+      }
       //mini platform top
       if(map.pixels[p] == color(0,0,5)){
         coll = 14;
-      } 
-      
-      if(map.pixels[p] == color(255)) { 
+      }
+
+      if(map.pixels[p] == color(255)) {
         coll = 0;
       }
       boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
       if(rows > 32)boxes[i][j].dist = 30/(rows/32);
-      
+
     }
-  } 
+  }
   return;
 }
 
@@ -216,7 +216,7 @@ void updateGrid()
   for(int i = 0; i < rows; i++)
   {
     for(int j = 0; j < columns; j++)
-    {  
+    {
       if(boxes[i][j].collides == 9){
         boxes[i][j].collides = 0;
       }
@@ -244,12 +244,12 @@ void updateGrid()
     case 32:
       return isSpace = b;
     case 'P':
-      return isP = b;      
+      return isP = b;
     default:
       return b;
     }
   }
-  
+
 void keyPressed()
 {
   SetMove(keyCode, true);
