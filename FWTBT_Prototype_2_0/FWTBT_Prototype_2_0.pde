@@ -39,7 +39,7 @@ void setup()
   ellipseMode(CENTER);
   background(0);
   extraSetup();
-  
+
   player= new Player();
 
 }
@@ -49,34 +49,32 @@ void draw()
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
-  
+
   //------Background Stuff------
   background(0);
-  
+
   //------Gamestate------
-  
-  
+
+
   if(isMenu)
   {
     menu.draw();
-    println(frameRate);
   }
   else
   {
     if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
-    println(frameRate);
-    
+
     player.Update();
     boxManager.Update();
 
-    
+
     //----------Draws----------
     boxManager.DrawBoxes();
-    player.Draw(); 
-    
+    player.Draw();
+
   }
-  
+
 }
 
 
@@ -85,7 +83,7 @@ void updateGrid()
   for(int i = 0; i < boxManager.rows; i++)
   {
     for(int j = 0; j < boxManager.columns; j++)
-    {  
+    {
       if(boxManager.boxes[i][j].collides == 9){
         boxManager.boxes[i][j].collides = 0;
       }
@@ -113,12 +111,12 @@ void updateGrid()
     case 32:
       return isSpace = b;
     case 'P':
-      return isP = b;      
+      return isP = b;
     default:
       return b;
     }
   }
-  
+
 void keyPressed()
 {
   SetMove(keyCode, true);

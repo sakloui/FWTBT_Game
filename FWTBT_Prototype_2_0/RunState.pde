@@ -21,7 +21,6 @@ public class RunState extends State
   }
    public void OnTick()
   {
-    println("Run state");
     velocity = player.velocity.copy();
     currentFrame = (currentFrame + animationSpeed) % 8;    
     

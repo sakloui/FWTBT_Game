@@ -34,7 +34,6 @@ class Box
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
          
-         println("coolio");
          player.GetCollisionDirection(this);
        }
 
