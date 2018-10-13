@@ -9,8 +9,8 @@ class Menu
   private Sliders sliders;
   //------Variables------
   private int currentSel;
+  private int alpha;
   //------Sound------
-
   
   Menu()
   {
@@ -19,7 +19,7 @@ class Menu
     createMainMenu();
     button[0].selected = true;
     currentSel = 0;
-
+    alpha = 0;
   }
   
   void update()
@@ -30,6 +30,13 @@ class Menu
   
   void draw()
   {
+    pushMatrix();
+    if(alpha < 255)
+    tint(255,alpha+= abs(mainMusic.left.get(1)*20));
+    image(background,width/2,height/2);
+    noTint();
+    popMatrix();
+
     updateMenu();
     if(menuState == 1)level.updateLevel();
   }

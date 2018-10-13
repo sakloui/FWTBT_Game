@@ -50,7 +50,7 @@ class Buttons
         pushMatrix();
         fill(rgb);
         image(buttonDown,x,y);
-        text(text,x,y-(mainMusic.left.get(1)*5));
+        text(text,x,y);
         popMatrix();
       }
       else
@@ -65,10 +65,11 @@ class Buttons
     if(type == "text")
     {
       pushMatrix();
-      textSize(28);
+      textSize(28+(mainMusic.left.get(1)*5));
       translate(x,y+2);
       rotate(radians(r));
       text(text,0,0);
+      textSize(28);
       popMatrix();
       if(r > 5)rv = -rv;
       if(r < -5)rv = -rv;
