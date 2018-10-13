@@ -25,8 +25,8 @@ class Buttons
    this.text = text;
    this.rgb = rgb;
    this.type = type;
-   buttonUp = loadImage("grey_button_up.png");
-   buttonDown = loadImage("grey_button_down.png");
+   buttonUp = loadImage("Menu/grey_button_up.png");
+   buttonDown = loadImage("Menu/grey_button_down.png");
    r = 0;
    rv = 0.05;
   }
@@ -36,6 +36,7 @@ class Buttons
   {
     pushMatrix();
     fill(rgb);
+    if(type != "text")
     image(buttonUp,x,y);
     text(text,x,y);
     popMatrix();
@@ -49,7 +50,7 @@ class Buttons
         pushMatrix();
         fill(rgb);
         image(buttonDown,x,y);
-        text(text,x,y+2);
+        text(text,x,y-(mainMusic.left.get(1)*5));
         popMatrix();
       }
       else
@@ -64,12 +65,11 @@ class Buttons
     if(type == "text")
     {
       pushMatrix();
-      textSize(28+mainMusic.left.get(1)*10);
+      textSize(28);
       translate(x,y+2);
       rotate(radians(r));
       text(text,0,0);
       popMatrix();
-      textSize(28);
       if(r > 5)rv = -rv;
       if(r < -5)rv = -rv;
       r += rv;

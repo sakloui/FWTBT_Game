@@ -26,5 +26,13 @@ void extraSetup()
     int rand = round(random(1,2));
     mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
   }
+  
+  mainMusic.setGain(-40 + volume[0]);
+
+  click.setGain(-40 + volume[1]);
+  click2.setGain(-40 + volume[1]);
+
   mainMusic.loop();
+  
+
 }

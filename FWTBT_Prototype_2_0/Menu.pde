@@ -6,6 +6,7 @@ class Menu
   //------Classes------
   private Buttons[] button;
   private Levels level;
+  private Sliders sliders;
   //------Variables------
   private int currentSel;
   //------Sound------
@@ -40,6 +41,7 @@ class Menu
       button[i] = null;
     }
     level = null;
+    sliders = null;
     button[0] = new Buttons(width/2,height/2-75,"Play","button",74);
     button[0].createButton();
     button[1] = new Buttons(width/2,height/2,"Options","button",74);
@@ -57,13 +59,11 @@ class Menu
     }
 
     level = null;
-
-    button[0] = new Buttons(width/2 ,height/2-75,"Option 1","button",74);
+    sliders = null;
+    sliders = new Sliders(2);
+    sliders.createSlider();
+    button[0] = new Buttons(width/2,height/2+75,"Back","button",74);
     button[0].createButton();
-    button[1] = new Buttons(width/2,height/2,"Option 2","button",74);
-    button[1].createButton();
-    button[2] = new Buttons(width/2,height/2+75,"Back","button",74);
-    button[2].createButton();
 
 
   }
@@ -75,6 +75,8 @@ class Menu
     
     }
     level = null;
+    sliders = null;
+
     level = new Levels(8 ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
@@ -84,6 +86,9 @@ class Menu
   }
   void updateMenu()
   { 
+      if(sliders != null)
+      sliders.updateSlider();
+    
       for(int i = 0; i < button.length; i++)
       {
         if(button[i] != null)

@@ -17,6 +17,9 @@ float lastTime,deltaTime;
 boolean isMenu;
 int currentLevel;
 
+float[] volume = new float[5]; 
+
+
 int amount = 32;
 float boxSize = 40;
 
@@ -38,6 +41,12 @@ void setup()
   imageMode(CENTER);
   ellipseMode(CENTER);
   background(0);
+  
+
+  for(int i = 0; i < volume.length; i++) {
+    volume[i] = 23;
+  }
+
   extraSetup();
 
   player= new Player();

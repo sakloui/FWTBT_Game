@@ -24,7 +24,7 @@ class Levels
    this.levels = levels;
    level = new int[levels];
    selectedLevel = 0;
-   greyPanel = loadImage("grey_panel.png");
+   greyPanel = loadImage("Menu/grey_panel.png");
   }
   
   
