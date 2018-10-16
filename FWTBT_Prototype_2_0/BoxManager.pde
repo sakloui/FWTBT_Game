@@ -17,7 +17,7 @@ class BoxManager
   BoxManager(int level)
   {
     map = loadImage("level"+level+".png");
-    
+
     if(map == null)
     {
       menu.level.selectedLevel--;
@@ -27,33 +27,33 @@ class BoxManager
       return;
     }
     rows = map.width;
-    columns = map.height;    
-  
+    columns = map.height;
+
     boxes = new Box[rows][columns];
-    if(rows > 32){
-      boxSize = 40/(map.width/32);
-      player.playerWidth = 40/(map.width/32);
-      player.playerHeight = 60/(map.height/18);
-      player.jumpVel = 15f/(map.height/18);
-      player.SetupSprites();
-    }
-    else 
-    {
+    // if(rows > 32){
+    //   boxSize = 40/(map.width/32);
+    //   player.playerWidth = 40/(map.width/32);
+    //   player.playerHeight = 60/(map.height/18);
+    //   player.jumpVel = 15f/(map.height/18);
+    //   player.SetupSprites();
+    // }
+    // else
+    // {
       boxSize = 40;
       player.playerWidth = 40;
-      player.playerHeight = 60;  
-      player.jumpVel = 10f; 
+      player.playerHeight = 60;
+      player.jumpVel = 10f;
       player.SetupSprites();
-    }    
-    //select the boxes that the player collides with 
+    // }
+    //select the boxes that the player collides with
     PlaceCollisionBoxes();
   }
 
   void PlaceCollisionBoxes()
   {
 
-        
-        
+
+
     for(int i = 0; i < rows; i++)
       {
         for(int j = 0; j < columns; j++)
@@ -61,37 +61,37 @@ class BoxManager
           int coll = 0;
           int p = i + (j * rows);
           if(map.pixels[p] == color(0,0,0)){
-            coll = 1; 
+            coll = 1;
           }
           if(map.pixels[p] == color(255,100,0)){
-            coll = 2; 
+            coll = 2;
           }
           if(map.pixels[p] == color(0,255,0)){
-            coll = 3; 
-          }      
+            coll = 3;
+          }
           if(map.pixels[p] == color(255,255,0)){
-            coll = 4; 
-          }   
+            coll = 4;
+          }
           if(map.pixels[p] == color(0,0,255)){
-            coll = 5; 
-          }      
+            coll = 5;
+          }
           if(map.pixels[p] == color(0,160,255)){
-            coll = 6; 
-          }      
+            coll = 6;
+          }
           if(map.pixels[p] == color(150,150,150)){
-            coll = 7; 
+            coll = 7;
           }
           if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
           if(map.pixels[p] == color(0,0,100)){
             coll = 9;
-          }      
+          }
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
           if(rows > 32)boxes[i][j].dist = 30/(rows/32);
-          
+
         }
-      } 
+      }
   }
 
   void Update()
@@ -113,14 +113,14 @@ class BoxManager
     for (int i = 0; i < player.corners.length; i++)
     {
       xPercentage = player.corners[i].x / width * 100;
-      xTile[i] = floor(rows / 100f * xPercentage);  
+      xTile[i] = floor(rows / 100f * xPercentage);
       yPercentage = player.corners[i].y / height * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
     xPercentage = player.playerBottom.x / width * 100;
-    xBottom = floor(rows / 100f * xPercentage);  
+    xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / height * 100;
-    yBottom = floor(columns / 100f * yPercentage);    
+    yBottom = floor(columns / 100f * yPercentage);
   }
 
   void SetOverCells()
@@ -138,7 +138,7 @@ class BoxManager
           over.add(box);
         }
       }
-    }    
+    }
   }
 
   void SetSurroundingCells()
@@ -153,7 +153,7 @@ class BoxManager
         Box boxTop = boxes[xTile[i]][yTile[i]-1];
         Box boxBottom = boxes[xTile[i]][yTile[i]+1];
         Box boxRight = boxes[xTile[i]-1][yTile[i]];
-        Box boxLeft = boxes[xTile[i]+1][yTile[i]]; 
+        Box boxLeft = boxes[xTile[i]+1][yTile[i]];
         Box boxTopLeft = boxes[xTile[i]-1][yTile[i]-1];
         Box boxTopRight = boxes[xTile[i]+1][yTile[i]-1];
         Box boxBottomLeft = boxes[xTile[i]-1][yTile[i]+1];
@@ -197,11 +197,11 @@ class BoxManager
     if (xBottom + 1 >= rows || xBottom - 1 < 0);
     else if (yBottom + 1 >= columns || yBottom - 1 < 0);
     else
-      bottomBox = boxes[xBottom][yBottom];    
+      bottomBox = boxes[xBottom][yBottom];
   }
 
   void SetGridColor()
-  {   
+  {
     ////background cells
     //for (int i = 0; i < rows; i++)
     //{

@@ -39,7 +39,7 @@ public class IdleState extends State
   {
     
     pushMatrix();
-    translate(player.position.x, player.position.y);
+    translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
     if(currentDirection == RIGHT)
     {
       image(player.idle[int(currentFrame)], 0, 0);
