@@ -5,6 +5,7 @@ import ddf.minim.*;
 Menu menu;
 Player player;
 BoxManager boxManager;
+Camera camera;
 //------Image stuff------
 PImage map;
 PImage tile;
@@ -50,6 +51,7 @@ void setup()
   extraSetup();
 
   player= new Player();
+  camera = new Camera();
 
 }
 
@@ -74,8 +76,17 @@ void draw()
     if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
     image(background,width/2,height/2);
 
+    if (boxManager.rows > 32){
+      camera.UpdateX();
+    }
+    if (boxManager.columns > 18){
+      camera.UpdateY();
+    }
+
     player.Update();
     boxManager.Update();
+
+
 
 
     //----------Draws----------

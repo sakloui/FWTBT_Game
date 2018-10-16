@@ -54,54 +54,75 @@ class Box
          }
        }
 
+  }
+
+  void CheckCollisionKill()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 && 
+       position.x - size/2 < player.position.x + player.playerWidth/2 && 
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+       {
+         
+          menu.menuState = 0;
+          menu.createMainMenu();
+          menu.currentSel = 0;
+          menu.button[0].selected = true;
+          menu.button[0].update();
+          isMenu = true;
+          mainMusic.rewind();
+          mainMusic.play();
+       }
   }  
   
   void Draw()
   {
     if (collides != 0)
     {
-      pushMatrix();   
-      //if(collides == 0)
-      //  fill(groundColor);
-      if(collides == 2)
-        fill(255, 0, 0);
-      if(collides == 3)
-        fill(0, 255, 0); 
-      if(collides == 4)
-        fill(255, 255, 0); 
-      if(collides == 5)
-        fill(0, 0, 255);  
-      if(collides == 7)
-        fill(150,150,150);
-      if(collides == 8){
-        fill(255,255,100);
-        CheckCollisionInvis();
+      pushMatrix();
+      switch(collides)
+      {
+        case 2:
+          fill(255, 0, 0);
+          break;
+        case 3:
+          fill(0, 255, 0); 
+          break;
+        case 4:
+          fill(255, 255, 0); 
+          break;
+        case 5:
+          fill(0, 0, 255);  
+          break;
+        case 7:
+          fill(150,150,150);
+          break;
+        case 8:
+          fill(255,255,100);
+          CheckCollisionInvis();
+          break;
+        case 9:
+          fill(0,0,255);
+          break;
+
       }
-      if(collides == 9)
-        fill(0,0,255);
       stroke(0);
       strokeWeight(2);
       translate(position.x, position.y);
       noStroke();
-      rect(0, 0, size, size);
+      if(collides != 1 || collides != 6)
+      rect(0 - camera.shiftX, 0 - camera.shiftY, size, size);
       if(collides == 1)
-        image(tile,0,0, size, size);
+        image(tile,0 - camera.shiftX,0 - camera.shiftY, size, size);
       if(collides == 6){
-        image(tile,0,0, size, size); 
+        image(tile,0 - camera.shiftX,0 - camera.shiftY, size, size); 
         CheckCollisionInvis();
       }
       popMatrix();
     }
     if((collides == 2 || collides == 5 || collides == 9) && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
-      menu.menuState = 0;
-      menu.createMainMenu();
-      menu.currentSel = 0;
-      menu.button[0].selected = true;
-      menu.button[0].update();
-      isMenu = true;
-      mainMusic.rewind();
-      mainMusic.play();
+
     }
     if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
     {
