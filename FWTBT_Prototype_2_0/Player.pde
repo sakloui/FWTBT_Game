@@ -56,12 +56,12 @@ class Player
     maxGrav = 20f;
 
     currentDirection = 1;
-    
+
     SetupSprites();
 
     //set values once for the first time SetOldPos() is called
     SetNewPos();
-    
+
     this.SetState(new IdleState());
   }
 
@@ -137,7 +137,7 @@ class Player
     if (isRight)
     {
       velocity.x = speed * deltaTime;
-    }    
+    }
     if (isLeft)
     {
       velocity.x = -speed * deltaTime;
@@ -148,23 +148,23 @@ class Player
       velocity.x = 0;
     }
 
-    
+
     if (isUp && grounded)
     {
       velocity.y = -jumpVel;
       grounded = false;
     }
-    
+
 
     /*
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
-    } 
+    }
     if (input.isDown)
     {
       velocity.y = speed * deltaTime;
-    } 
+    }
     */
     if (grounded)
     {
@@ -193,10 +193,10 @@ class Player
       //ResolveCollision();
     }
   }
-  
+
   void SetDirection()
   {
-    
+
     inMotion = true;
 
     if (velocity.x == 0 && velocity.y == 0)
@@ -223,7 +223,7 @@ class Player
     SetNewPos();
     if(bottom != oldBottom || right != oldRight)
     {
-      ResolveCollision(boxManager.bottomBox); 
+      ResolveCollision(boxManager.bottomBox);
     }
   }
 
@@ -299,8 +299,8 @@ class Player
     fill(playerColor);
     noStroke();
     playerState.OnDraw();
-      
-    //rect(0, 0, playerWidth, playerHeight);
+
+    // rect(0, 0, playerWidth, playerHeight);
     popMatrix();
   }
 
