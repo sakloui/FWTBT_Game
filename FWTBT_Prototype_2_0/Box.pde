@@ -80,43 +80,66 @@ class Box
     if (collides != 0)
     {
       pushMatrix();
+      stroke(0);
+      strokeWeight(2);
+      noStroke();      
+      translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
       switch(collides)
       {
+        case 1:
+          image(tileBox,0,0, size, size);
+          break;
         case 2:
           fill(255, 0, 0);
+          rect(0, 0, size, size);
+          CheckCollisionKill();
           break;
         case 3:
           fill(0, 255, 0);
+          rect(0, 0, size, size);
           break;
         case 4:
           fill(255, 255, 0);
+          rect(0, 0, size, size);
           break;
         case 5:
           fill(0, 0, 255);
+          rect(0, 0, size, size);
+          CheckCollisionKill();
+          break;
+        case 6:
+          image(tileBox, 0, 0, size, size); 
+          CheckCollisionInvis();
           break;
         case 7:
           fill(150,150,150);
+          rect(0, 0, size, size);
           break;
         case 8:
           fill(255,255,100);
+          rect(0, 0, size, size);
           CheckCollisionInvis();
           break;
         case 9:
           fill(0,0,255);
+          rect(0, 0, size, size);
           break;
+        case 10:
+          image(tileSmallPlatformTopRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          break;
+        case 11:
+          image(tileSmallPlatformPillarRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          break;
+        case 12:
+          image(tileSmallPlatformTopLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          break;
+        case 13:
+          image(tileSmallPlatformPillarLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          break;
+        case 14:
+          image(tileMiniPlatformTop,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          break;       
 
-      }
-      stroke(0);
-      strokeWeight(2);
-      translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
-      noStroke();
-      if(collides != 1 || collides != 6)
-      rect(0, 0, size, size);
-      if(collides == 1)
-        image(tile,0,0, size, size);
-      if(collides == 6){
-        image(tile, 0, 0, size, size); 
-        CheckCollisionInvis();
       }
       popMatrix();
     }

@@ -8,8 +8,17 @@ BoxManager boxManager;
 Camera camera;
 //------Image stuff------
 PImage map;
-PImage tile;
+
 PImage background;
+
+PImage tileBox;
+PImage tileSteelPillar;
+PImage tileSmallPlatformTopRight;
+PImage tileSmallPlatformPillarRight;
+PImage tileSmallPlatformTopLeft;
+PImage tileSmallPlatformPillarLeft;
+PImage tileMiniPlatformTop;
+
 //------Font stuff------
 PFont font;
 

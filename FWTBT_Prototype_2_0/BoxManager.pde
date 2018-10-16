@@ -43,7 +43,8 @@ class BoxManager
       player.playerWidth = 40;
       player.playerHeight = 60;
       player.jumpVel = 10f;
-      player.SetupSprites();
+      camera.shiftX = 0;
+      camera.shiftY = 0;
     // }
     //select the boxes that the player collides with
     PlaceCollisionBoxes();
@@ -87,6 +88,27 @@ class BoxManager
           if(map.pixels[p] == color(0,0,100)){
             coll = 9;
           }
+          //small platform top right
+          if(map.pixels[p] == color(0,5,0)){
+            coll = 10;
+          }
+          //small platform pillar right
+          if(map.pixels[p] == color(0,10,0)){
+            coll = 11;
+          }
+          //small platform top left
+          if(map.pixels[p] == color(5,0,0)){
+            coll = 12;
+          }
+          //small platform pillar right
+          if(map.pixels[p] == color(10,0,0)){
+            coll = 13;
+          }
+          //mini platform top
+          if(map.pixels[p] == color(0,0,5)){
+            coll = 14;
+          }
+
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
           if(rows > 32)boxes[i][j].dist = 30/(rows/32);
 
@@ -230,7 +252,9 @@ class BoxManager
       //set the surrounding cells color
       surrounding.get(i).groundColor = color(150, 0, 150);
       //check for collisions
-      if (surrounding.get(i).collides == 1)
+      if (surrounding.get(i).collides == 1 ||
+         surrounding.get(i).collides == 12 ||
+         surrounding.get(i).collides == 10)
         surrounding.get(i).CheckCollision();
     }
   }
