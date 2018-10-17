@@ -224,24 +224,24 @@ class BoxManager
 
   void SetGridColor()
   {
-    ////background cells
-    //for (int i = 0; i < rows; i++)
-    //{
-    //  for (int j = 0; j < columns; j++)
-    //  {
-    //    if(boxes[i][j].collides == 0)
-    //    boxes[i][j].collides = 50;
-    //  }
-    //}
+    //background cells
+    for (int i = 0; i < rows; i++)
+    {
+     for (int j = 0; j < columns; j++)
+     {
+       if(boxes[i][j].collides == 0)
+       boxes[i][j].collides = 50;
+     }
+    }
 
-    ////over cells
-    //for (int i = 0; i < over.size(); i++)
-    //{
-    //  if(over.get(i).collides == 50){
-    //  over.get(i).collides = 0;
-    //  over.get(i).groundColor = color(255);
-    //}
-    //}
+    //over cells
+    for (int i = 0; i < over.size(); i++)
+    {
+     if(over.get(i).collides == 50){
+     over.get(i).collides = 0;
+     over.get(i).groundColor = color(255);
+    }
+    }
   }
 
   void CheckCollisions()
@@ -252,10 +252,12 @@ class BoxManager
       //set the surrounding cells color
       surrounding.get(i).groundColor = color(150, 0, 150);
       //check for collisions
-      if (surrounding.get(i).collides == 1 ||
-         surrounding.get(i).collides == 12 ||
-         surrounding.get(i).collides == 10)
+      if (surrounding.get(i).collides == 1)
         surrounding.get(i).CheckCollision();
+
+      if (surrounding.get(i).collides == 12 ||
+         surrounding.get(i).collides == 10)
+        surrounding.get(i).CheckCollisionTop();
     }
   }
 

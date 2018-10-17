@@ -61,7 +61,7 @@ class Sliders
       pushMatrix();
       image(pointer,width/2-190+(380*volume[i]/46),height/2-75+y);
       fill(200);
-      text(round((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-50+y);
+      text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-50+y);
       popMatrix();
       y+=75;
     }

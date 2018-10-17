@@ -38,6 +38,18 @@ class Box
        }
 
   }
+  void CheckCollisionTop()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+       position.y + 10 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+       {
+
+         player.GetCollisionDirection(this);
+       }
+
+  }  
   void CheckCollisionInvis()
   {
     if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
@@ -63,26 +75,39 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-
-          menu.menuState = 0;
-          menu.createMainMenu();
-          menu.currentSel = 0;
-          menu.button[0].selected = true;
-          menu.button[0].update();
-          isMenu = true;
-          mainMusic.rewind();
-          mainMusic.play();
+          if(collides == 2 || collides == 5 || collides == 9)
+          {
+            menu.menuState = 0;
+            menu.createMainMenu();
+            menu.currentSel = 0;
+            menu.button[0].selected = true;
+            menu.button[0].update();
+            isMenu = true;
+            mainMusic.rewind();
+            mainMusic.play();
+          }
+          if(collides == 4)
+          {
+            currentLevel++;
+            boxManager = new BoxManager(currentLevel);
+            menu.level.selectedLevel++;
+          }
        }
   }
 
   void Draw()
   {
-    if (collides != 0)
+    //if (collides != 0)
     {
       pushMatrix();
       stroke(0);
       strokeWeight(2);
       noStroke();      
+
+      if(collides == 0){
+          fill(groundColor);
+          rect(position.x,position.y,size,size);        
+      }
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
       switch(collides)
       {
@@ -101,6 +126,7 @@ class Box
         case 4:
           fill(255, 255, 0);
           rect(0, 0, size, size);
+          CheckCollisionKill();
           break;
         case 5:
           fill(0, 0, 255);
@@ -123,6 +149,7 @@ class Box
         case 9:
           fill(0,0,255);
           rect(0, 0, size, size);
+          CheckCollisionKill();
           break;
         case 10:
           image(tileSmallPlatformTopRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
@@ -142,17 +169,6 @@ class Box
 
       }
       popMatrix();
-    }
-    if((collides == 2 || collides == 5 || collides == 9) && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
-    {
-
-    }
-    if(collides == 4 && dist(player.position.x,player.position.y,position.x,position.y) <= dist)
-    {
-      currentLevel++;
-      boxManager = new BoxManager(currentLevel);
-      menu.level.selectedLevel++;
-
-    }
+    } 
   }
 }
