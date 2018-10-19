@@ -103,10 +103,6 @@ class Box
       strokeWeight(2);
       noStroke();      
 
-      if(collides == 0){
-          fill(groundColor);
-          rect(position.x,position.y,size,size);        
-      }
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
       switch(collides)
       {

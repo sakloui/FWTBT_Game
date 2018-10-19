@@ -30,7 +30,6 @@ int currentLevel;
 float[] volume = new float[5];
 
 
-int amount = 32;
 float boxSize = 40;
 
 

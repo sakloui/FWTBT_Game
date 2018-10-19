@@ -49,9 +49,9 @@ class Player
 
     velocity = new PVector(0, 0);
     position = new PVector(width/2, height - 100);
-    speed = 150f;
+    speed = 300f;
 
-    jumpVel = 5f;
+    jumpVel = 10f;
     gravity = 9.81f;
     maxGrav = 20f;
 

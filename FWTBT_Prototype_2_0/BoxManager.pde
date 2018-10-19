@@ -1,6 +1,5 @@
 class BoxManager
 {
-  int amount = 32;
   float boxSize = 40;
   int rows = 32;
   int columns = 18;
@@ -30,20 +29,9 @@ class BoxManager
     columns = map.height;
 
     boxes = new Box[rows][columns];
-    // if(rows > 32){
-    //   boxSize = 40/(map.width/32);
-    //   player.playerWidth = 40/(map.width/32);
-    //   player.playerHeight = 60/(map.height/18);
-    //   player.jumpVel = 15f/(map.height/18);
-    //   player.SetupSprites();
-    // }
-    // else
-    // {
-      boxSize = 40;
-      player.jumpVel = 10f;
-      camera.shiftX = 0;
-      camera.shiftY = 0;
-    // }
+    camera.shiftX = 0;
+    camera.shiftY = 0;
+
     //select the boxes that the player collides with
     PlaceCollisionBoxes();
   }
@@ -108,7 +96,6 @@ class BoxManager
           }
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
-          if(rows > 32)boxes[i][j].dist = 30/(rows/32);
 
         }
       }
@@ -132,9 +119,11 @@ class BoxManager
     float xPercentage, yPercentage;
     for (int i = 0; i < player.corners.length; i++)
     {
-      xPercentage = player.corners[i].x / width * 100;
+      xPercentage = player.corners[i].x / (width * (rows / 32))  * 100;
       xTile[i] = floor(rows / 100f * xPercentage);
-      yPercentage = player.corners[i].y / height * 100;
+      println(rows / 100f + " " + xPercentage);
+      println(xTile[i]);      
+      yPercentage = player.corners[i].y / (height * (columns / 18)) * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
 
@@ -194,7 +183,6 @@ class BoxManager
         }
         if (!surrounding.contains(boxLeft) && !over.contains(boxLeft))
         {
-          println(boxLeft.position.x);
           surrounding.add(boxLeft);
         }
 
@@ -224,24 +212,24 @@ class BoxManager
 
   void SetGridColor()
   {
-    //background cells
-    for (int i = 0; i < rows; i++)
-    {
-     for (int j = 0; j < columns; j++)
-     {
-       if(boxes[i][j].collides == 50)
-       boxes[i][j].collides = 0;
-     }
-    }
+    // //background cells
+    // for (int i = 0; i < rows; i++)
+    // {
+    //  for (int j = 0; j < columns; j++)
+    //  {
+    //    if(boxes[i][j].collides == 50)
+    //    boxes[i][j].collides = 0;
+    //  }
+    // }
 
-    //over cells
-    for (int i = 0; i < over.size(); i++)
-    {
-     if(over.get(i).collides == 0){
-     over.get(i).collides = 50;
-     over.get(i).groundColor = color(255);
-    }
-    }
+    // //over cells
+    // for (int i = 0; i < over.size(); i++)
+    // {
+    //  if(over.get(i).collides == 0){
+    //  over.get(i).collides = 50;
+    //  over.get(i).groundColor = color(255);
+    // }
+    // }
   }
 
   void CheckCollisions()
@@ -252,9 +240,9 @@ class BoxManager
       //set the surrounding cells color
       surrounding.get(i).groundColor = color(150, 0, 150);
       //check for collisions
+      // println(surrounding.get(i).collides);
+      // println(surrounding.get(i).position.x + " " + player.position.x);      
       if (surrounding.get(i).collides == 1)
-        // println(surrounding.get(i).collides);
-        // println(surrounding.get(i).position.x + " " + player.position.x);
         surrounding.get(i).CheckCollision();
 
       if (surrounding.get(i).collides == 12 ||
