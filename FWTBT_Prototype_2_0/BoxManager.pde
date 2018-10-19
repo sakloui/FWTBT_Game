@@ -137,6 +137,7 @@ class BoxManager
       yPercentage = player.corners[i].y / height * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
+
     xPercentage = player.playerBottom.x / width * 100;
     xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / height * 100;
@@ -147,8 +148,8 @@ class BoxManager
   {
     for (int i = 0; i < 6; i++)
     {
-      if (xTile[i] >= 32 || xTile[i] <= 0);
-      else if (yTile[i] >= 18 || yTile[i] <= 0);
+      if (xTile[i] >= rows || xTile[i] <= 0);
+      else if (yTile[i] >= columns || yTile[i] <= 0);
       else
       {
         Box box = boxes[xTile[i]][yTile[i]];
@@ -193,6 +194,7 @@ class BoxManager
         }
         if (!surrounding.contains(boxLeft) && !over.contains(boxLeft))
         {
+          println(boxLeft.position.x);
           surrounding.add(boxLeft);
         }
 
@@ -251,6 +253,8 @@ class BoxManager
       surrounding.get(i).groundColor = color(150, 0, 150);
       //check for collisions
       if (surrounding.get(i).collides == 1)
+        // println(surrounding.get(i).collides);
+        // println(surrounding.get(i).position.x + " " + player.position.x);
         surrounding.get(i).CheckCollision();
 
       if (surrounding.get(i).collides == 12 ||
