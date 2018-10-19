@@ -123,6 +123,7 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
+    
     playerBottom = new PVector(position.x, position.y + playerHeight/2);
     /*
     topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
