@@ -94,6 +94,33 @@ class BoxManager
           if(map.pixels[p] == color(0,0,5)){
             coll = 14;
           }
+          //steel platform left
+          if(map.pixels[p] == color(20,10,0)){
+            coll = 15;
+          }
+          //steel platform middle
+          if(map.pixels[p] == color(25,0,0)){
+            coll = 16;
+          }
+          //steel platform right
+          if(map.pixels[p] == color(20,0,10)){
+            coll = 17;
+          }
+          //steel platform middle 2
+          if(map.pixels[p] == color(30,0,0)){
+            coll = 18;
+          }
+          //hook middle
+          if(map.pixels[p] == color(20,0,0)){
+            coll = 19;
+          }
+          //hook top
+          if(map.pixels[p] == color(100,0,0)){
+            coll = 20;
+          }
+          if(map.pixels[p] == color(110,0,0)){
+            coll = 21;
+          }
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
 
@@ -109,7 +136,6 @@ class BoxManager
     CalculateCurrentTiles();
     SetOverCells();
     SetSurroundingCells();
-    SetGridColor();
     CheckCollisions();
   }
 
@@ -242,11 +268,16 @@ class BoxManager
       //check for collisions
       // println(surrounding.get(i).collides);
       // println(surrounding.get(i).position.x + " " + player.position.x);      
-      if (surrounding.get(i).collides == 1)
+      if (surrounding.get(i).collides == 1 ||
+          surrounding.get(i).collides == 15 ||
+          surrounding.get(i).collides == 16 ||
+          surrounding.get(i).collides == 17 ||
+          surrounding.get(i).collides == 18)
         surrounding.get(i).CheckCollision();
 
       if (surrounding.get(i).collides == 12 ||
-         surrounding.get(i).collides == 10)
+          surrounding.get(i).collides == 10 ||
+          surrounding.get(i).collides == 14)
         surrounding.get(i).CheckCollisionTop();
     }
   }
@@ -261,9 +292,9 @@ class BoxManager
       }
     }
 
-    for (int i = 0; i < surrounding.size(); i++)
-    {
-      surrounding.get(i).Draw();
-    }
+    // for (int i = 0; i < surrounding.size(); i++)
+    // {
+    //   surrounding.get(i).Draw();
+    // }
   }
 }

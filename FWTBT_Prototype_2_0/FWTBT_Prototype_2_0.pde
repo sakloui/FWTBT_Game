@@ -18,6 +18,12 @@ PImage tileSmallPlatformPillarRight;
 PImage tileSmallPlatformTopLeft;
 PImage tileSmallPlatformPillarLeft;
 PImage tileMiniPlatformTop;
+PImage steelPlatformLeft;
+PImage steelPlatformMiddle;
+PImage steelPlatformRight;
+PImage steelPlatformMiddle2;
+PImage hookMiddle;
+PImage hookTop;
 
 //------Font stuff------
 PFont font;

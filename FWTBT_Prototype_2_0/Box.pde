@@ -39,8 +39,8 @@ class Box
   }
   void CheckCollisionTop()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+    if(position.x + 10 > player.position.x - player.playerWidth/2 &&
+       position.x - 10 < player.position.x + player.playerWidth/2 &&
        position.y + 10 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
@@ -147,22 +147,43 @@ class Box
           CheckCollisionKill();
           break;
         case 10:
-          image(tileSmallPlatformTopRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          image(tileSmallPlatformTopRight,0,0, size, size); 
           break;
         case 11:
-          image(tileSmallPlatformPillarRight,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          image(tileSmallPlatformPillarRight,0,0, size, size); 
           break;
         case 12:
-          image(tileSmallPlatformTopLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          image(tileSmallPlatformTopLeft,0,0, size, size); 
           break;
         case 13:
-          image(tileSmallPlatformPillarLeft,0- camera.shiftX,0 - camera.shiftY, size, size); 
+          image(tileSmallPlatformPillarLeft,0,0, size, size); 
           break;
         case 14:
-          image(tileMiniPlatformTop,0- camera.shiftX,0 - camera.shiftY, size, size); 
-          break;       
-
-      }
+          image(tileMiniPlatformTop,0,0, size, size); 
+          break;
+        case 15:
+          image(steelPlatformLeft,0,0,size,size);
+          break;
+        case 16:
+          image(steelPlatformMiddle,0,0,size,size);
+          break;
+        case 17:
+          image(steelPlatformRight,0,0,size,size);
+          break;          
+        case 18:
+          image(steelPlatformMiddle2,0,0,size,size);
+          break; 
+        case 19:
+          image(tileSteelPillar,0,0,size,size);
+          break;    
+        case 20:
+          image(hookMiddle,0,0,size,size);
+          break;    
+        case 21:
+          image(hookTop,0,0,size,size);
+          break;  
+ 
+        }
       popMatrix();
     } 
   }
