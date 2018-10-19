@@ -43,7 +43,7 @@ class Player
 
   Player()
   {
-    playerWidth = 40;
+    playerWidth = 39;
     playerHeight = 60;
     playerColor = color(155, 0, 0);
 
@@ -79,7 +79,6 @@ class Player
     run = new PImage[8];
     String runName;
 
-    println(playerWidth);
     for (int i = 0; i < 10; i++)
     {
       //load idle sprites
@@ -229,6 +228,7 @@ class Player
 
   void GetCollisionDirection(Box box)
   {
+    
     if (oldBottom < box.top && // was not colliding
       bottom >= box.top)// now is colliding
     {
@@ -273,13 +273,13 @@ class Player
       grounded = false;
     if (collidedRight)
     {
-      position.x = box.position.x - box.size/2 - playerWidth/2 - 0.1f;
+      position.x = box.position.x - box.size/2 - playerWidth/2 - 1f;
       velocity.x = 0;
       collidedRight = false;
     }
     if (collidedLeft)
     {
-      position.x = box.position.x + box.size/2 + playerWidth/2 + 0.1f;
+      position.x = box.position.x + box.size/2 + playerWidth/2 + 1f;
       velocity.x = 0;
       collidedLeft = false;
     }

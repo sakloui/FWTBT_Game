@@ -40,8 +40,6 @@ class BoxManager
     // else
     // {
       boxSize = 40;
-      player.playerWidth = 40;
-      player.playerHeight = 60;
       player.jumpVel = 10f;
       camera.shiftX = 0;
       camera.shiftY = 0;
@@ -229,16 +227,16 @@ class BoxManager
     {
      for (int j = 0; j < columns; j++)
      {
-       if(boxes[i][j].collides == 0)
-       boxes[i][j].collides = 50;
+       if(boxes[i][j].collides == 50)
+       boxes[i][j].collides = 0;
      }
     }
 
     //over cells
     for (int i = 0; i < over.size(); i++)
     {
-     if(over.get(i).collides == 50){
-     over.get(i).collides = 0;
+     if(over.get(i).collides == 0){
+     over.get(i).collides = 50;
      over.get(i).groundColor = color(255);
     }
     }
