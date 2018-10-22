@@ -67,7 +67,6 @@ class Sliders
     }
     updateSound();
   }
-  
   void updateSound()
   {
     mainMusic.setGain(-40 + volume[0]);

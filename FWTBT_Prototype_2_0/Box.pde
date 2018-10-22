@@ -7,13 +7,16 @@ class Box
   float top, bottom, right, left;
 
   int collides;
+  int foreCollides;
   int dist = 20;
 
-  Box(PVector position, float size, int collide)
+  Box(PVector position, float size, boolean foreground,int collide)
   {
     this.position = position.copy();
     this.size = size;
+    if(!foreground)
     collides = collide;
+    else foreCollides = collide;
     SetPosValues();
     if(collides == 3)player.position.set(position);
   }
@@ -56,14 +59,22 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-         if(collides == 6){
+        println(foreCollides);
+       if(foreCollides == 2){
          // println("oh");
-         collides = 0;
-         }
+          tint(255,150);
+        }
          if(collides == 8){
            updateGrid();
          }
        }
+    else
+    {
+      if(foreCollides == 2){
+         // println("oh");
+         tint(255,255);
+      }
+    }
 
   }
 
@@ -74,7 +85,7 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-          if(collides == 2 || collides == 5 || collides == 9)
+          if(collides == 2 || foreCollides == 3 || foreCollides == 4)
           {
             menu.menuState = 0;
             menu.createMainMenu();
@@ -123,15 +134,6 @@ class Box
           rect(0, 0, size, size);
           CheckCollisionKill();
           break;
-        case 5:
-          fill(0, 0, 255);
-          rect(0, 0, size, size);
-          CheckCollisionKill();
-          break;
-        case 6:
-          image(tileBox, 0, 0, size, size); 
-          CheckCollisionInvis();
-          break;
         case 7:
           fill(150,150,150);
           rect(0, 0, size, size);
@@ -141,11 +143,7 @@ class Box
           rect(0, 0, size, size);
           CheckCollisionInvis();
           break;
-        case 9:
-          fill(0,0,255);
-          rect(0, 0, size, size);
-          CheckCollisionKill();
-          break;
+
         case 10:
           image(tileSmallPlatformTopRight,0,0, size, size); 
           break;
@@ -187,4 +185,39 @@ class Box
       popMatrix();
     } 
   }
+void Drawforeground()
+  {
+    if (foreCollides != 0)
+    {
+      pushMatrix();
+      stroke(0);
+      strokeWeight(2);
+      noStroke();      
+
+      translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
+      switch(foreCollides)
+      {
+        case 1:
+          fill(100,100,0,200);
+          rect(0,0,size,size);
+          break; 
+        case 2:
+          CheckCollisionInvis();        
+          image(tileBox, 0, 0, size, size); 
+          noTint();
+          break;
+        case 3:
+          fill(0, 0, 255);
+          rect(0, 0, size, size);
+          CheckCollisionKill();
+          break;  
+        case 4:
+          fill(0,0,255);
+          rect(0, 0, size, size);
+          CheckCollisionKill();
+          break; 
+      }               
+      popMatrix();
+    } 
+  }  
 }

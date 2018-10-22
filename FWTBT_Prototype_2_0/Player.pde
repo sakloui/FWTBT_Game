@@ -156,16 +156,15 @@ class Player
     }
 
 
-    /*
-    if (input.isUp)
+    
+    if (isUp)
     {
       velocity.y = -speed * deltaTime;
     }
-    if (input.isDown)
+    if (isDown)
     {
       velocity.y = speed * deltaTime;
     }
-    */
     if (grounded)
     {
       velocity.y = 0;

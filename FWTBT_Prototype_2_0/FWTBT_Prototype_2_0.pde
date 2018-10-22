@@ -8,6 +8,7 @@ BoxManager boxManager;
 Camera camera;
 //------Image stuff------
 PImage map;
+PImage foregroundImage;
 
 PImage background;
 
@@ -106,6 +107,7 @@ void draw()
     //----------Draws----------
     boxManager.DrawBoxes();
     player.Draw();
+    boxManager.DrawForeground();
 
   }
 
@@ -114,12 +116,13 @@ void draw()
 
 void updateGrid()
 {
-  for(int i = 0; i < boxManager.rows; i++)
+  for(int i = 0; i < boxManager.columns; i++)
   {
-    for(int j = 0; j < boxManager.columns; j++)
+    
+    for(int j = 0; j < boxManager.rows; j++)
     {
-      if(boxManager.boxes[i][j].collides == 9){
-        boxManager.boxes[i][j].collides = 0;
+      if(boxManager.foreground[j][i].foreCollides == 4){
+        boxManager.foreground[j][i].foreCollides = 0;
       }
     }
   }

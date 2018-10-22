@@ -4,6 +4,7 @@ class BoxManager
   int rows = 32;
   int columns = 18;
   Box[][] boxes = new Box[rows][columns];
+  Box[][] foreground = new Box[rows][columns];
 
   ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
@@ -16,6 +17,7 @@ class BoxManager
   BoxManager(int level)
   {
     map = loadImage("level"+level+".png");
+    foregroundImage = loadImage("foreground"+level+".png");
 
     if(map == null)
     {
@@ -29,6 +31,7 @@ class BoxManager
     columns = map.height;
 
     boxes = new Box[rows][columns];
+    foreground = new Box[rows][columns];
     camera.shiftX = 0;
     camera.shiftY = 0;
 
@@ -41,7 +44,8 @@ class BoxManager
 
 
 
-    for(int i = 0; i < rows; i++)
+    
+for(int i = 0; i < rows; i++)
       {
         for(int j = 0; j < columns; j++)
         {
@@ -59,21 +63,13 @@ class BoxManager
           if(map.pixels[p] == color(255,255,0)){
             coll = 4;
           }
-          if(map.pixels[p] == color(0,0,255)){
-            coll = 5;
-          }
-          if(map.pixels[p] == color(0,160,255)){
-            coll = 6;
-          }
           if(map.pixels[p] == color(150,150,150)){
             coll = 7;
           }
           if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
-          if(map.pixels[p] == color(0,0,100)){
-            coll = 9;
-          }
+
           //small platform top right
           if(map.pixels[p] == color(0,5,0)){
             coll = 10;
@@ -122,12 +118,35 @@ class BoxManager
             coll = 21;
           }
 
-          boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
+          boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
         }
       }
+  if(foregroundImage != null)
+  {
+    for(int i = 0; i < rows; i++)
+    {
+      for(int j = 0; j < columns; j++)
+      {
+        int coll = 0;
+        int p = i + (j * rows);
+        if(foregroundImage.pixels[p] == color(0,0,0)){
+          coll = 1;
+        }
+        if(foregroundImage.pixels[p] == color(0,160,255)){
+          coll = 2;
+        }  
+        if(foregroundImage.pixels[p] == color(0,0,255)){
+          coll = 3;
+        }           
+        if(foregroundImage.pixels[p] == color(0,0,100)){
+          coll = 4;
+        }            
+        foreground[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, true, coll);
+      }
+    }
   }
-
+  }  
   void Update()
   {
     over = new ArrayList<Box>();
@@ -145,14 +164,11 @@ class BoxManager
     float xPercentage, yPercentage;
     for (int i = 0; i < player.corners.length; i++)
     {
-      xPercentage = player.corners[i].x / (width * (rows / 32))  * 100;
-      xTile[i] = floor(rows / 100f * xPercentage);
-      println(rows / 100f + " " + xPercentage);
-      println(xTile[i]);      
-      yPercentage = player.corners[i].y / (height * (columns / 18)) * 100;
+      xPercentage = player.corners[i].x / (width * ((float) rows / 32))  * 100;
+      xTile[i] = floor(rows / 100f * xPercentage);     
+      yPercentage = player.corners[i].y / (height * ((float) columns / 18)) * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
-
     xPercentage = player.playerBottom.x / width * 100;
     xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / height * 100;
@@ -296,5 +312,18 @@ class BoxManager
     // {
     //   surrounding.get(i).Draw();
     // }
+  }
+  void DrawForeground()
+  {
+    if(foregroundImage != null)
+    {
+      for (int i = 0; i < rows; i++)
+      {
+        for (int j = 0; j < columns; j++)
+        {
+          foreground[i][j].Drawforeground();
+        }
+      } 
+    }       
   }
 }
