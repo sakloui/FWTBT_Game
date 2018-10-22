@@ -8,7 +8,7 @@ class Player
   //----------Movement----------
   PVector position;
   PVector velocity;
-  float speed;
+  float speed = 200f;
   float jumpVel;
   float gravity;
   float maxGrav;
@@ -26,38 +26,40 @@ class Player
   boolean grounded = false;
   boolean canJump = false;
 
-  PImage sheet;
   PImage[] idle;
   PImage[] run;
   PImage[] slide;
   PImage[] jump;
-  boolean inMotion;
   int currentDirection;
   float currentFrame;
   float currentRunFrame;
   float animationSpeed = 0.3f;
 
-  PVector acceleration = new PVector(0, 0);
-  float accelRate = 8.5f;
-  float decelRate = 15f;
-  float maxSpeed = 5f;
+  PVector acceleration;
+  PVector deceleration;
+  float accelRate = 12f * 60;
+  float decelRate = 20f * 60;
+  float maxSpeed = 300f;
+  float turnSpeed = 3f;
 
   State playerState;
 
-
   Player()
   {
-    playerWidth = 40;
+    playerWidth = 39;
     playerHeight = 60;
     playerColor = color(155, 0, 0);
 
+    acceleration = new PVector(0, 0);
+    acceleration.x = 650f;
+    deceleration = new PVector(0, 0);
+    deceleration.x = -750f;
     velocity = new PVector(0, 0);
-    position = new PVector(width/2, height - 100);
-    speed = 150f;
+    position = new PVector(width/2, height/2);
 
-    jumpVel = 7f;
-    gravity = 9.81f;
-    maxGrav = 20f;
+    jumpVel = 465f;
+    gravity = 9.81f * 65;
+    maxGrav = 350;
 
     currentDirection = 1;
 
@@ -65,7 +67,7 @@ class Player
 
     //set values once for the first time SetOldPos() is called
     SetNewPos();
-    
+
     this.SetState(new IdleState());
   }
 
@@ -138,64 +140,137 @@ class Player
 
   void Move()
   {
+    //accel movement
+
     if (input.isRight)
     {
-      acceleration.x = accelRate;
-      if(velocity.x > maxSpeed)
-        velocity.x = maxSpeed;
+      if (velocity.x >= 0)
+      {
+        ///acceleration.x += 20f * maxSpeed;
+        velocity.x += acceleration.x * deltaTime;
+        if(velocity.x > maxSpeed)
+          velocity.x = maxSpeed;
+      } 
+      else if (velocity.x + deceleration.x < 0)
+      {
+        ///deceleration.x -= 20f * turnSpeed;
+        velocity.x -= turnSpeed * deceleration.x * deltaTime;
+      } 
       else
-        velocity.add(acceleration.mult(deltaTime));
+      ///velocity is lower than 0 but not low enough to add deceleration.
+      {
+        velocity.x = 0;
+      }
     } 
     else if (input.isLeft)
     {
-      acceleration.x = accelRate;
-      if(velocity.x < -maxSpeed)
-        velocity.x = -maxSpeed;
+      if (velocity.x <= 0)
+      {
+        //acceleration.x += 20f * maxSpeed;
+        velocity.x -= acceleration.x * deltaTime;
+        if(velocity.x < -maxSpeed)
+          velocity.x = -maxSpeed;
+      } 
+      else if (velocity.x - deceleration.x > 0)
+      {
+        ///deceleration.x -= 20f * turnSpeed;
+        velocity.x += turnSpeed * deceleration.x * deltaTime;
+      } 
       else
-        velocity.sub(acceleration.mult(deltaTime));
-    }
+        ///velocity is higher than 0 but not high enough to add deceleration.
+      {
+        velocity.x = 0;
+      }
+    } 
     else
     {
-      if (velocity.x > accelRate * deltaTime)
+      if (velocity.x + deceleration.x * deltaTime > 0)
       {
-        acceleration.x = decelRate;
-        velocity.sub(acceleration.mult(deltaTime));
+        //deceleration.x -= 20f;
+        velocity.x += deceleration.x * deltaTime;
       } 
-      else if (velocity.x < -accelRate * deltaTime)
+      else if (velocity.x - deceleration.x * deltaTime < 0)
       {
-        acceleration.x = decelRate;
-        velocity.add(acceleration.mult(deltaTime));
+        //deceleration.x -= 20f;
+        velocity.x -= deceleration.x * deltaTime;
       } 
-      else
+      else 
       {
-        acceleration.x = 0;
         velocity.x = 0;
       }
     }
-    
+
     /*
     if (input.isRight)
-    {
-      velocity.x = speed * deltaTime;
-    }    
-    if (input.isLeft)
-    {
-      velocity.x = -speed * deltaTime;
-    }
+     {
+     acceleration.x = accelRate;
+     if (velocity.x > maxSpeed)
+     velocity.x = maxSpeed;
+     else
+     velocity.add(acceleration.mult(deltaTime));
+     } else if (input.isLeft)
+     {
+     acceleration.x = accelRate;
+     if (velocity.x < -maxSpeed)
+     velocity.x = -maxSpeed;
+     else
+     {
+     velocity.sub(acceleration.mult(deltaTime));
+     }
+     } 
+     else
+     {
+     if (velocity.x > decelRate * turnSpeed && input.isLeft)
+     {
+     decelRate *= turnSpeed;
+     } 
+     if (velocity.x > decelRate * deltaTime)
+     {
+     acceleration.x = decelRate;
+     velocity.sub(acceleration.mult(deltaTime));
+     decelRate /= turnSpeed;
+     }
+     else if (velocity.x < decelRate * turnSpeed && input.isRight)
+     {
+     decelRate *= turnSpeed;
+     }
+     if (velocity.x < -decelRate * deltaTime)
+     {
+     if (input.isRight)
+     {
+     decelRate *= turnSpeed;
+     }
+     acceleration.x = decelRate;
+     velocity.add(acceleration.mult(deltaTime));
+     decelRate /= turnSpeed;
+     } 
+     else
+     {
+     acceleration.x = 0;
+     velocity.x = 0;
+     }
+     }
+     */
 
-    if (!input.isRight && !input.isLeft)
-    {
-      velocity.x = 0;
-    }
-    
-    if (input.isUp && grounded)
-    {
-      velocity.y = -jumpVel;
-      grounded = false;
-    }
-    */
-    
     /*
+    //standard left right
+    if (input.isRight)
+     {
+     velocity.x = speed * deltaTime;
+     }    
+     if (input.isLeft)
+     {
+     velocity.x = -speed * deltaTime;
+     }
+     
+     if (!input.isRight && !input.isLeft)
+     {
+     velocity.x = 0;
+     }
+     */
+   
+    /*
+    //standard up-down
     if (input.isUp)
     {
       velocity.y = -speed * deltaTime;
@@ -204,11 +279,19 @@ class Player
     {
       velocity.y = speed * deltaTime;
     } 
-    if (!input.isUp && !input.isDown)
+      if (!input.isUp && !input.isDown)
     {
       velocity.y = 0;
     }
     */
+
+    //jump
+    if (input.isUp && grounded)
+    {
+      velocity.y = -jumpVel;  
+      grounded = false;
+    }
+    
   }
 
   void ApplyGravity()
@@ -218,7 +301,7 @@ class Player
       velocity.y += gravity * deltaTime;
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-    }
+    } 
     else
       velocity.y = 0;
   }
@@ -230,35 +313,24 @@ class Player
     right = position.x + playerWidth/2;
     left = right - playerWidth;
   }
-  
-  void SetDirection()
-  {
-    
-    inMotion = true;
-
-    if (velocity.x == 0 && velocity.y == 0)
-      inMotion = false;
-    else if (velocity.y < 0)
-      currentDirection = UP;
-    else if (velocity.y > 0)
-      currentDirection = DOWN;
-    else if (velocity.x > 0 && velocity.y == 0)
-      currentDirection = RIGHT;
-    else if (velocity.x < 0 && velocity.y == 0)
-      currentDirection = LEFT;
-  }
 
   void Update()
   {
     SetOldPos();
     SetPlayerCorners();
-    Move();
+    if(!powerUpManager.rocketArm.grapple && !powerUpManager.rocketArm.returnGrapple)
+    {
+      Move();
+    }
     playerState.OnTick();
-    ApplyGravity();
+    if(!powerUpManager.rocketArm.grapple && !powerUpManager.rocketArm.returnGrapple)
+      ApplyGravity();
     //SetDirection();
-    position.add(velocity);
+    position.x += velocity.x * deltaTime;
+    position.y += velocity.y * deltaTime;
+    
     SetNewPos(); 
-    if(bottom != oldBottom || right != oldRight)
+    if (bottom != oldBottom || right != oldRight)
     {
       ResolveCollision(boxManager.bottomBox);
     }
@@ -329,14 +401,23 @@ class Player
     pushMatrix();
     textSize(20);
     fill(textColor);
-    translate(100, 100);
-    text("Velocity.y: " + velocity.y, 0, 0);
+    translate(100, 105);
+    text("Velocity.x: " + velocity.x, 0, 0);
+    text("Velocity.y: " + velocity.y, 0, 40);
+    text("Acceleration.x: " + acceleration.x, 0, 80);
+    text("Acceleration.y * deltaTime: " + (acceleration.y * deltaTime), 0, 120);
+    text("Gravity: " + gravity, 0, 160);
+    text("Turning: : " + maxSpeed, 0, 200);
+    text("fps: " + frameRate, 0, 240);
+    text("Pos.x: " + position.x, 0, 520);
+    text("Pos y: " + position.y, 0, 560);
     popMatrix();
 
     pushMatrix();
     fill(playerColor);
     noStroke();
     playerState.OnDraw();
+    translate(position.x, position.y);
     //rect(0, 0, playerWidth, playerHeight);
     popMatrix();
   }

@@ -1,5 +1,7 @@
 public abstract class State
 {
+  public int currentDirection;
+  
   public void OnStateEnter(){}
   
   public abstract void OnTick();

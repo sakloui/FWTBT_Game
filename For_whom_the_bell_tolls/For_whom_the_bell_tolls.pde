@@ -1,24 +1,33 @@
 Player player;
 BoxManager boxManager;
 Input input = new Input();
-//Fuel fuel;
+PowerUpManager powerUpManager;
+
+ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 
 State currentState;
 
 float lastTime;
 float deltaTime;
 
+float counter = 0;
+float loadingTime = 2.5f;
+
 void setup()
 {
   size(1280, 720);
   rectMode(CENTER);
   imageMode(CENTER);
-  frameRate(100);
+  frameRate(60);
 
   //SetState(new MenuState());
+
   player= new Player();
   boxManager = new BoxManager();
-  //fuel = new Fuel(new PVector(260, 260));
+
+  powerUpManager = new PowerUpManager();
+
+  anchors.add(new Anchor(new PVector(width/2, height-75)));
 }
 
 void draw()
@@ -26,17 +35,36 @@ void draw()
   //----------Time----------
   deltaTime = (millis() - lastTime) / 1000;
   lastTime = millis();
-  
+
   //----------Updates----------
-  player.Update();
-  boxManager.Update();
-  //fuel.Update();
-  
-  //----------Draws----------
-  background(200, 200, 200);
-  boxManager.DrawBoxes();
-  player.Draw();
-  //fuel.Draw();
+  counter += deltaTime;
+  if (counter >= loadingTime)
+  {
+    player.Update();
+    boxManager.Update();
+    powerUpManager.Update();  
+
+
+    //----------Draws----------
+    background(200, 200, 200);
+    boxManager.DrawBoxes();
+    player.Draw();
+    
+    for (int i = 0; i < anchors.size(); i++)
+    {
+      anchors.get(i).Draw();
+    }
+    
+    powerUpManager.Draw();
+  } 
+  else
+  {
+    //draw loading text
+    pushMatrix();
+    textSize(48);
+    text("Loading...", width/2 - 100, height/2);
+    popMatrix();
+  }
 }
 
 void SetState(State state)

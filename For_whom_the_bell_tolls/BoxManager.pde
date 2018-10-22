@@ -27,7 +27,7 @@ class BoxManager
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < columns; j++)
-      {
+      {/*
         if (i == 19)
         {
           if (j > 14)
@@ -35,9 +35,10 @@ class BoxManager
             coll = true;
           } else
             coll = false;
-        } else if (j == 17)
+        } 
+        */if (j == 17)
         {
-          if (i < 20)
+          if (i < 32)
           {
             coll = true;
           } else

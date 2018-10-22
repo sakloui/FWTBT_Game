@@ -1,6 +1,8 @@
 class Fuel
 {
   PVector position;
+  int size = 20;
+  int fuelAmount = 25;
   PImage[] fuel;
   float currentFrame;
   float animationSpeed = 0.1f;
@@ -21,8 +23,8 @@ class Fuel
     for (int i = 0; i < fuel.length; i++)
     {
       //load fuel sprites
-      //fuelName = "Fuel/Fuel" + i + ".png";
-      fuelName = "Character/Robot" + i + ".png";
+      fuelName = "Fuel/Fuel" + i + ".png";
+      //fuelName = "Character/Robot" + i + ".png";
       fuel[i] = loadImage(fuelName);
       //fuel[i].resize(80, 0);
     }
@@ -30,6 +32,8 @@ class Fuel
   
   void Update()
   {
+    CheckCollision();
+
     if(currentFrame >= 2)
     {
       increment = false;
@@ -46,7 +50,18 @@ class Fuel
     {
       currentFrame = (currentFrame - animationSpeed);
     }
-      
+  }
+  
+  void CheckCollision()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 && 
+       position.x - size/2 < player.position.x + player.playerWidth/2 && 
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+       {
+         powerUpManager.fuelCount += fuelAmount;
+         powerUpManager.fuels.remove(this);
+       }
   }
   
   void Draw()

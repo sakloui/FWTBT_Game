@@ -43,6 +43,7 @@ class Box
     else
       fill(groundColor);
     stroke(0);
+    //noStroke();
     strokeWeight(2);
     translate(position.x, position.y);
     rect(0, 0, size, size);
