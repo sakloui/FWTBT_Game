@@ -27,22 +27,39 @@ void extraSetup()
   isMenu = true;
   
   //------Sounds------
+  //main menus sounds
   minim = new Minim(this);
-  minim2 = new Minim(this);
-  click = minim.loadFile("click.mp3");
+  click = minim.loadFile("Soundeffects/click.mp3");
   click.setGain(10);
-  click2 = minim.loadFile("click2.mp3");
+  click2 = minim.loadFile("Soundeffects/click2.mp3");
+
+  //Player sounds
+  jumpsound = minim.loadFile("Soundeffects/Jump_sound_3.wav");
+  walkingsound = minim.loadFile("Soundeffects/walking_metal.wav");
+  interactionsound = minim.loadFile("Soundeffects/interaction_switch.wav");
+  //jumpsound = minim.loadFile("Soundeffects/Jump_sound_3.wav");
+  //Enemy sounds
+
+
+  //Condition sounds
+
+
+  //main menu music
   if(month() == 10 && day() == 31)
-  mainMusic = minim2.loadFile("mainMusic3.mp3");
+  mainMusic = minim.loadFile("Music/mainMusic3.mp3");
   else {
     int rand = round(random(1,2));
-    mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
+    mainMusic = minim.loadFile("Music/mainMusic"+ rand +".mp3");
   }
-  
+  //Music
   mainMusic.setGain(-40 + volume[0]);
 
+  //Sound effects
   click.setGain(-40 + volume[1]);
   click2.setGain(-40 + volume[1]);
+  jumpsound.setGain(-40 + volume[1]);
+  walkingsound.setGain(-40 + volume[1]);
+  interactionsound.setGain(-40 + volume[1]);
 
   mainMusic.loop();
   

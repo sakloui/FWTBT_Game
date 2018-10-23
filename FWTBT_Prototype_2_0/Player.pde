@@ -137,10 +137,28 @@ class Player
     if (isRight)
     {
       velocity.x = speed * deltaTime;
+      if ( walkingsound.position() == walkingsound.length() && grounded)
+      {
+        walkingsound.rewind();
+        walkingsound.play();
+      }
+      else if(grounded)
+      {
+        walkingsound.play();
+      }    
     }
     if (isLeft)
     {
       velocity.x = -speed * deltaTime;
+      if ( walkingsound.position() == walkingsound.length() && grounded)
+      {
+        walkingsound.rewind();
+        walkingsound.play();
+      }
+      else if(grounded)
+      {
+        walkingsound.play();
+      }          
     }
 
     if (!isRight && !isLeft)
@@ -153,22 +171,24 @@ class Player
     {
       velocity.y = -jumpVel;
       grounded = false;
+      jumpsound.rewind();
+      jumpsound.play();
     }
 
 
     
-    if (isUp)
-    {
-      velocity.y = -speed * deltaTime;
-    }
-    if (isDown)
-    {
-      velocity.y = speed * deltaTime;
-    }
-    if (grounded)
-    {
-      velocity.y = 0;
-    }
+    // if (isUp)
+    // {
+    //   velocity.y = -speed * deltaTime;
+    // }
+    // if (isDown)
+    // {
+    //   velocity.y = speed * deltaTime;
+    // }
+    // if (grounded)
+    // {
+    //   velocity.y = 0;
+    // }
   }
 
   void ApplyGravity()

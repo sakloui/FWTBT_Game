@@ -16,15 +16,21 @@ class BoxManager
 
   BoxManager(int level)
   {
+    if(levelmusic != null)
+      levelmusic.pause();
     map = loadImage("level"+level+".png");
     foregroundImage = loadImage("foreground"+level+".png");
-
+    levelmusic = minim.loadFile("Music/Levelmusic" +level+ ".wav");
+    if(levelmusic != null)
+    levelmusic.setGain(-40 + volume[0]);
     if(map == null)
     {
       menu.level.selectedLevel--;
       isMenu = true;
       mainMusic.rewind();
       mainMusic.play();
+      if(levelmusic != null)
+      levelmusic.pause();
       return;
     }
     rows = map.width;
@@ -34,8 +40,9 @@ class BoxManager
     foreground = new Box[rows][columns];
     camera.shiftX = 0;
     camera.shiftY = 0;
-
-    //select the boxes that the player collides with
+    if(levelmusic != null)
+    levelmusic.loop();
+    //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();
   }
 
@@ -63,6 +70,10 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(255,255,0)){
             coll = 4;
           }
+          //steel pillar col 
+          if(map.pixels[p] == color(0,0,1)){
+            coll = 5;
+          }          
           if(map.pixels[p] == color(150,150,150)){
             coll = 7;
           }
@@ -106,14 +117,15 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(30,0,0)){
             coll = 18;
           }
-          //hook middle
+          //steel pillar
           if(map.pixels[p] == color(20,0,0)){
             coll = 19;
           }
-          //hook top
+          //hook middle
           if(map.pixels[p] == color(100,0,0)){
             coll = 20;
           }
+          //hook top
           if(map.pixels[p] == color(110,0,0)){
             coll = 21;
           }
@@ -285,6 +297,7 @@ for(int i = 0; i < rows; i++)
       // println(surrounding.get(i).collides);
       // println(surrounding.get(i).position.x + " " + player.position.x);      
       if (surrounding.get(i).collides == 1 ||
+          surrounding.get(i).collides == 5 ||
           surrounding.get(i).collides == 15 ||
           surrounding.get(i).collides == 16 ||
           surrounding.get(i).collides == 17 ||

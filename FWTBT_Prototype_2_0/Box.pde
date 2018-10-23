@@ -10,6 +10,8 @@ class Box
   int foreCollides;
   int dist = 20;
 
+  boolean switched = false;
+
   Box(PVector position, float size, boolean foreground,int collide)
   {
     this.position = position.copy();
@@ -64,8 +66,11 @@ class Box
          // println("oh");
           tint(255,150);
         }
-         if(collides == 8){
+         if(collides == 8 && !switched){
            updateGrid();
+           interactionsound.rewind();
+           interactionsound.play();
+           switched = true;
          }
        }
     else
@@ -134,6 +139,9 @@ class Box
           rect(0, 0, size, size);
           CheckCollisionKill();
           break;
+        case 5:
+          image(tileSteelPillar,0,0,size,size);
+          break;            
         case 7:
           fill(150,150,150);
           rect(0, 0, size, size);

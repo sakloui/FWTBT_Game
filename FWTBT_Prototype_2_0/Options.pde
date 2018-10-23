@@ -69,9 +69,17 @@ class Sliders
   }
   void updateSound()
   {
+    //Music
     mainMusic.setGain(-40 + volume[0]);
+    if(levelmusic != null)
+    levelmusic.setGain(-40 + volume[0]);
+
+    //Sound effects
     click.setGain(-40 + volume[1]);
     click2.setGain(-40 + volume[1]);
+    jumpsound.setGain(-40 + volume[1]);
+    walkingsound.setGain(-40 + volume[1]);
+    interactionsound.setGain(-40 + volume[1]);
   }
 }
   

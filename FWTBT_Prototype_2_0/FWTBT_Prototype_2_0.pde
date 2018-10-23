@@ -43,10 +43,14 @@ float boxSize = 40;
 
 //------Sounds------
 Minim minim;
-Minim minim2;
 AudioPlayer click;
 AudioPlayer click2;
 AudioPlayer mainMusic;
+AudioPlayer levelmusic;
+AudioPlayer jumpsound;
+AudioPlayer walkingsound;
+AudioPlayer interactionsound;
+
 //------Keys------
 boolean isUp,isDown,isRight,isLeft,isSpace,isP;
 
@@ -88,7 +92,7 @@ void draw()
   }
   else
   {
-    if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();}
+    if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();}
     image(background,width/2,height/2);
 
     if (boxManager.rows > 32){
@@ -121,8 +125,11 @@ void updateGrid()
     
     for(int j = 0; j < boxManager.rows; j++)
     {
-      if(boxManager.foreground[j][i].foreCollides == 4){
-        boxManager.foreground[j][i].foreCollides = 0;
+      if(foregroundImage != null)
+      {
+        if(boxManager.foreground[j][i].foreCollides == 4){
+          boxManager.foreground[j][i].foreCollides = 0;
+        }
       }
     }
   }
