@@ -25,7 +25,7 @@ void extraSetup()
   textAlign(CENTER,CENTER);
   //------Variables------
   isMenu = true;
-  
+
   //------Sounds------
   //main menus sounds
   minim = new Minim(this);
@@ -51,7 +51,11 @@ void extraSetup()
     int rand = round(random(1,2));
     mainMusic = minim.loadFile("Music/mainMusic"+ rand +".mp3");
   }
+<<<<<<< HEAD
   //Music
+=======
+
+>>>>>>> 693fbb1eece0f86e4f36fcd446d3f70be224bb07
   mainMusic.setGain(-40 + volume[0]);
 
   //Sound effects
@@ -62,6 +66,6 @@ void extraSetup()
   interactionsound.setGain(-40 + volume[1]);
 
   mainMusic.loop();
-  
+
 
 }

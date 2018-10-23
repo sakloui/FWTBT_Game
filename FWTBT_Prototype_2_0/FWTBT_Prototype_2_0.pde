@@ -122,7 +122,7 @@ void updateGrid()
 {
   for(int i = 0; i < boxManager.columns; i++)
   {
-    
+
     for(int j = 0; j < boxManager.rows; j++)
     {
       if(foregroundImage != null)
