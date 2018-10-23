@@ -12,10 +12,12 @@ class PowerUpManager
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
 
-  boolean isUpCounting = false;
-  float upCounter = 0f;
-  float rocketJumpDelay = 2f;
-  float rocketArmDelay = 5f;
+  boolean rocketJumpCD = false;
+  boolean rocketArmCD = false;
+  float rocketJumpCounter = 0f;
+  float rocketArmCounter = 0f;
+  float rocketJumpDelay = 2.5f;
+  float rocketArmDelay = 2f;
 
   PowerUpManager()
   {
@@ -36,53 +38,50 @@ class PowerUpManager
     CheckPowerUps();
 
     UpdatePowerUps();
+    
+    if(rocketJumpCD)
+      RocketJumpCD();
+    if(rocketArmCD)
+      RocketArmCD();
+  }
+
+  void RocketJumpCD()
+  {
+    rocketJumpCounter += deltaTime;
+    if (rocketJumpCounter > rocketJumpDelay)
+    {
+      rocketJumpCounter = 0;
+      rocketJumpCD = false;
+    }
+  }
+  
+  void RocketArmCD()
+  {
+    rocketArmCounter += deltaTime;
+    if (rocketArmCounter > rocketArmDelay)
+    {
+      rocketArmCounter = 0;
+      rocketArmCD = false;
+    }
   }
 
   void HandleInput()
   {
-    if (!input.isK && !input.isL)
-    {
-      isUpCounting = false;
-      upCounter = 0;
-    }
-
     if (input.isK && rocketJumpActive && rocketJump.fuelCost <= fuelCount)
     {
-      if (isUpCounting)
-      {
-        upCounter += deltaTime;
-        if (upCounter > rocketJumpDelay)
-        {
-          upCounter -= rocketJumpDelay;
-          
-          RocketJump();
-          fuelCount -= rocketJump.fuelCost;
-        }
-      } else
+      if(!rocketJumpCD)
       {
         RocketJump();
-        fuelCount -= rocketJump.fuelCost;
-        isUpCounting = true;
+        rocketJumpCD = true;
       }
     }
 
     if (input.isL && rocketArmActive && rocketArm.fuelCost <= fuelCount)
     {
-      if (isUpCounting)
-      {
-        upCounter += deltaTime;
-        if (upCounter > rocketArmDelay)
-        {
-          upCounter -= rocketArmDelay;
-
-          RocketArm();
-          fuelCount -= rocketJump.fuelCost;
-        }
-      } else
+      if(!rocketArmCD)
       {
         RocketArm();
-        fuelCount -= rocketJump.fuelCost;
-        isUpCounting = true;
+        rocketArmCD = true;
       }
     }
   }
@@ -114,12 +113,14 @@ class PowerUpManager
 
   void RocketJump()
   {
+    fuelCount -= rocketJump.fuelCost;
     player.velocity.y = player.jumpVel * -1.4f;
     player.grounded = false;
   }
 
   void RocketArm()
   {
+    fuelCount -= rocketArm.fuelCost;
     player.velocity.x /= 2.5;
     player.velocity.y /= 2.5;
     rocketArm.position = player.position.copy();

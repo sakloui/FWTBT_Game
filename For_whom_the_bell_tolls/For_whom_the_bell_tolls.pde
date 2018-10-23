@@ -3,6 +3,7 @@ BoxManager boxManager;
 Input input = new Input();
 PowerUpManager powerUpManager;
 Enemy enemy;
+GameManager gameManager;
 
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 
@@ -26,6 +27,7 @@ void setup()
   player= new Player();
   enemy = new Enemy(width/2, height-60);
   boxManager = new BoxManager();
+  gameManager = new GameManager();
 
   powerUpManager = new PowerUpManager();
 
@@ -46,12 +48,14 @@ void draw()
     boxManager.Update();
     powerUpManager.Update();  
     enemy.Update();
+    gameManager.Update();
 
     //----------Draws----------
     background(200, 200, 200);
     boxManager.DrawBoxes();
     player.Draw();
     enemy.Draw();
+    gameManager.Draw();
     
     for (int i = 0; i < anchors.size(); i++)
     {

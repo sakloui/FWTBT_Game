@@ -102,6 +102,7 @@ class RocketArm
     }
     if (Math.abs(player.position.x - anchors.get(0).position.x) <= 4f)
     {
+      savedPositions.removeAll(savedPositions);
       pullPlayer = false;
       return;
     }
@@ -120,6 +121,7 @@ class RocketArm
 
     if (Math.abs(position.x - oldPos.x) <= 3f)
     {
+      savedPositions.removeAll(savedPositions);
       returnGrapple = false;
     }
 
