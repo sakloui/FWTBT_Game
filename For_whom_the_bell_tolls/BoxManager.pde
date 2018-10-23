@@ -13,6 +13,7 @@ class BoxManager
   int[] xTile = new int[6];
   int[] yTile = new int[6];
   int xBottom, yBottom;
+  int xEnemyTile, yEnemyTile;
 
   BoxManager()
   {
@@ -27,23 +28,24 @@ class BoxManager
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < columns; j++)
-      {/*
-        if (i == 19)
+      {
+        if(j == 16)
         {
-          if (j > 14)
-          {
+          if(i == 0 || i == 31)
             coll = true;
-          } else
+          else
             coll = false;
-        } 
-        */if (j == 17)
+        }
+        else if (j == 17)
         {
           if (i < 32)
           {
             coll = true;
-          } else
+          } 
+          else
             coll = false;
-        } else
+        } 
+        else
           coll = false;
         boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
       }
@@ -58,6 +60,7 @@ class BoxManager
     CalculateCurrentTiles();
     SetOverCells();
     SetSurroundingCells();
+    CheckEnemyCollision();
     SetGridColor();
     CheckCollisions();
   }
@@ -77,6 +80,11 @@ class BoxManager
     xBottom = floor(rows / 100f * xPercentage);  
     yPercentage = player.playerBottom.y / height * 100;
     yBottom = floor(columns / 100f * yPercentage);
+
+    float xEnemyPercentage = enemy.x / width * 100;
+    xEnemyTile = floor(rows / 100f * xEnemyPercentage);
+    float yEnemyPercentage = enemy.y / height * 100;
+    yEnemyTile = floor(columns / 100f * yEnemyPercentage);
   }
 
   void SetOverCells()
@@ -184,6 +192,36 @@ class BoxManager
       //check for collisions
       if (surrounding.get(i).collides)
         surrounding.get(i).CheckCollision();
+    }
+  }
+
+  void CheckEnemyCollision()
+  {
+    float enemyTileCenter = 20 + (xEnemyTile) * 40;
+    if (enemy.x == enemyTileCenter)
+    {
+      //check left and right tile
+      if (!(xEnemyTile <= 0 || xEnemyTile >= 31))
+      {
+        enemy.boxesToCheck[0] = new PVector(xEnemyTile-1, yEnemyTile);
+        enemy.boxesToCheck[1] = new PVector(xEnemyTile+1, yEnemyTile);
+      }
+    } else if (enemy.x > enemyTileCenter)
+    {
+      //check left and far right tile
+      if (!(xEnemyTile <= 0 || xEnemyTile >= 30))
+      {
+        enemy.boxesToCheck[0] = new PVector(xEnemyTile-1, yEnemyTile);
+        enemy.boxesToCheck[1] = new PVector(xEnemyTile+2, yEnemyTile);
+      }
+    } else if (enemy.x < enemyTileCenter)
+    {
+      if (!(xEnemyTile <= 1 || xEnemyTile >= 31))
+      {
+        //check far left and right tile
+        enemy.boxesToCheck[0] = new PVector(xEnemyTile-2, yEnemyTile);
+        enemy.boxesToCheck[1] = new PVector(xEnemyTile+1, yEnemyTile);
+      }
     }
   }
 

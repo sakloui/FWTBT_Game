@@ -9,10 +9,11 @@ class RocketArm
   boolean grapple = false;
   boolean returnGrapple = false;
   PVector targetPos = new PVector(0, 0);
-  int grappleDistance = 250;
+  int grappleDistance = 200;
   float offset = 4.9f;
-
-  float speed = 5f;
+  boolean pullPlayer = false;
+  float speed = 7.5f;
+  boolean facingRight = false;
 
   boolean pickedUp = false;
 
@@ -24,24 +25,44 @@ class RocketArm
   void Update()
   {
     CheckCollision();
+    if(!savedPositions.isEmpty())
     if (grapple)
     {
       ShootGrapple();
+    }
+    if(pullPlayer)
+    {
+      PullPlayer();
     }
     if (returnGrapple)
     {
       ReturnGrapple();
     }
   }
+  
+  void Move()
+  {
+    position.x += player.velocity.x * deltaTime;
+    position.y = player.position.y;
+    oldPos.x = player.position.x;
+    oldPos.y = player.position.y;
+    
+    for(int i = 0; i < savedPositions.size(); i++)
+    {
+      savedPositions.get(i).x += player.velocity.x * deltaTime;
+      savedPositions.get(i).y = player.position.y;
+    }
+  }
 
   void ShootGrapple()
   {
+    Move();
     //targetPos = anchors.get(0).position.copy().sub(position);
-    if (player.playerState.currentDirection == 0)
+    if (!facingRight)
     {
       //if facing left
       targetPos = new PVector(-1, 0);
-    } else if (player.playerState.currentDirection == 1)
+    } else if (facingRight)
     {
       //else if facing right
       targetPos = new PVector(1, 0);
@@ -49,19 +70,8 @@ class RocketArm
 
     if (position.dist(anchors.get(0).position.copy()) <= 10f)
     {
-      //move the player towards the anchor
-      if (!savedPositions.isEmpty())
-      {
-        if (Math.abs(player.position.x - savedPositions.get(0).x) <= 10f)
-          savedPositions.remove(0);
-      }
-      if (Math.abs(player.position.x - anchors.get(0).position.x) <= 3f)
-      {
-        grapple = false;
-        return;
-      }
-      
-      player.position.x += targetPos.x * speed;
+      pullPlayer = true;
+      grapple = false;
     } 
     else if (Math.abs(position.x - oldPos.x) > grappleDistance)
     {
@@ -70,32 +80,49 @@ class RocketArm
       //flip grapple move direction
       targetPos.x *= -1;
       return;
-    }
+    } 
     else
     {
       position.x += targetPos.x * speed;
-      
-      if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) >= offset)
+
+      if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) >= offset) //<>//
       {
         savedPositions.add(new PVector(position.x, position.y));
       }
     }
   }
 
+  void PullPlayer()
+  {
+    //move the player towards the anchor
+    if (!savedPositions.isEmpty())
+    {
+      if (Math.abs(player.position.x - savedPositions.get(0).x) <= 10f)
+        savedPositions.remove(0);
+    }
+    if (Math.abs(player.position.x - anchors.get(0).position.x) <= 4f)
+    {
+      pullPlayer = false;
+      return;
+    }
+
+    player.position.x += targetPos.x * speed;
+  }
+
   void ReturnGrapple()
   {
+    Move();
     if (!savedPositions.isEmpty())
     {
       if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) <= 5f)
         savedPositions.remove(savedPositions.size()-1);
     }
-    
-    if(Math.abs(position.x - oldPos.x) <= 3f)
+
+    if (Math.abs(position.x - oldPos.x) <= 3f)
     {
-      if(!savedPositions.isEmpty())
-        returnGrapple = false;
+      returnGrapple = false;
     }
-    
+
     position.x += targetPos.x * speed;
   }
 
@@ -129,9 +156,9 @@ class RocketArm
         rect(savedPositions.get(i).x, savedPositions.get(i).y, size, size);
       }
       fill(255, 0, 0);
-      if(player.playerState.currentDirection == 0)
+      if (!facingRight)
         triangle(position.x - size - offset, position.y, position.x - offset, position.y - size/2, position.x - offset, position.y + size/2);
-      else if(player.playerState.currentDirection == 1)
+      else if (facingRight)
         triangle(position.x + size + offset, position.y, position.x + offset, position.y - size/2, position.x + offset, position.y + size/2);
     }
   }

@@ -41,6 +41,7 @@ class Player
   float decelRate = 20f * 60;
   float maxSpeed = 300f;
   float turnSpeed = 3f;
+  boolean isDead = false;
 
   State playerState;
 
@@ -132,10 +133,10 @@ class Player
 
     /*
     topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
-    topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
-    bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
-    bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
-    */
+     topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
+     bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
+     bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
+     */
   }
 
   void Move()
@@ -148,53 +149,45 @@ class Player
       {
         ///acceleration.x += 20f * maxSpeed;
         velocity.x += acceleration.x * deltaTime;
-        if(velocity.x > maxSpeed)
+        if (velocity.x > maxSpeed)
           velocity.x = maxSpeed;
-      } 
-      else if (velocity.x + deceleration.x < 0)
+      } else if (velocity.x + deceleration.x < 0)
       {
         ///deceleration.x -= 20f * turnSpeed;
         velocity.x -= turnSpeed * deceleration.x * deltaTime;
-      } 
-      else
-      ///velocity is lower than 0 but not low enough to add deceleration.
+      } else
+        ///velocity is lower than 0 but not low enough to add deceleration.
       {
         velocity.x = 0;
       }
-    } 
-    else if (input.isLeft)
+    } else if (input.isLeft)
     {
       if (velocity.x <= 0)
       {
         //acceleration.x += 20f * maxSpeed;
         velocity.x -= acceleration.x * deltaTime;
-        if(velocity.x < -maxSpeed)
+        if (velocity.x < -maxSpeed)
           velocity.x = -maxSpeed;
-      } 
-      else if (velocity.x - deceleration.x > 0)
+      } else if (velocity.x - deceleration.x > 0)
       {
         ///deceleration.x -= 20f * turnSpeed;
         velocity.x += turnSpeed * deceleration.x * deltaTime;
-      } 
-      else
+      } else
         ///velocity is higher than 0 but not high enough to add deceleration.
       {
         velocity.x = 0;
       }
-    } 
-    else
+    } else
     {
       if (velocity.x + deceleration.x * deltaTime > 0)
       {
         //deceleration.x -= 20f;
         velocity.x += deceleration.x * deltaTime;
-      } 
-      else if (velocity.x - deceleration.x * deltaTime < 0)
+      } else if (velocity.x - deceleration.x * deltaTime < 0)
       {
         //deceleration.x -= 20f;
         velocity.x -= deceleration.x * deltaTime;
-      } 
-      else 
+      } else 
       {
         velocity.x = 0;
       }
@@ -254,7 +247,7 @@ class Player
 
     /*
     //standard left right
-    if (input.isRight)
+     if (input.isRight)
      {
      velocity.x = speed * deltaTime;
      }    
@@ -268,22 +261,22 @@ class Player
      velocity.x = 0;
      }
      */
-   
+
     /*
     //standard up-down
-    if (input.isUp)
-    {
-      velocity.y = -speed * deltaTime;
-    } 
-    if (input.isDown)
-    {
-      velocity.y = speed * deltaTime;
-    } 
-      if (!input.isUp && !input.isDown)
-    {
-      velocity.y = 0;
-    }
-    */
+     if (input.isUp)
+     {
+     velocity.y = -speed * deltaTime;
+     } 
+     if (input.isDown)
+     {
+     velocity.y = speed * deltaTime;
+     } 
+     if (!input.isUp && !input.isDown)
+     {
+     velocity.y = 0;
+     }
+     */
 
     //jump
     if (input.isUp && grounded)
@@ -291,7 +284,6 @@ class Player
       velocity.y = -jumpVel;  
       grounded = false;
     }
-    
   }
 
   void ApplyGravity()
@@ -301,8 +293,7 @@ class Player
       velocity.y += gravity * deltaTime;
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-    } 
-    else
+    } else
       velocity.y = 0;
   }
 
@@ -318,17 +309,22 @@ class Player
   {
     SetOldPos();
     SetPlayerCorners();
-    if(!powerUpManager.rocketArm.grapple && !powerUpManager.rocketArm.returnGrapple)
+    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     {
       Move();
     }
+    else
+    {
+      velocity.x = 0f;
+      velocity.y = 0f;
+    }
     playerState.OnTick();
-    if(!powerUpManager.rocketArm.grapple && !powerUpManager.rocketArm.returnGrapple)
+    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
       ApplyGravity();
     //SetDirection();
     position.x += velocity.x * deltaTime;
     position.y += velocity.y * deltaTime;
-    
+
     SetNewPos(); 
     if (bottom != oldBottom || right != oldRight)
     {
@@ -398,6 +394,20 @@ class Player
 
   void Draw()
   {
+    if (!isDead)
+    {
+      pushMatrix();
+      fill(playerColor);
+      noStroke();
+      playerState.OnDraw();
+      translate(position.x, position.y);
+      //rect(0, 0, playerWidth, playerHeight);
+      popMatrix();
+    }
+  }
+
+  void DebugText()
+  {
     pushMatrix();
     textSize(20);
     fill(textColor);
@@ -411,14 +421,6 @@ class Player
     text("fps: " + frameRate, 0, 240);
     text("Pos.x: " + position.x, 0, 520);
     text("Pos y: " + position.y, 0, 560);
-    popMatrix();
-
-    pushMatrix();
-    fill(playerColor);
-    noStroke();
-    playerState.OnDraw();
-    translate(position.x, position.y);
-    //rect(0, 0, playerWidth, playerHeight);
     popMatrix();
   }
 

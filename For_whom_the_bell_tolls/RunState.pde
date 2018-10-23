@@ -23,7 +23,6 @@ public class RunState extends State
   {
     velocity = player.velocity.copy();
     currentFrame = (currentFrame + animationSpeed) % 8;    
-    
     if(velocity.x == 0)
     {
       player.SetState(new IdleState());

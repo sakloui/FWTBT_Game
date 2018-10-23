@@ -15,6 +15,7 @@ class PowerUpManager
   boolean isUpCounting = false;
   float upCounter = 0f;
   float rocketJumpDelay = 2f;
+  float rocketArmDelay = 5f;
 
   PowerUpManager()
   {
@@ -53,7 +54,7 @@ class PowerUpManager
         if (upCounter > rocketJumpDelay)
         {
           upCounter -= rocketJumpDelay;
-
+          
           RocketJump();
           fuelCount -= rocketJump.fuelCost;
         }
@@ -70,9 +71,9 @@ class PowerUpManager
       if (isUpCounting)
       {
         upCounter += deltaTime;
-        if (upCounter > rocketJumpDelay)
+        if (upCounter > rocketArmDelay)
         {
-          upCounter -= rocketJumpDelay;
+          upCounter -= rocketArmDelay;
 
           RocketArm();
           fuelCount -= rocketJump.fuelCost;
@@ -119,11 +120,20 @@ class PowerUpManager
 
   void RocketArm()
   {
-    player.velocity.x = 0;
-    player.velocity.y = 0;
+    player.velocity.x /= 2.5;
+    player.velocity.y /= 2.5;
     rocketArm.position = player.position.copy();
     rocketArm.savedPositions.add(new PVector(rocketArm.position.x, rocketArm.position.y));
     rocketArm.oldPos = rocketArm.position.copy();
+    if (player.playerState.currentDirection == 0)
+    {
+      //if facing left
+      rocketArm.facingRight = false;
+    } else if (player.playerState.currentDirection == 1)
+    {
+      //else if facing right
+      rocketArm.facingRight = true;
+    }
     rocketArm.grapple = true;
   }
 
