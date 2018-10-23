@@ -25,7 +25,7 @@ void extraSetup()
   textAlign(CENTER,CENTER);
   //------Variables------
   isMenu = true;
-  
+
   //------Sounds------
   minim = new Minim(this);
   minim2 = new Minim(this);
@@ -38,13 +38,13 @@ void extraSetup()
     int rand = round(random(1,2));
     mainMusic = minim2.loadFile("mainMusic"+ rand +".mp3");
   }
-  
+
   mainMusic.setGain(-40 + volume[0]);
 
   click.setGain(-40 + volume[1]);
   click2.setGain(-40 + volume[1]);
 
   mainMusic.loop();
-  
+
 
 }
