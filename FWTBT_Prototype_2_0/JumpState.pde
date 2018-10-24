@@ -3,7 +3,7 @@ public class JumpState extends State
  PVector velocity;
   float animationSpeed;
   float currentFrame;
-  int currentDirection;
+  //int currentDirection;
   final int LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3;
   
   public void OnStateEnter()

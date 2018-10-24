@@ -3,7 +3,7 @@ public class IdleState extends State
    PVector velocity;
   float animationSpeed;
   float currentFrame;
-  int currentDirection;
+  //int currentDirection;
   final int LEFT = 0, RIGHT = 1;
   
   public void OnStateEnter()

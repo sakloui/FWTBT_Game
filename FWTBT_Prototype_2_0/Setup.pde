@@ -1,7 +1,9 @@
 void extraSetup()
 {
   //------Classes------
-  menu = new Menu();
+  camera = new Camera();
+  player= new Player();
+
   //player = new Player(50);
   //------Image stuff------
   tileBox = loadImage("Textures/box.png");
@@ -51,11 +53,7 @@ void extraSetup()
     int rand = round(random(1,2));
     mainMusic = minim.loadFile("Music/mainMusic"+ rand +".mp3");
   }
-<<<<<<< HEAD
   //Music
-=======
-
->>>>>>> 693fbb1eece0f86e4f36fcd446d3f70be224bb07
   mainMusic.setGain(-40 + volume[0]);
 
   //Sound effects

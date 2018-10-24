@@ -20,7 +20,7 @@ class Box
     collides = collide;
     else foreCollides = collide;
     SetPosValues();
-    if(collides == 3)player.position.set(position);
+    if(collides == 3){player.position.x = position.x;player.position.y = position.y;}
   }
 
   void SetPosValues()
@@ -33,8 +33,8 @@ class Box
 
   void CheckCollision()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2-1 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2+1 &&
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
@@ -67,10 +67,10 @@ class Box
           tint(255,150);
         }
          if(collides == 8 && !switched){
+           switched = true;
            updateGrid();
            interactionsound.rewind();
            interactionsound.play();
-           switched = true;
          }
        }
     else

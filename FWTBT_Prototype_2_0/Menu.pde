@@ -50,13 +50,13 @@ class Menu
     level = null;
     sliders = null;
     button[0] = new Buttons(width/2,height/2-75,"Play","button",74);
-    button[0].createButton();
+    //button[0].createButton();
     button[1] = new Buttons(width/2,height/2,"Options","button",74);
-    button[1].createButton();
+    //button[1].createButton();
     button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
-    button[2].createButton();    
+    //button[2].createButton();    
     button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","text",74);
-    button[4].createButton();
+    //button[4].createButton();
   }
   void createOptions()
   {
@@ -105,13 +105,13 @@ class Menu
         }
       }
       //------Input handling------
-      if(isUp)
+      if(input.isUp)
       {
         click.rewind();
         click.play();
         if(currentSel <= 0)
         {
-          isUp = false;
+          input.isUp = false;
         }
         else
         { 
@@ -119,17 +119,17 @@ class Menu
           button[currentSel].selected= false;
           button[currentSel-1].selected = true;
           currentSel--;
-          isUp = false;
+          input.isUp = false;
         }
         
       }
-      if(isDown)
+      if(input.isDown)
       {
         click.rewind();
         click.play();
         if(currentSel > button.length)
         {
-          isDown = false;
+          input.isDown = false;
         }
         else
         {
@@ -138,17 +138,16 @@ class Menu
             button[currentSel].selected = false;
             button[currentSel+1].selected = true;
             currentSel++;
-            isDown = false;
+            input.isDown = false;
           }
         }
         
       }
-      if(isSpace)
+      if(input.isSpace)
       {
         click2.rewind();
         click2.play();
-        isSpace = false;
-        println(button[currentSel].text);
+        input.isSpace = false;
         if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}
         if(button[currentSel].text == "Exit")exit();
         if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}

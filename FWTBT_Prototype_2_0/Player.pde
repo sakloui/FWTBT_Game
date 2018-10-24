@@ -1,14 +1,14 @@
 class Player
 {
   //----------body----------
-  int playerWidth;
-  int playerHeight;
+  float playerWidth;
+  float playerHeight;
   color playerColor;
 
   //----------Movement----------
   PVector position;
   PVector velocity;
-  float speed;
+  float speed = 200f;
   float jumpVel;
   float gravity;
   float maxGrav;
@@ -26,20 +26,24 @@ class Player
   boolean grounded = false;
   boolean canJump = false;
 
-  PImage sheet;
   PImage[] idle;
   PImage[] run;
   PImage[] slide;
   PImage[] jump;
-  boolean inMotion;
   int currentDirection;
   float currentFrame;
   float currentRunFrame;
   float animationSpeed = 0.3f;
 
+  PVector acceleration;
+  PVector deceleration;
+  float accelRate = 12f * 60;
+  float decelRate = 20f * 60;
+  float maxSpeed = 300f;
+  float turnSpeed = 3f;
+  boolean isDead = false;
+
   State playerState;
-
-
 
   Player()
   {
@@ -47,13 +51,16 @@ class Player
     playerHeight = 60;
     playerColor = color(155, 0, 0);
 
+    acceleration = new PVector(0, 0);
+    acceleration.x = 650f;
+    deceleration = new PVector(0, 0);
+    deceleration.x = -750f;
     velocity = new PVector(0, 0);
-    position = new PVector(width/2, height - 100);
-    speed = 300f;
+    position = new PVector(width/2, height/2);
 
-    jumpVel = 10f;
-    gravity = 9.81f;
-    maxGrav = 20f;
+    jumpVel = 465f;
+    gravity = 9.81f * 65;
+    maxGrav = 350;
 
     currentDirection = 1;
 
@@ -84,16 +91,16 @@ class Player
       //load idle sprites
       idleName = "Sprites/Idle (" + i + ").png";
       idle[i] = loadImage(idleName);
-      idle[i].resize(playerWidth*2, 0);
+      idle[i].resize(80, 0);
 
       //load jump sprites
       jumpName = "Sprites/Jump (" + i + ").png";
       jump[i] = loadImage(jumpName);
-      jump[i].resize(playerWidth*2, 0);
+      jump[i].resize(80, 0);
       //load slide sprites
       slideName = "Sprites/Slide (" + i + ").png";
       slide[i] = loadImage(slideName);
-      slide[i].resize(playerWidth*2, 0);
+      slide[i].resize(80, 0);
     }
 
     for (int i = 0; i < 8; i++)
@@ -101,7 +108,7 @@ class Player
       //load run sprites
       runName = "Sprites/Run (" + i + ").png";
       run[i] = loadImage(runName);
-      run[i].resize(playerWidth*2, 0);
+      run[i].resize(80, 0);
     }
   }
 
@@ -122,21 +129,22 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
-    
     playerBottom = new PVector(position.x, position.y + playerHeight/2);
+
     /*
     topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
-    topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
-    bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
-    bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
-    */
+     topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
+     bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
+     bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
+     */
   }
 
   void Move()
   {
-    if (isRight)
+    //accel movement
+
+    if (input.isRight)
     {
-      velocity.x = speed * deltaTime;
       if ( walkingsound.position() == walkingsound.length() && grounded)
       {
         walkingsound.rewind();
@@ -145,11 +153,24 @@ class Player
       else if(grounded)
       {
         walkingsound.play();
-      }    
-    }
-    if (isLeft)
+      }         
+      if (velocity.x >= 0)
+      {
+        ///acceleration.x += 20f * maxSpeed;
+        velocity.x += acceleration.x * deltaTime;
+        if (velocity.x > maxSpeed)
+          velocity.x = maxSpeed;
+      } else if (velocity.x + deceleration.x < 0)
+      {
+        ///deceleration.x -= 20f * turnSpeed;
+        velocity.x -= turnSpeed * deceleration.x * deltaTime;
+      } else
+        ///velocity is lower than 0 but not low enough to add deceleration.
+      {
+        velocity.x = 0;
+      }
+    } else if (input.isLeft)
     {
-      velocity.x = -speed * deltaTime;
       if ( walkingsound.position() == walkingsound.length() && grounded)
       {
         walkingsound.rewind();
@@ -158,37 +179,131 @@ class Player
       else if(grounded)
       {
         walkingsound.play();
-      }          
+      }         
+      if (velocity.x <= 0)
+      {
+        //acceleration.x += 20f * maxSpeed;
+        velocity.x -= acceleration.x * deltaTime;
+        if (velocity.x < -maxSpeed)
+          velocity.x = -maxSpeed;
+      } else if (velocity.x - deceleration.x > 0)
+      {
+        ///deceleration.x -= 20f * turnSpeed;
+        velocity.x += turnSpeed * deceleration.x * deltaTime;
+      } else
+        ///velocity is higher than 0 but not high enough to add deceleration.
+      {
+        velocity.x = 0;
+      }      
+    } else
+    {
+      if (velocity.x + deceleration.x * deltaTime > 0)
+      {
+        //deceleration.x -= 20f;
+        velocity.x += deceleration.x * deltaTime;
+      } else if (velocity.x - deceleration.x * deltaTime < 0)
+      {
+        //deceleration.x -= 20f;
+        velocity.x -= deceleration.x * deltaTime;
+      } else 
+      {
+        velocity.x = 0;
+      }
     }
 
-    if (!isRight && !isLeft)
-    {
-      velocity.x = 0;
-    }
+    /*
+    if (input.isRight)
+     {
+     acceleration.x = accelRate;
+     if (velocity.x > maxSpeed)
+     velocity.x = maxSpeed;
+     else
+     velocity.add(acceleration.mult(deltaTime));
+     } else if (input.isLeft)
+     {
+     acceleration.x = accelRate;
+     if (velocity.x < -maxSpeed)
+     velocity.x = -maxSpeed;
+     else
+     {
+     velocity.sub(acceleration.mult(deltaTime));
+     }
+     } 
+     else
+     {
+     if (velocity.x > decelRate * turnSpeed && input.isLeft)
+     {
+     decelRate *= turnSpeed;
+     } 
+     if (velocity.x > decelRate * deltaTime)
+     {
+     acceleration.x = decelRate;
+     velocity.sub(acceleration.mult(deltaTime));
+     decelRate /= turnSpeed;
+     }
+     else if (velocity.x < decelRate * turnSpeed && input.isRight)
+     {
+     decelRate *= turnSpeed;
+     }
+     if (velocity.x < -decelRate * deltaTime)
+     {
+     if (input.isRight)
+     {
+     decelRate *= turnSpeed;
+     }
+     acceleration.x = decelRate;
+     velocity.add(acceleration.mult(deltaTime));
+     decelRate /= turnSpeed;
+     } 
+     else
+     {
+     acceleration.x = 0;
+     velocity.x = 0;
+     }
+     }
+     */
 
+    /*
+    //standard left right
+     if (input.isRight)
+     {
+     velocity.x = speed * deltaTime;
+     }    
+     if (input.isLeft)
+     {
+     velocity.x = -speed * deltaTime;
+     }
+     
+     if (!input.isRight && !input.isLeft)
+     {
+     velocity.x = 0;
+     }
+     */
 
-    if (isUp && grounded)
+    /*
+    //standard up-down
+     if (input.isUp)
+     {
+     velocity.y = -speed * deltaTime;
+     } 
+     if (input.isDown)
+     {
+     velocity.y = speed * deltaTime;
+     } 
+     if (!input.isUp && !input.isDown)
+     {
+     velocity.y = 0;
+     }
+     */
+
+    //jump
+    if (input.isUp && grounded)
     {
-      velocity.y = -jumpVel;
+      velocity.y = -jumpVel;  
       grounded = false;
       jumpsound.rewind();
-      jumpsound.play();
+      jumpsound.play();      
     }
-
-
-    
-    // if (isUp)
-    // {
-    //   velocity.y = -speed * deltaTime;
-    // }
-    // if (isDown)
-    // {
-    //   velocity.y = speed * deltaTime;
-    // }
-    // if (grounded)
-    // {
-    //   velocity.y = 0;
-    // }
   }
 
   void ApplyGravity()
@@ -198,7 +313,8 @@ class Player
       velocity.y += gravity * deltaTime;
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-    }
+    } else
+      velocity.y = 0;
   }
 
   void SetNewPos()
@@ -207,40 +323,30 @@ class Player
     bottom = top + playerHeight;
     right = position.x + playerWidth/2;
     left = right - playerWidth;
-    if(top != oldTop)
-    {
-      //ResolveCollision();
-    }
-  }
-
-  void SetDirection()
-  {
-
-    inMotion = true;
-
-    if (velocity.x == 0 && velocity.y == 0)
-      inMotion = false;
-    else if (velocity.x > 0 && velocity.y == 0)
-      currentDirection = RIGHT;
-    else if (velocity.x < 0 && velocity.y == 0)
-      currentDirection = LEFT;
-    else if (velocity.x == 0 && velocity.y < 0)
-      currentDirection = TOP;
-    else if (velocity.x == 0 && velocity.y > 0)
-      currentDirection = DOWN;
   }
 
   void Update()
   {
     SetOldPos();
     SetPlayerCorners();
-    Move();
+    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+    {
+       Move();
+    }
+    else
+    {
+      velocity.x = 0f;
+      velocity.y = 0f;
+    }
     playerState.OnTick();
+    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     ApplyGravity();
     //SetDirection();
-    position.add(velocity);
-    SetNewPos();
-    if(bottom != oldBottom || right != oldRight)
+    position.x += velocity.x * deltaTime;
+    position.y += velocity.y * deltaTime;
+
+    SetNewPos(); 
+    if (bottom != oldBottom || right != oldRight)
     {
       ResolveCollision(boxManager.bottomBox);
     }
@@ -248,7 +354,6 @@ class Player
 
   void GetCollisionDirection(Box box)
   {
-    
     if (oldBottom < box.top && // was not colliding
       bottom >= box.top)// now is colliding
     {
@@ -293,34 +398,49 @@ class Player
       grounded = false;
     if (collidedRight)
     {
-      position.x = box.position.x - box.size/2 - playerWidth/2 - 1f;
+      position.x = box.position.x - box.size/2 - playerWidth/2 - 0.1f;
       velocity.x = 0;
       collidedRight = false;
     }
     if (collidedLeft)
     {
-      position.x = box.position.x + box.size/2 + playerWidth/2 + 1f;
+      position.x = box.position.x + box.size/2 + playerWidth/2 + 0.1f;
       velocity.x = 0;
       collidedLeft = false;
     }
+
     SetNewPos();
   }
 
   void Draw()
   {
+    if (!isDead)
+    {
+      pushMatrix();
+      fill(playerColor);
+      noStroke();
+      playerState.OnDraw();
+      translate(position.x, position.y);
+      //rect(0, 0, playerWidth, playerHeight);
+      popMatrix();
+    }
+  }
+
+  void DebugText()
+  {
     pushMatrix();
     textSize(20);
     fill(textColor);
-    translate(100, 100);
-    text("grounded: " + grounded, 0, 0);
-    popMatrix();
-
-    pushMatrix();
-    fill(playerColor);
-    noStroke();
-    playerState.OnDraw();
-
-    // rect(0, 0, playerWidth, playerHeight);
+    translate(100, 105);
+    text("Velocity.x: " + velocity.x, 0, 0);
+    text("Velocity.y: " + velocity.y, 0, 40);
+    text("Acceleration.x: " + acceleration.x, 0, 80);
+    text("Acceleration.y * deltaTime: " + (acceleration.y * deltaTime), 0, 120);
+    text("Gravity: " + gravity, 0, 160);
+    text("Turning: : " + maxSpeed, 0, 200);
+    text("fps: " + frameRate, 0, 240);
+    text("Pos.x: " + position.x, 0, 520);
+    text("Pos y: " + position.y, 0, 560);
     popMatrix();
   }
 

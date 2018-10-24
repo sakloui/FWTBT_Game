@@ -17,7 +17,6 @@ class Sliders
   Sliders(int sliders)
   {
    this.sliders = sliders;
-   println(sliders);
    level = new int[sliders];
    selectedSlider = 0;
    slider = loadImage("Menu/grey_slider.png");
@@ -38,17 +37,17 @@ class Sliders
   }
   void updateSlider()
   {
-    if(isUp && selectedSlider > 0)
+    if(input.isUp && selectedSlider > 0)
       selectedSlider--;
-    if(isDown && selectedSlider < level.length-1)
+    if(input.isDown && selectedSlider < level.length-1)
       selectedSlider++;
-    if(isRight && volume[selectedSlider] < 46)
+    if(input.isRight && volume[selectedSlider] < 46)
     {
       click.rewind();
       click.play();      
       volume[selectedSlider]+=0.46;
     }
-    if(isLeft && volume[selectedSlider] > 0)
+    if(input.isLeft && volume[selectedSlider] > 0.5)
     {
       click.rewind();
       click.play();      
@@ -61,6 +60,7 @@ class Sliders
       pushMatrix();
       image(pointer,width/2-190+(380*volume[i]/46),height/2-75+y);
       fill(200);
+      println((volume[i]/46)*100);
       text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-50+y);
       popMatrix();
       y+=75;

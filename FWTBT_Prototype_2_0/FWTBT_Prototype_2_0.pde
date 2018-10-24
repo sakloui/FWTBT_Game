@@ -6,6 +6,14 @@ Menu menu;
 Player player;
 BoxManager boxManager;
 Camera camera;
+Input input = new Input();
+PowerUpManager powerUpManager;
+Enemy enemy;
+GameManager gameManager;
+
+//------ArrayList stuff------
+ArrayList<Anchor> anchors = new ArrayList<Anchor>();
+
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
@@ -30,7 +38,14 @@ PImage hookTop;
 PFont font;
 
 //------Variables------
-float lastTime,deltaTime;
+State currentState;
+
+float lastTime;
+float deltaTime;
+
+float counter = 0;
+float loadingTime = 5f;
+
 boolean isMenu;
 int currentLevel;
 
@@ -52,7 +67,6 @@ AudioPlayer walkingsound;
 AudioPlayer interactionsound;
 
 //------Keys------
-boolean isUp,isDown,isRight,isLeft,isSpace,isP;
 
 void setup()
 {
@@ -69,8 +83,7 @@ void setup()
 
   extraSetup();
 
-  player= new Player();
-  camera = new Camera();
+  menu = new Menu();
 
 }
 
@@ -81,40 +94,63 @@ void draw()
   lastTime = millis();
 
   //------Background Stuff------
-  background(0);
+    background(0); 
 
   //------Gamestate------
 
+  counter += deltaTime;
+  if (counter >= loadingTime)
+  {  
+     
+    if(isMenu)
+    {
+      menu.draw();
+    }
+    else
+    {
+      if(input.isP){isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();}
+      image(background,width/2,height/2);
 
-  if(isMenu)
-  {
-    menu.draw();
+      if (boxManager.rows > 32){
+        camera.UpdateX();
+      }
+      if (boxManager.columns > 18){
+        camera.UpdateY();
+      }
+
+      player.Update();
+      boxManager.Update();
+      powerUpManager.Update();  
+      if(enemy !=null)
+      enemy.Update();
+      gameManager.Update();
+
+
+
+
+      //----------Draws----------
+      boxManager.DrawBoxes();
+      boxManager.DrawForeground();
+      player.Draw();
+      if(enemy !=null)      
+      enemy.Draw();
+      gameManager.Draw();
+      for (int i = 0; i < anchors.size(); i++)
+      {
+        anchors.get(i).Draw();
+      }
+      
+      powerUpManager.Draw();    
+    }
   }
   else
   {
-    if(isP){isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();}
-    image(background,width/2,height/2);
-
-    if (boxManager.rows > 32){
-      camera.UpdateX();
-    }
-    if (boxManager.columns > 18){
-      camera.UpdateY();
-    }
-
-    player.Update();
-    boxManager.Update();
-
-
-
-
-    //----------Draws----------
-    boxManager.DrawBoxes();
-    player.Draw();
-    boxManager.DrawForeground();
-
-  }
-
+    //draw loading text
+    pushMatrix();
+    textSize(48);
+    text("Loading...", width/2, height/2);
+    popMatrix();
+  }  
 }
 
 
@@ -135,38 +171,12 @@ void updateGrid()
   }
 }
 
-
- boolean SetMove(int k, boolean b)
-  {
-    switch(k)
-    {
-    case 'W':
-    case UP:
-      return isUp = b;
-    case 'S':
-    case DOWN:
-      return isDown = b;
-    case 'A':
-    case LEFT:
-      return isLeft = b;
-    case 'D':
-    case RIGHT:
-      return isRight = b;
-    case 32:
-      return isSpace = b;
-    case 'P':
-      return isP = b;
-    default:
-      return b;
-    }
-  }
-
 void keyPressed()
 {
-  SetMove(keyCode, true);
+  input.KeyDown(keyCode, true);
 }
 
 void keyReleased()
 {
-  SetMove(keyCode, false);
+  input.KeyDown(keyCode, false);
 }

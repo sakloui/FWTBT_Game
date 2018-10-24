@@ -15,7 +15,12 @@ class BoxManager
   int xBottom, yBottom;
 
   BoxManager(int level)
-  {
+  {    //enemy = new Enemy(width/2, height-60);
+    gameManager = new GameManager();
+
+    powerUpManager = new PowerUpManager();
+    
+    anchors.clear();  
     if(levelmusic != null)
       levelmusic.pause();
     map = loadImage("level"+level+".png");
@@ -36,6 +41,8 @@ class BoxManager
     rows = map.width;
     columns = map.height;
 
+    player.velocity = new PVector(0, 0);
+
     boxes = new Box[rows][columns];
     foreground = new Box[rows][columns];
     camera.shiftX = 0;
@@ -43,7 +50,7 @@ class BoxManager
     if(levelmusic != null)
     levelmusic.loop();
     //select the boxes that the tileBox collides with
-    PlaceCollisionBoxes();
+    PlaceCollisionBoxes();  
   }
 
   void PlaceCollisionBoxes()
@@ -80,7 +87,16 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
-
+          //Anchor
+          if(map.pixels[p] == color(100,255,255)){
+            anchors.add(new Anchor(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }
+          if(map.pixels[p] == color(244,0,0)){
+            powerUpManager.rocketArm = new RocketArm(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+          }         
+          if(map.pixels[p] == color(243,0,0)){
+            powerUpManager.rocketJump = new RocketJump(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+          } 
           //small platform top right
           if(map.pixels[p] == color(0,5,0)){
             coll = 10;

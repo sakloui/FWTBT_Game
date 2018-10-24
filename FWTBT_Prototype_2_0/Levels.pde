@@ -38,19 +38,19 @@ class Levels
   }
   void updateLevel()
   {
-    if(isRight && selectedLevel < levels-1)
+    if(input.isRight && selectedLevel < levels-1)
     {
       click.rewind();
       click.play();      
       selectedLevel++;
-      isRight = false;
+      input.isRight = false;
     }
-    if(isLeft && selectedLevel > 0)
+    if(input.isLeft && selectedLevel > 0)
     {
       click.rewind();
       click.play();      
       selectedLevel--;
-      isLeft = false;
+      input.isLeft = false;
     }
     for(int i = 0; i < level.length;i++)
     {
