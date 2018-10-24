@@ -16,7 +16,7 @@ class Magnet
   boolean isAttracting;
   boolean wasAttracting;
   boolean slowingDownPlayer;
-  float slowingDownSpeed = 25f;
+  float slowingDownSpeed = 20f;
   
   Magnet(int direction)
   {
@@ -47,7 +47,14 @@ class Magnet
     if(attraction >= 0.167f)
     {
       isAttracting = true;
-      player.velocity.add(diff.copy());
+      if(direction == LEFT || direction == UP)
+        player.velocity.add(diff.copy());
+      else
+      {
+        if(diff.x > 0)
+          diff.x *= -1;
+        player.velocity.add(diff.copy());
+      }
     }
     else
       isAttracting = false;

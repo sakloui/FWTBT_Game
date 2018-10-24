@@ -169,8 +169,11 @@ class Player
       {
         //acceleration.x += 20f * maxSpeed;
         velocity.x -= acceleration.x * deltaTime;
-        if (velocity.x < -maxSpeed)
-          velocity.x = -maxSpeed;
+        if (!magnet.isAttracting && !magnet.slowingDownPlayer)
+        {
+          if (velocity.x < -maxSpeed)
+            velocity.x = -maxSpeed;
+        }
       } else if (velocity.x - deceleration.x > 0)
       {
         ///deceleration.x -= 20f * turnSpeed;
@@ -198,10 +201,20 @@ class Player
         }
       } else
       {
-        if (velocity.x - deceleration.x * deltaTime < 0)
+        if (magnet.direction == LEFT)
         {
-          //deceleration.x -= 20f;
-          velocity.x -= deceleration.x * deltaTime;
+          if (velocity.x - deceleration.x * deltaTime < 0)
+          {
+            //deceleration.x -= 20f;
+            velocity.x -= deceleration.x * deltaTime;
+          }
+        } else if (magnet.direction == RIGHT)
+        {
+          if (velocity.x + deceleration.x * deltaTime > 0)
+          {
+            //deceleration.x -= 20f;
+            velocity.x += deceleration.x * deltaTime;
+          }
         }
       }
     }
