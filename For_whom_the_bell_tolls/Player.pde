@@ -149,8 +149,11 @@ class Player
       {
         ///acceleration.x += 20f * maxSpeed;
         velocity.x += acceleration.x * deltaTime;
-        if (velocity.x > maxSpeed)
-          velocity.x = maxSpeed;
+        if (!magnet.isAttracting && !magnet.slowingDownPlayer)
+        {
+          if (velocity.x > maxSpeed)
+            velocity.x = maxSpeed;
+        }
       } else if (velocity.x + deceleration.x < 0)
       {
         ///deceleration.x -= 20f * turnSpeed;
@@ -179,17 +182,27 @@ class Player
       }
     } else
     {
-      if (velocity.x + deceleration.x * deltaTime > 0)
+      if (!magnet.isAttracting)
       {
-        //deceleration.x -= 20f;
-        velocity.x += deceleration.x * deltaTime;
-      } else if (velocity.x - deceleration.x * deltaTime < 0)
+        if (velocity.x + deceleration.x * deltaTime > 0)
+        {
+          //deceleration.x -= 20f;
+          velocity.x += deceleration.x * deltaTime;
+        } else if (velocity.x - deceleration.x * deltaTime < 0)
+        {
+          //deceleration.x -= 20f;
+          velocity.x -= deceleration.x * deltaTime;
+        } else 
+        {
+          velocity.x = 0;
+        }
+      } else
       {
-        //deceleration.x -= 20f;
-        velocity.x -= deceleration.x * deltaTime;
-      } else 
-      {
-        velocity.x = 0;
+        if (velocity.x - deceleration.x * deltaTime < 0)
+        {
+          //deceleration.x -= 20f;
+          velocity.x -= deceleration.x * deltaTime;
+        }
       }
     }
 
@@ -312,8 +325,7 @@ class Player
     if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     {
       Move();
-    }
-    else
+    } else
     {
       velocity.x = 0f;
       velocity.y = 0f;
@@ -399,9 +411,9 @@ class Player
       pushMatrix();
       fill(playerColor);
       noStroke();
-      playerState.OnDraw();
+      //playerState.OnDraw();
       translate(position.x, position.y);
-      //rect(0, 0, playerWidth, playerHeight);
+      rect(0, 0, playerWidth, playerHeight);
       popMatrix();
     }
   }

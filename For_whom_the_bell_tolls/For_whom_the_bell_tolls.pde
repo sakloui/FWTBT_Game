@@ -4,6 +4,8 @@ Input input = new Input();
 PowerUpManager powerUpManager;
 Enemy enemy;
 GameManager gameManager;
+Magnet magnet;
+final int LEFT = 0, RIGHT = 1, UP = 2, DOWN = 3;
 
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 
@@ -28,6 +30,7 @@ void setup()
   enemy = new Enemy(width/2, height-60);
   boxManager = new BoxManager();
   gameManager = new GameManager();
+  magnet = new Magnet(LEFT);
 
   powerUpManager = new PowerUpManager();
 
@@ -47,15 +50,17 @@ void draw()
     player.Update();
     boxManager.Update();
     powerUpManager.Update();  
-    enemy.Update();
+    //enemy.Update();
     gameManager.Update();
+    magnet.Update();
 
     //----------Draws----------
     background(200, 200, 200);
     boxManager.DrawBoxes();
     player.Draw();
-    enemy.Draw();
+    //enemy.Draw();
     gameManager.Draw();
+    magnet.Draw();
     
     for (int i = 0; i < anchors.size(); i++)
     {

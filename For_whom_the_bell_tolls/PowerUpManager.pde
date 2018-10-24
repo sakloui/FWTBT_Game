@@ -114,7 +114,7 @@ class PowerUpManager
   void RocketJump()
   {
     fuelCount -= rocketJump.fuelCost;
-    player.velocity.y = player.jumpVel * -1.4f;
+    player.velocity.y = -player.jumpVel;
     player.grounded = false;
   }
 

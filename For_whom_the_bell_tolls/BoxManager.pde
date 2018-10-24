@@ -29,7 +29,7 @@ class BoxManager
     {
       for (int j = 0; j < columns; j++)
       {
-        if(j == 16)
+        if(j <= 16)
         {
           if(i == 0 || i == 31)
             coll = true;
