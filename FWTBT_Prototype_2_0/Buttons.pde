@@ -50,7 +50,7 @@ class Buttons
         pushMatrix();
         fill(rgb);
         image(buttonDown,x,y);
-        text(text,x,y);
+        text(text,x,y+3);
         popMatrix();
       }
       else

@@ -27,19 +27,19 @@ class Enemy {
     for (int i = 0; i < 2; i++)
     {
       Box box = boxManager.boxes[int(boxesToCheck[i].x)][int(boxesToCheck[i].y)];
-      if (box.collides == 1 ||
-          box.collides == 5 ||
-          box.collides == 15 ||
-          box.collides == 16 ||
-          box.collides == 17 ||
-          box.collides == 18)
+      if (x + radius > (box.position.x - box.size/2) && 
+        x - radius < (box.position.x + box.size/2) && 
+        y + radius > (box.position.y - box.size/2) &&
+        y - radius < (box.position.y + box.size/2))
       {
-        if (x + radius > box.position.x - box.size/2 && 
-          x - radius < box.position.x + box.size/2 && 
-          y + radius > box.position.y - box.size/2 &&
-          y - radius < box.position.y + box.size/2)
-        {
-          vx *= -1f;
+        if (box.collides == 1 ||
+            box.collides == 5 ||
+            box.collides == 15 ||
+            box.collides == 16 ||
+            box.collides == 17 ||
+            box.collides == 18)
+        {          
+          vx *= -1f;      
         }
       }
     }
@@ -59,6 +59,6 @@ class Enemy {
   void Draw() 
   {
     fill(255, 100, 100);
-    ellipse(x, y, radius * 2, radius * 2);
+    ellipse(x - camera.shiftX, y - camera.shiftY, radius * 2, radius * 2);
   }
 }

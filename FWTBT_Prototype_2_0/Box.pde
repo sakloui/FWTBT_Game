@@ -61,7 +61,6 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-        println(foreCollides);
        if(foreCollides == 2){
          // println("oh");
           tint(255,150);
@@ -70,7 +69,7 @@ class Box
            switched = true;
            updateGrid();
            interactionsound.rewind();
-           interactionsound.play();
+           interactionsound.play();        
          }
        }
     else
@@ -100,6 +99,8 @@ class Box
             isMenu = true;
             mainMusic.rewind();
             mainMusic.play();
+            if(levelmusic != null)
+            levelmusic.pause();               
           }
           if(collides == 4)
           {

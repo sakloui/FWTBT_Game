@@ -9,18 +9,22 @@ class Sliders
   private color rgb;
   private int sliders;
   private int[] level;
-  
+  private String[] texts;
   //------Images------
   private PImage slider;
   private PImage pointer;
+  private PImage pointerUp;
   
-  Sliders(int sliders)
+  Sliders(int sliders, String[] text)
   {
    this.sliders = sliders;
    level = new int[sliders];
    selectedSlider = 0;
+   texts = text;
    slider = loadImage("Menu/grey_slider.png");
    pointer = loadImage("Menu/grey_pointer.png");
+   pointerUp = loadImage("Menu/grey_pointer_up.png");
+
    y = 0;
   }
   
@@ -30,9 +34,9 @@ class Sliders
     y = 0;
     for(int i = 0; i < level.length;i++)
     {
-      image(slider,width/2,height/2-100+y,380,10);
-      image(pointer,width/2-190+(380*volume[i]/46),height/2-75+y);
-      y+=75;
+      image(slider,width/2,height/2-150+y,380,10);
+      image(pointer,width/2-190+(380*volume[i]/46),height/2-125+y);
+      y+=100;
     }
   }
   void updateSlider()
@@ -56,14 +60,18 @@ class Sliders
     y = 0;
     for(int i = 0; i < level.length;i++)
     {
-      image(slider,width/2,height/2-100+y,380,10);
-      pushMatrix();
-      image(pointer,width/2-190+(380*volume[i]/46),height/2-75+y);
       fill(200);
+      text(texts[i], width/2,height/2-200+y);
+      image(slider,width/2,height/2-175+y,380,10);
+      pushMatrix();
+      if(i == selectedSlider)
+        image(pointer,width/2-190+(380*volume[i]/46),height/2-150+y);
+      else
+        image(pointerUp,width/2-190+(380*volume[i]/46),height/2-150+y);
       println((volume[i]/46)*100);
-      text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-50+y);
+      text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-125+y);
       popMatrix();
-      y+=75;
+      y+=125;
     }
     updateSound();
   }

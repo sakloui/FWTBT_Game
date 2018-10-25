@@ -8,15 +8,16 @@ BoxManager boxManager;
 Camera camera;
 Input input = new Input();
 PowerUpManager powerUpManager;
-Enemy enemy;
 GameManager gameManager;
 
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
-
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
+
+PImage biskitGames;
 
 PImage background;
 
@@ -121,8 +122,10 @@ void draw()
       player.Update();
       boxManager.Update();
       powerUpManager.Update();  
-      if(enemy !=null)
-      enemy.Update();
+      for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies.get(i) !=null)
+        enemies.get(i).Update();
+      }
       gameManager.Update();
 
 
@@ -132,8 +135,10 @@ void draw()
       boxManager.DrawBoxes();
       boxManager.DrawForeground();
       player.Draw();
-      if(enemy !=null)      
-      enemy.Draw();
+      for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies.get(i) !=null)
+        enemies.get(i).Draw();
+      }
       gameManager.Draw();
       for (int i = 0; i < anchors.size(); i++)
       {
@@ -148,6 +153,7 @@ void draw()
     //draw loading text
     pushMatrix();
     textSize(48);
+    image(biskitGames, width/2, height/2-150,200,200);
     text("Loading...", width/2, height/2);
     popMatrix();
   }  

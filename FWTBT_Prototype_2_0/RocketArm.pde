@@ -5,6 +5,7 @@ class RocketArm
   PVector position;
   PVector oldPos;
   PVector normPos;
+  PVector anchorPos;
   ArrayList<PVector> savedPositions = new ArrayList<PVector>();
   int fuelCost = 10;
   boolean grapple = false;
@@ -13,7 +14,7 @@ class RocketArm
   int grappleDistance = 240;
   float offset = 4.9f;
   boolean pullPlayer = false;
-  float speed = 7.5f;
+  float speed = 15f;
   boolean facingRight = false;
 
   boolean pickedUp = false;
@@ -76,6 +77,7 @@ class RocketArm
         {
           pullPlayer = true;
           grapple = false;
+          anchorPos = anchors.get(i).position.copy();
           return;
         } 
       }
@@ -93,7 +95,7 @@ class RocketArm
         {
           position.x += targetPos.x * speed;
 
-          if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) >= offset) //<>//
+          if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) >= offset)
           {
             savedPositions.add(new PVector(position.x, position.y));
           }
@@ -103,29 +105,26 @@ class RocketArm
 
   void PullPlayer()
   {
-    //move the player towards the anchor
     if (!savedPositions.isEmpty())
     {
     if (Math.abs(player.position.x - savedPositions.get(0).x) <= 10f)
       savedPositions.remove(0);
     }    
+
+    //move the player towards the anchor    
     for(int i = 0; i < anchors.size(); i++)
     {
       
-      if(!savedPositions.isEmpty())
-      {
-        if (savedPositions.get(0).dist(anchors.get(i).position) <= 4f)
-        {
-          savedPositions.removeAll(savedPositions);
-          pullPlayer = false;
-          return;
-        }
-      }
-      else
+      if(savedPositions.isEmpty())
       {
           savedPositions.removeAll(savedPositions);
           pullPlayer = false;
-          return;
+          if(facingRight)
+            player.position.x = anchorPos.copy().x - player.playerWidth/2;
+          else
+            player.position.x = anchorPos.copy().x + player.playerWidth/2;
+
+          player.position.y = anchorPos.y - player.playerHeight/2;          
       }
     }
     normPos = position.copy().normalize();
@@ -179,7 +178,7 @@ class RocketArm
     {
       for (int i = 0; i < savedPositions.size(); i++)
       {
-        rect(savedPositions.get(i).x - camera.shiftX, savedPositions.get(i).y - camera.shiftY, size, size);
+        rect(savedPositions.get(i).x - camera.shiftX, savedPositions.get(i).y - camera.shiftY, size*2, size);
       }
       fill(255, 0, 0);
       if (!facingRight)

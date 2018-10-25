@@ -26,9 +26,6 @@ class PowerUpManager
 
   void SpawnObjects()
   {
-    fuels.add(new Fuel(new PVector(width/2 - 200, height-200)));
-    rocketJump = new RocketJump(new PVector(300, height-100));
-    rocketArm = new RocketArm(new PVector(500, height-100));
   }
 
   void Update()
@@ -88,12 +85,12 @@ class PowerUpManager
 
   void CheckPowerUps()
   {
-    if (rocketJump.pickedUp)
+    if (rocketJump != null && rocketJump.pickedUp)
     {
       rocketJumpActive = true;
     }
 
-    if (rocketArm.pickedUp)
+    if (rocketArm != null && rocketArm.pickedUp)
     {
       rocketArmActive = true;
     }
@@ -101,14 +98,15 @@ class PowerUpManager
 
   void UpdatePowerUps()
   {
-    for (int i = 0; i < fuels.size(); i++)
-    {
-      fuels.get(i).Update();
-    }
-
-    rocketJump.Update();
-
-    rocketArm.Update();
+      for (int i = 0; i < fuels.size(); i++)
+      {
+        if(fuels.get(i) != null)         
+        fuels.get(i).Update();
+      }
+    if(rocketJump != null)
+      rocketJump.Update();
+    if(rocketArm != null)
+      rocketArm.Update();
   }
 
   void RocketJump()
@@ -146,14 +144,15 @@ class PowerUpManager
 
   void DrawPowerUps()
   {
-    for (int i = 0; i < fuels.size(); i++)
-    {
-      fuels.get(i).Draw();
-    }
-
-    rocketJump.Draw();
-
-    rocketArm.Draw();
+      for (int i = 0; i < fuels.size(); i++)
+      {
+        if(fuels.get(i) != null)        
+        fuels.get(i).Draw();
+      }
+    if(rocketJump != null)
+      rocketJump.Draw();
+    if(rocketArm != null)
+      rocketArm.Draw();
   }
 
   void DrawIcons()

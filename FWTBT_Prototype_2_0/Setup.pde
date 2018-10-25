@@ -20,6 +20,7 @@ void extraSetup()
   hookMiddle = loadImage("Textures/hook_middle.png");
   hookTop = loadImage("Textures/hook_top.png");
   background = loadImage("background.png");
+  biskitGames = loadImage("BiskitGames.png");
   //------Font stuff------
   font = createFont("kenvector_future.ttf", 28);
   textFont(font);
@@ -62,8 +63,7 @@ void extraSetup()
   jumpsound.setGain(-40 + volume[1]);
   walkingsound.setGain(-40 + volume[1]);
   interactionsound.setGain(-40 + volume[1]);
-
-  mainMusic.loop();
+  mainMusic.loop();  
 
 
 }

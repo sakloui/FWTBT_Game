@@ -19,7 +19,7 @@ class Menu
     createMainMenu();
     button[0].selected = true;
     currentSel = 0;
-    alpha = 0;
+    alpha = 0; 
   }
   
   void update()
@@ -30,12 +30,6 @@ class Menu
   
   void draw()
   {
-    pushMatrix();
-    if(alpha < 255)
-    tint(255,alpha+= abs(mainMusic.left.get(1)*20));
-    image(background,width/2,height/2);
-    noTint();
-    popMatrix();
 
     updateMenu();
     if(menuState == 1)level.updateLevel();
@@ -67,7 +61,8 @@ class Menu
 
     level = null;
     sliders = null;
-    sliders = new Sliders(2);
+    String[] text = {"Music volume", "Sound effects volume"};
+    sliders = new Sliders(2,text);
     sliders.createSlider();
     button[0] = new Buttons(width/2,height/2+75,"Back","button",74);
     button[0].createButton();

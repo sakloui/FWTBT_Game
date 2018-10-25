@@ -329,7 +329,7 @@ class Player
   {
     SetOldPos();
     SetPlayerCorners();
-    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+    if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     {
        Move();
     }
@@ -339,7 +339,7 @@ class Player
       velocity.y = 0f;
     }
     playerState.OnTick();
-    if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+    if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     ApplyGravity();
     //SetDirection();
     position.x += velocity.x * deltaTime;

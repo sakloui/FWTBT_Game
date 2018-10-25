@@ -13,6 +13,8 @@ class BoxManager
   int[] xTile = new int[6];
   int[] yTile = new int[6];
   int xBottom, yBottom;
+  int[] xEnemyTile = new int[50];
+  int[] yEnemyTile = new int[50];  
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
@@ -21,6 +23,8 @@ class BoxManager
     powerUpManager = new PowerUpManager();
     
     anchors.clear();  
+    enemies.clear();
+
     if(levelmusic != null)
       levelmusic.pause();
     map = loadImage("level"+level+".png");
@@ -49,6 +53,8 @@ class BoxManager
     camera.shiftY = 0;
     if(levelmusic != null)
     levelmusic.loop();
+
+    CheckEnemyCollision();     
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  
   }
@@ -87,16 +93,6 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
-          //Anchor
-          if(map.pixels[p] == color(100,255,255)){
-            anchors.add(new Anchor(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
-          }
-          if(map.pixels[p] == color(244,0,0)){
-            powerUpManager.rocketArm = new RocketArm(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
-          }         
-          if(map.pixels[p] == color(243,0,0)){
-            powerUpManager.rocketJump = new RocketJump(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
-          } 
           //small platform top right
           if(map.pixels[p] == color(0,5,0)){
             coll = 10;
@@ -146,6 +142,24 @@ for(int i = 0; i < rows; i++)
             coll = 21;
           }
 
+          //Powerup Spawns
+          if(map.pixels[p] == color(100,255,255)){
+            anchors.add(new Anchor(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }
+          if(map.pixels[p] == color(244,0,0)){
+            powerUpManager.rocketArm = new RocketArm(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+          }         
+          if(map.pixels[p] == color(243,0,0)){
+            powerUpManager.rocketJump = new RocketJump(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+          } 
+          if(map.pixels[p] == color(240,0,0)){
+            powerUpManager.fuels.add(new Fuel(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          } 
+          if(map.pixels[p] == color(255,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+          }           
+
+
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
         }
@@ -183,6 +197,7 @@ for(int i = 0; i < rows; i++)
     CalculateCurrentTiles();
     SetOverCells();
     SetSurroundingCells();
+    CheckEnemyCollision();    
     CheckCollisions();
   }
 
@@ -201,6 +216,14 @@ for(int i = 0; i < rows; i++)
     xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / height * 100;
     yBottom = floor(columns / 100f * yPercentage);
+
+    for (int i = 0; i < enemies.size(); ++i) {
+      float xEnemyPercentage = enemies.get(i).x / (width * ((float) rows / 32)) * 100;
+      xEnemyTile[i] = floor(rows / 100f * xEnemyPercentage);
+      float yEnemyPercentage = enemies.get(i).y / (height * ((float) columns / 18)) * 100;
+      yEnemyTile[i] = floor(columns / 100f * yEnemyPercentage);       
+    }
+   
   }
 
   void SetOverCells()
@@ -325,6 +348,23 @@ for(int i = 0; i < rows; i++)
           surrounding.get(i).collides == 14)
         surrounding.get(i).CheckCollisionTop();
     }
+  }
+
+  void CheckEnemyCollision()
+  {
+    for (int i = 0; i < enemies.size(); ++i) {
+      float enemyTileCenter = 20 + (xEnemyTile[i]) * 40;
+
+      // if(i == 0)
+      // println(enemyTileCenter + " " + xEnemyTile[0] + " " + yEnemyTile[0]);
+        //check left and right tile
+      if (!(xEnemyTile[i] <= 0 || xEnemyTile[i] >= rows - 1))
+      {
+        enemies.get(i).boxesToCheck[0] = new PVector(xEnemyTile[i]-1, yEnemyTile[i]);
+        enemies.get(i).boxesToCheck[1] = new PVector(xEnemyTile[i]+1, yEnemyTile[i]);           
+      }    
+    }
+    
   }
 
   void DrawBoxes()
