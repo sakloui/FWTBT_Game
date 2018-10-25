@@ -24,6 +24,7 @@ class BoxManager
     
     anchors.clear();  
     enemies.clear();
+    coins.clear();
 
     if(levelmusic != null)
       levelmusic.pause();
@@ -154,7 +155,12 @@ for(int i = 0; i < rows; i++)
           } 
           if(map.pixels[p] == color(240,0,0)){
             powerUpManager.fuels.add(new Fuel(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
-          } 
+          }
+          if(map.pixels[p] == color(241,0,0)){
+            coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }     
+
+          //Enemy spawn         
           if(map.pixels[p] == color(255,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
           }           

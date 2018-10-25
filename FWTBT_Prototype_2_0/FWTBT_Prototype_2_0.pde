@@ -13,6 +13,7 @@ GameManager gameManager;
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Currency> coins = new ArrayList<Currency>();
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
@@ -34,6 +35,8 @@ PImage steelPlatformRight;
 PImage steelPlatformMiddle2;
 PImage hookMiddle;
 PImage hookTop;
+
+
 
 //------Font stuff------
 PFont font;
@@ -132,13 +135,19 @@ void draw()
 
 
       //----------Draws----------
-      boxManager.DrawBoxes();
-      boxManager.DrawForeground();
-      player.Draw();
+
+      gameManager.drawCurrency();
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
-      }
+      }      
+
+      boxManager.DrawBoxes();
+      boxManager.DrawForeground();
+
+      player.Draw();
+
+
       gameManager.Draw();
       for (int i = 0; i < anchors.size(); i++)
       {

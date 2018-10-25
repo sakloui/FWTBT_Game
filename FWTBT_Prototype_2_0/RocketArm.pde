@@ -138,11 +138,10 @@ class RocketArm
     Move();
     if (!savedPositions.isEmpty())
     {
-      if (Math.abs(position.x - savedPositions.get(savedPositions.size()-1).x) <= 5f)
-        savedPositions.remove(savedPositions.size()-1);
+      savedPositions.remove(savedPositions.size()-1);
     }
 
-    if (Math.abs(position.x - oldPos.x) <= 3f)
+    if (Math.abs(position.x - player.position.x) <= 10f)
     {
       savedPositions.removeAll(savedPositions);
       returnGrapple = false;

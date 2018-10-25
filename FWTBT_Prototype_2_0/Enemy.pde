@@ -21,7 +21,16 @@ class Enemy {
       y + radius > player.position.y - player.playerHeight/2 &&
       y - radius < player.position.y + player.playerHeight/2)
     {
-      player.isDead = true;
+      menu.menuState = 0;
+      menu.createMainMenu();
+      menu.currentSel = 0;
+      menu.button[0].selected = true;
+      menu.button[0].update();
+      isMenu = true;
+      mainMusic.rewind();
+      mainMusic.play();
+      if(levelmusic != null)
+      levelmusic.pause(); 
     }
 
     for (int i = 0; i < 2; i++)

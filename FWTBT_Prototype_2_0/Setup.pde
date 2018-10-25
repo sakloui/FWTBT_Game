@@ -21,6 +21,7 @@ void extraSetup()
   hookTop = loadImage("Textures/hook_top.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
+
   //------Font stuff------
   font = createFont("kenvector_future.ttf", 28);
   textFont(font);

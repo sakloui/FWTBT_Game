@@ -56,21 +56,17 @@ class Box
   }  
   void CheckCollisionInvis()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2 &&
-       position.y + size/2 > player.position.y - player.playerHeight/2 &&
-       position.y - size/2 < player.position.y + player.playerHeight/2)
+    boolean darkened = false;
+    if(position.x + size/2 > player.position.x - player.playerWidth*1.5 &&
+       position.x - size/2 < player.position.x + player.playerWidth*1.5 &&
+       position.y + size/2 > player.position.y - player.playerHeight &&
+       position.y - size/2 < player.position.y + player.playerHeight)
        {
        if(foreCollides == 2){
          // println("oh");
-          tint(255,150);
+          tint(255,100);
         }
-         if(collides == 8 && !switched){
-           switched = true;
-           updateGrid();
-           interactionsound.rewind();
-           interactionsound.play();        
-         }
+
        }
     else
     {
@@ -80,6 +76,21 @@ class Box
       }
     }
 
+  }
+  void CheckCollisionSwitch()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+    {    
+      if(collides == 8 && !switched){
+        switched = true;
+        updateGrid();
+        interactionsound.rewind();
+        interactionsound.play();        
+      }
+    }    
   }
 
   void CheckCollisionKill()
@@ -150,7 +161,7 @@ class Box
         case 8:
           fill(255,255,100);
           rect(0, 0, size, size);
-          CheckCollisionInvis();
+          CheckCollisionSwitch();
           break;
 
         case 10:
@@ -216,7 +227,7 @@ void Drawforeground()
           noTint();
           break;
         case 3:
-          fill(0, 0, 255);
+          fill(0, 0,255);
           rect(0, 0, size, size);
           CheckCollisionKill();
           break;  

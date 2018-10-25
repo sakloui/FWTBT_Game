@@ -6,7 +6,7 @@ class GameManager
   float textOffset = 30f;
   color textColor = color(0);
   
-  PVector currencyPos = new PVector(5, 25);
+  PVector currencyPos = new PVector(20, 25);
   
   GameManager()
   {
@@ -30,6 +30,8 @@ class GameManager
   {
     currencyValues[1] = powerUpManager.fuelCount;
     currencyValues[2] += deltaTime;
+
+    updateCurrency();
     
   }
   
@@ -37,6 +39,7 @@ class GameManager
   {
     pushMatrix();
     textSize(24);
+    textAlign(LEFT,CENTER);
     fill(textColor);
     translate(currencyPos.x, currencyPos.y);
     for(int i = 0; i < currencyNames.length; i++)
@@ -44,5 +47,21 @@ class GameManager
       text(currencyNames[i] + ": " + currencyValues[i], 0, textOffset * i);
     }
     popMatrix();
+    textAlign(CENTER,CENTER);
+  }
+
+  void drawCurrency()
+  {
+    if(coins != null)
+      for (int i = 0; i < coins.size(); ++i) {
+        coins.get(i).Draw();
+      }
+  }
+  void updateCurrency()
+  {
+    if(coins != null)
+      for (int i = 0; i < coins.size(); ++i) {
+        coins.get(i).Update();
+      }    
   }
 }
