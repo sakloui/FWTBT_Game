@@ -100,19 +100,6 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-          if(collides == 2 || foreCollides == 3 || foreCollides == 4)
-          {
-            menu.menuState = 0;
-            menu.createMainMenu();
-            menu.currentSel = 0;
-            menu.button[0].selected = true;
-            menu.button[0].update();
-            isMenu = true;
-            mainMusic.rewind();
-            mainMusic.play();
-            if(levelmusic != null)
-            levelmusic.pause();               
-          }
           if(collides == 4)
           {
             currentLevel++;
@@ -120,6 +107,18 @@ class Box
             menu.level.selectedLevel++;
           }
        }
+  }
+
+  void killPlayer()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+    {    
+      boxManager = new BoxManager(menu.level.selectedLevel + 1);
+      gameManager.currencyValues[3]++;
+    }        
   }
 
   void Draw()
@@ -140,7 +139,7 @@ class Box
         case 2:
           fill(255, 0, 0);
           rect(0, 0, size, size);
-          CheckCollisionKill();
+          killPlayer();
           break;
         case 3:
           fill(0, 255, 0);
@@ -229,12 +228,12 @@ void Drawforeground()
         case 3:
           fill(0, 0,255);
           rect(0, 0, size, size);
-          CheckCollisionKill();
+          killPlayer();
           break;  
         case 4:
           fill(0,0,255);
           rect(0, 0, size, size);
-          CheckCollisionKill();
+          killPlayer();
           break; 
       }               
       popMatrix();

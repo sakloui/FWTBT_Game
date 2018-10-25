@@ -3,7 +3,8 @@ void extraSetup()
   //------Classes------
   camera = new Camera();
   player= new Player();
-
+  gameManager = new GameManager();
+  
   //player = new Player(50);
   //------Image stuff------
   tileBox = loadImage("Textures/box.png");
