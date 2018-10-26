@@ -8,7 +8,7 @@ class Levels
   //------Object variables------
   private String text;
   private String type;
-  private int selectedLevel;
+  int selectedLevel;
   private color rgb;
   private int levels;
   private int[] level;

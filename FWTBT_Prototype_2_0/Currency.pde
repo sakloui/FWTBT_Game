@@ -32,6 +32,6 @@ class Currency
 
 	void Draw()
 	{
-		image(currency, position.x, position.y);
+		image(currency, position.x - camera.shiftX, position.y - camera.shiftY);
 	}
 }

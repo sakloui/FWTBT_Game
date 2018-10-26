@@ -9,6 +9,7 @@ Camera camera;
 Input input = new Input();
 PowerUpManager powerUpManager;
 GameManager gameManager;
+Highscore highscore;
 
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
@@ -38,6 +39,8 @@ PImage hookTop;
 
 
 
+
+
 //------Font stuff------
 PFont font;
 
@@ -57,6 +60,8 @@ float[] volume = new float[5];
 
 
 float boxSize = 40;
+
+//------Highscore stuff------
 
 
 
@@ -89,6 +94,7 @@ void setup()
 
   menu = new Menu();
 
+  highscore = new Highscore();
 }
 
 void draw()
@@ -112,7 +118,7 @@ void draw()
     }
     else
     {
-      if(input.isP){isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();}
+      if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
       image(background,width/2,height/2);
 
       if (boxManager.rows > 32){
@@ -129,20 +135,23 @@ void draw()
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
       }
+
+      highscore.updateScore();      
       gameManager.Update();
 
 
 
 
-      //----------Draws----------
+      //----------Draws---------- 
+
+      boxManager.DrawBoxes();
 
       gameManager.drawCurrency();
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
-      }      
+      }           
 
-      boxManager.DrawBoxes();
       boxManager.DrawForeground();
 
       player.Draw();

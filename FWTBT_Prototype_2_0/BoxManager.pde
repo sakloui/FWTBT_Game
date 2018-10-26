@@ -18,8 +18,7 @@ class BoxManager
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
-    gameManager = new GameManager();
-
+    gameManager.resetValues();
     powerUpManager = new PowerUpManager();
     
     anchors.clear();  
@@ -28,9 +27,12 @@ class BoxManager
 
     if(levelmusic != null)
       levelmusic.pause();
+
     map = loadImage("level"+level+".png");
     foregroundImage = loadImage("foreground"+level+".png");
+
     levelmusic = minim.loadFile("Music/Levelmusic" +level+ ".wav");
+
     if(levelmusic != null)
     levelmusic.setGain(-40 + volume[0]);
     if(map == null)
@@ -43,6 +45,7 @@ class BoxManager
       levelmusic.pause();
       return;
     }
+
     rows = map.width;
     columns = map.height;
 
@@ -54,8 +57,7 @@ class BoxManager
     camera.shiftY = 0;
     if(levelmusic != null)
     levelmusic.loop();
-
-    CheckEnemyCollision();     
+        
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  
   }
@@ -141,6 +143,11 @@ for(int i = 0; i < rows; i++)
           //hook top
           if(map.pixels[p] == color(110,0,0)){
             coll = 21;
+          }
+
+          //Invisible hitboxes enemy
+          if(map.pixels[p] == color(220,0,0)){
+            coll = 22;
           }
 
           //Powerup Spawns
@@ -359,16 +366,19 @@ for(int i = 0; i < rows; i++)
   void CheckEnemyCollision()
   {
     for (int i = 0; i < enemies.size(); ++i) {
-      float enemyTileCenter = 20 + (xEnemyTile[i]) * 40;
-
-      // if(i == 0)
-      // println(enemyTileCenter + " " + xEnemyTile[0] + " " + yEnemyTile[0]);
-        //check left and right tile
-      if (!(xEnemyTile[i] <= 0 || xEnemyTile[i] >= rows - 1))
+      if(enemies.get(i) != null)
       {
-        enemies.get(i).boxesToCheck[0] = new PVector(xEnemyTile[i]-1, yEnemyTile[i]);
-        enemies.get(i).boxesToCheck[1] = new PVector(xEnemyTile[i]+1, yEnemyTile[i]);           
-      }    
+        float enemyTileCenter = 20 + (xEnemyTile[i]) * 40;
+
+        // if(i == 0)
+        // println(enemyTileCenter + " " + xEnemyTile[0] + " " + yEnemyTile[0]);
+          //check left and right tile
+        if (!(xEnemyTile[i] <= 0 || xEnemyTile[i] >= rows - 1))
+        {
+          enemies.get(i).boxesToCheck[0] = new PVector(xEnemyTile[i]-1, yEnemyTile[i]);
+          enemies.get(i).boxesToCheck[1] = new PVector(xEnemyTile[i]+1, yEnemyTile[i]);           
+        }   
+      } 
     }
     
   }

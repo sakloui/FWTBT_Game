@@ -8,7 +8,7 @@ class PowerUpManager
   PImage rocketArmIcon = loadImage("PowerUps/RocketArm.png");
 
   int iconSize = 20;
-  int fuelCount = 1000;
+  int fuelCount = 0;
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
 

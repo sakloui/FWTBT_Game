@@ -40,7 +40,7 @@ class GameManager
     pushMatrix();
     textSize(24);
     textAlign(LEFT,CENTER);
-    fill(textColor);
+    fill(255);
     translate(currencyPos.x, currencyPos.y);
     for(int i = 0; i < currencyNames.length; i++)
     {
@@ -48,6 +48,13 @@ class GameManager
     }
     popMatrix();
     textAlign(CENTER,CENTER);
+  }
+
+  void resetValues()
+  {
+    currencyValues[0] = 0f;
+    currencyValues[1] = 0f;
+    currencyValues[4] = 0f;    
   }
 
   void drawCurrency()

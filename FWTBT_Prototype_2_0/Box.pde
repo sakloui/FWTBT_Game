@@ -93,7 +93,7 @@ class Box
     }    
   }
 
-  void CheckCollisionKill()
+  void CheckCollisionNext()
   {
     if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
        position.x - size/2 < player.position.x + player.playerWidth/2 &&
@@ -102,9 +102,11 @@ class Box
        {
           if(collides == 4)
           {
-            currentLevel++;
-            boxManager = new BoxManager(currentLevel);
-            menu.level.selectedLevel++;
+            menu.currentSel = 0;
+            menu.createEndLevel();
+            menu.menuState = 0;
+            isMenu = true;
+            highscore.checkHighscore();
           }
        }
   }
@@ -116,7 +118,7 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
     {    
-      boxManager = new BoxManager(menu.level.selectedLevel + 1);
+      boxManager = new BoxManager(currentLevel);
       gameManager.currencyValues[3]++;
     }        
   }
@@ -148,7 +150,7 @@ class Box
         case 4:
           fill(255, 255, 0);
           rect(0, 0, size, size);
-          CheckCollisionKill();
+          CheckCollisionNext();
           break;
         case 5:
           image(tileSteelPillar,0,0,size,size);
