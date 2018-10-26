@@ -1,6 +1,6 @@
 class Magnet
 {
-  PVector position = new PVector(width/2, height - 60);
+  PVector position = new PVector(width/2, height - 160);
   color magnetColor = color(50, 50, 50);
   int magnetHeight = 40;
   int magnetWidth = 40;
@@ -47,12 +47,12 @@ class Magnet
     if(attraction >= 0.167f)
     {
       isAttracting = true;
-      if(direction == LEFT || direction == UP)
+      if(direction == LEFT || direction == UP || direction == DOWN)
         player.velocity.add(diff.copy());
       else
       {
         if(diff.x > 0)
-          diff.x *= -1;
+          diff.x *= -1f;
         player.velocity.add(diff.copy());
       }
     }
@@ -73,8 +73,10 @@ class Magnet
     
     dotProduct = lookDirection.x * offset.x + lookDirection.y * offset.y;
     
-    xDiff = Math.abs(position.x - player.position.x);
-    yDiff = Math.abs(position.y - player.position.y);
+    xDiff = position.x - player.position.x;
+    yDiff = position.y - player.position.y;
+    //xDiff = Math.abs(position.x - player.position.x);
+    //yDiff = Math.abs(position.y - player.position.y);
     diff = new PVector(xDiff, yDiff);
     diff.mult(deltaTime * attraction * attraction * attractionPower);
     attraction = ((1/position.dist(player.position)) * (1/position.dist(player.position))) * dotProduct * 40f;
@@ -97,6 +99,12 @@ class Magnet
           break;
         case RIGHT:
           if(player.velocity.x < -player.maxSpeed)
+          {
+            slowingDownPlayer = true;
+          }
+          break;
+        case UP:
+          if(player.velocity.y > player.maxGrav)
           {
             slowingDownPlayer = true;
           }
@@ -132,6 +140,14 @@ class Magnet
         else
           slowingDownPlayer = false;
         break;
+      case UP:
+        if(player.velocity.y > player.maxGrav)
+        {
+          player.velocity.y -= slowingDownSpeed;
+        }
+        else
+          slowingDownPlayer = false;
+        break;  
       case DOWN:
         if(player.velocity.y > player.maxGrav)
         {

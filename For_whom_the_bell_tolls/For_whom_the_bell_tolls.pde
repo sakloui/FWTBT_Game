@@ -30,7 +30,7 @@ void setup()
   enemy = new Enemy(width/2, height-60);
   boxManager = new BoxManager();
   gameManager = new GameManager();
-  magnet = new Magnet(UP);
+  magnet = new Magnet(DOWN);
 
   powerUpManager = new PowerUpManager();
 

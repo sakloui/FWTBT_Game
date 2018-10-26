@@ -8,7 +8,7 @@ class Player
   //----------Movement----------
   PVector position;
   PVector velocity;
-  float speed = 200f;
+  float speed = 500f * 5f;
   float jumpVel;
   float gravity;
   float maxGrav;
@@ -216,6 +216,18 @@ class Player
             velocity.x += deceleration.x * deltaTime;
           }
         }
+        else
+        {
+          if (velocity.x + deceleration.x * deltaTime > 0)
+        {
+          //deceleration.x -= 20f;
+          velocity.x += deceleration.x * deltaTime;
+        } else if (velocity.x - deceleration.x * deltaTime < 0)
+        {
+          //deceleration.x -= 20f;
+          velocity.x -= deceleration.x * deltaTime;
+        }
+        }
       }
     }
 
@@ -271,7 +283,16 @@ class Player
      }
      */
 
-    /*
+    //jump
+    if (input.isUp && grounded)
+    {
+      velocity.y = -jumpVel;  
+      grounded = false;
+    }
+  }
+
+  void SimpleMove()
+  {
     //standard left right
      if (input.isRight)
      {
@@ -286,9 +307,8 @@ class Player
      {
      velocity.x = 0;
      }
-     */
+     
 
-    /*
     //standard up-down
      if (input.isUp)
      {
@@ -302,14 +322,6 @@ class Player
      {
      velocity.y = 0;
      }
-     */
-
-    //jump
-    if (input.isUp && grounded)
-    {
-      velocity.y = -jumpVel;  
-      grounded = false;
-    }
   }
 
   void ApplyGravity()
@@ -338,7 +350,8 @@ class Player
     if (!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
     {
       Move();
-    } else
+    } 
+    else
     {
       velocity.x = 0f;
       velocity.y = 0f;
