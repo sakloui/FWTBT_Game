@@ -10,6 +10,7 @@ class Menu
   //------Variables------
   private int currentSel;
   private int alpha;
+  private boolean highscoreShown;
   //------Sound------
   
   Menu()
@@ -20,6 +21,7 @@ class Menu
     button[0].selected = true;
     currentSel = 0;
     alpha = 0; 
+    highscoreShown = false;
   }
   
   void update()
@@ -36,7 +38,7 @@ class Menu
   }
   void createMainMenu()
   {
-   
+    highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;
@@ -54,6 +56,7 @@ class Menu
   }
   void createOptions()
   {
+    highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;
@@ -71,6 +74,7 @@ class Menu
   }
   void createLevelSelect()
   {
+    highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;
@@ -101,13 +105,17 @@ class Menu
     button[0].selected = true;     
     button[1] = new Buttons(width/2,height-50,"Back","button",74);
     button[1].createButton();
-
+    highscoreShown = true;
+    highscore.showHighscore();
   }  
   void updateMenu()
   { 
       if(sliders != null)
       sliders.updateSlider();
-    
+      
+      if(highscoreShown)
+        highscore.showHighscore();
+
       for(int i = 0; i < button.length; i++)
       {
         if(button[i] != null)

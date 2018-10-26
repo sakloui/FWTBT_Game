@@ -60,7 +60,11 @@ class Levels
       image(greyPanel,width/2,height/2,300,400);
       map = loadImage("level" + (selectedLevel + 1) + ".png");
       image(map,width/2,height/2,200,150);
-      text("level " + (i+1),width/2,height/2);
+      text("level " + (i+1),width/2,height/2-100);
+
+      int score = highscore.getHighscore(selectedLevel);
+
+      text("score: " + score,width/2,height/2+100);
       popMatrix();
       }
       if(i == selectedLevel + 1)
@@ -70,7 +74,11 @@ class Levels
       map2 = loadImage("level" + (selectedLevel + 2) + ".png");
       image(map2,width/4*3,height/2,100,75);      
       textSize(16);
-      text("level " + (i+1),width/4*3,height/2);
+      text("level " + (i+1),width/4*3,height/2-50);
+
+      int score = highscore.getHighscore(selectedLevel + 1);
+      text("score: " + score,width/4*3,height/2+50);  
+
       textSize(28);
       popMatrix();
       }
@@ -84,7 +92,11 @@ class Levels
       image(map3,width/4,height/2,100,75);   
       }
       textSize(16);
-      text("level " + (i+1),width/4,height/2);
+      text("level " + (i+1),width/4,height/2-50);
+
+      int score = highscore.getHighscore(selectedLevel - 1);
+      text("score: " + score,width/4,height/2+50); 
+
       textSize(28);
       popMatrix();
       }

@@ -44,8 +44,7 @@ class Highscore
 			
 		highscores[currentLevel - 1] = str(round(gameManager.currencyValues[4]));
 		saveStrings("data/highscores.csv", highscores);
-		printArray(highscores);	
-		highscores = null;		
+		printArray(highscores);			
 	}
 
 	void checkHighscore()
@@ -60,6 +59,23 @@ class Highscore
 		else
 			println("YOU DIDNT GET THE HIGHSCORE YOU NERD");		
 	}
+
+	int getHighscore(int level)
+	{
+		highscores = loadStrings("data/highscores.csv");
+		return int(highscores[level]);
+	}
+
+	void showHighscore()
+	{
+		pushMatrix();
+			text("Current highscore is: " + highscores[currentLevel - 1] + " points.", width/2, height/2);
+			text("Your current score is: " + round(highscore) + " points.", width/2, height/2 + 50);
+			if(int(highscores[currentLevel - 1]) == round(highscore))
+				text("YOU GOT THE HIGHSCORE ON THIS LEVEL", width/2, height/2-100);
+		popMatrix();
+	}
+
 
 	void updateScore()
 	{
