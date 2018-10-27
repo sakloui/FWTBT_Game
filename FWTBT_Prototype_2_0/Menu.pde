@@ -83,7 +83,7 @@ class Menu
     level = null;
     sliders = null;
 
-    level = new Levels(9 ,74);
+    level = new Levels(7 ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
