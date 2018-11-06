@@ -9,7 +9,7 @@ public class RunState extends State
   public void OnStateEnter()
   {
     
-    animationSpeed = 0.4f;
+    animationSpeed = 0.25f;
     if(player == null)
     {
       currentDirection = 1;

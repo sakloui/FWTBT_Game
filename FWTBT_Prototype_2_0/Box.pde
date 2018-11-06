@@ -224,7 +224,7 @@ void Drawforeground()
           break; 
         case 2:
           CheckCollisionInvis();        
-          image(tileBox, 0, 0, size, size); 
+          image(tileSteelPillar, 0, 0, size, size); 
           noTint();
           break;
         case 3:
@@ -237,6 +237,15 @@ void Drawforeground()
           rect(0, 0, size, size);
           killPlayer();
           break; 
+        case 5:
+          image(overgrownLeft, 0, 0, size, size);
+          break;
+        case 6:
+          image(overgrownMiddle, 0, 0, size, size);
+          break;
+        case 7:
+          image(overgrownRight, 0, 0, size, size);
+          break;          
       }               
       popMatrix();
     } 

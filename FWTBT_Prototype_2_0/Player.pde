@@ -74,33 +74,33 @@ class Player
 
   void SetupSprites()
   {
-    idle = new PImage[10];
+    idle = new PImage[2];
     String idleName;
 
-    slide = new PImage[10];
+    slide = new PImage[5];
     String slideName;
 
-    jump = new PImage[10];
+    jump = new PImage[5];
     String jumpName;
 
     run = new PImage[8];
     String runName;
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < idle.length; i++)
     {
       //load idle sprites
       idleName = "Sprites/Idle (" + i + ").png";
       idle[i] = loadImage(idleName);
-      idle[i].resize(80, 0);
-
+    }
+    for (int i = 0; i < jump.length; i++)
+    {
       //load jump sprites
       jumpName = "Sprites/Jump (" + i + ").png";
       jump[i] = loadImage(jumpName);
-      jump[i].resize(80, 0);
-      //load slide sprites
-      slideName = "Sprites/Slide (" + i + ").png";
-      slide[i] = loadImage(slideName);
-      slide[i].resize(80, 0);
+      // //load slide sprites
+      // slideName = "Sprites/Slide (" + i + ").png";
+      // slide[i] = loadImage(slideName);
+      // slide[i].resize(80, 0);
     }
 
     for (int i = 0; i < 8; i++)
@@ -108,7 +108,6 @@ class Player
       //load run sprites
       runName = "Sprites/Run (" + i + ").png";
       run[i] = loadImage(runName);
-      run[i].resize(80, 0);
     }
   }
 

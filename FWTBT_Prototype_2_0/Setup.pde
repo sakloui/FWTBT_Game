@@ -17,6 +17,9 @@ void extraSetup()
   steelPlatformMiddle = loadImage("Textures/steel_platform_middle.png");
   steelPlatformRight = loadImage("Textures/steel_platform_right.png");
   steelPlatformMiddle2 = loadImage("Textures/steel_platform_middle_2.png");
+  overgrownLeft = loadImage("Textures/overgrown_platform.png");
+  overgrownMiddle = loadImage("Textures/overgrown_platform_2.png");
+  overgrownRight = loadImage("Textures/overgrown_platform_4.png");
   hookMiddle = loadImage("Textures/hook_middle.png");
   hookTop = loadImage("Textures/hook_top.png");
   background = loadImage("background.png");

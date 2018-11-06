@@ -83,7 +83,7 @@ class Menu
     level = null;
     sliders = null;
 
-    level = new Levels(7 ,74);
+    level = new Levels(6 ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
@@ -99,14 +99,27 @@ class Menu
     }
     level = null;
     sliders = null;
+    PImage maptest = loadImage("level"+(boxManager.level+1)+".png");
 
-    button[0] = new Buttons(width/2,height-125,"Continue","button",74);
-    button[0].createButton();
-    button[0].selected = true;     
-    button[1] = new Buttons(width/2,height-50,"Back","button",74);
-    button[1].createButton();
-    highscoreShown = true;
-    highscore.showHighscore();
+    if(maptest != null)
+    {
+      button[0] = new Buttons(width/2,height-125,"Continue","button",74);
+      button[0].createButton();
+      button[0].selected = true;  
+      button[1] = new Buttons(width/2,height-50,"Main Menu","button",74);
+      button[1].createButton();
+      highscoreShown = true;
+      highscore.showHighscore();          
+    }
+    else
+    {
+      button[0] = new Buttons(width/2,height-50,"Main Menu","button",74);
+      button[0].createButton();
+      button[0].selected = true;
+      highscoreShown = true;
+      highscore.showHighscore();        
+    }
+
   }  
   void updateMenu()
   { 
@@ -173,6 +186,7 @@ class Menu
         if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
+        if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
         if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
       }
   }

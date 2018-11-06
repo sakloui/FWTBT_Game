@@ -9,7 +9,7 @@ public class IdleState extends State
   public void OnStateEnter()
   {
     
-    animationSpeed = 0.3f;
+    animationSpeed = 0.05f;
     if(player == null)
     {
       currentDirection = 1;
@@ -21,7 +21,7 @@ public class IdleState extends State
   }
    public void OnTick()
   {
-     currentFrame = (currentFrame + animationSpeed) % 10;
+     currentFrame = (currentFrame + animationSpeed) % 2;
     velocity = player.velocity.copy();
     if(velocity.x == 0 && velocity.y == 0) return;
     

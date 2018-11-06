@@ -34,6 +34,9 @@ PImage steelPlatformLeft;
 PImage steelPlatformMiddle;
 PImage steelPlatformRight;
 PImage steelPlatformMiddle2;
+PImage overgrownLeft;
+PImage overgrownMiddle;
+PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
 

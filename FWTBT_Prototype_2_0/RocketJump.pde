@@ -14,7 +14,8 @@ class RocketJump
   
   void Update()
   {
-    CheckCollision();
+    if(!pickedUp)
+      CheckCollision();
   }
   
   void CheckCollision()
@@ -25,6 +26,7 @@ class RocketJump
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
          pickedUp = true;
+         powerUpManager.fuelCount += 20;
        }
   }
   

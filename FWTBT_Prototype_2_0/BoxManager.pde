@@ -3,6 +3,7 @@ class BoxManager
   float boxSize = 40;
   int rows = 32;
   int columns = 18;
+  int level;
   Box[][] boxes = new Box[rows][columns];
   Box[][] foreground = new Box[rows][columns];
 
@@ -20,7 +21,7 @@ class BoxManager
   {    //enemy = new Enemy(width/2, height-60);
     gameManager.resetValues();
     powerUpManager = new PowerUpManager();
-    
+    this.level = level;
     anchors.clear();  
     enemies.clear();
     coins.clear();
@@ -123,6 +124,13 @@ for(int i = 0; i < rows; i++)
           //steel platform middle
           if(map.pixels[p] == color(25,0,0)){
             coll = 16;
+            int rand = ceil(random(0, 5));
+            if(rand == 5)
+            {
+              foregroundImage.pixels[p] = color(0,25,0);
+              foregroundImage.pixels[p+1] = color(0,30,0);
+              foregroundImage.pixels[p-1] = color(0,20,0);
+            }
           }
           //steel platform right
           if(map.pixels[p] == color(20,0,10)){
@@ -196,7 +204,16 @@ for(int i = 0; i < rows; i++)
         }           
         if(foregroundImage.pixels[p] == color(0,0,100)){
           coll = 4;
-        }            
+        }      
+        if(foregroundImage.pixels[p] == color(0,20,0)){
+          coll = 5;
+        }   
+        if(foregroundImage.pixels[p] == color(0,25,0)){
+          coll = 6;
+        }   
+        if(foregroundImage.pixels[p] == color(0,30,0)){
+          coll = 7;
+        }                                 
         foreground[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, true, coll);
       }
     }

@@ -26,7 +26,8 @@ class RocketArm
 
   void Update()
   {
-    CheckCollision();
+    if(!pickedUp)
+      CheckCollision();
     if(!savedPositions.isEmpty())
     if (grapple)
     {
@@ -158,6 +159,7 @@ class RocketArm
       position.y - size/2 < player.position.y + player.playerHeight/2)
     {
       pickedUp = true;
+      powerUpManager.fuelCount += 20;
     }
   }
 
@@ -177,7 +179,7 @@ class RocketArm
     {
       for (int i = 0; i < savedPositions.size(); i++)
       {
-        rect(savedPositions.get(i).x - camera.shiftX, savedPositions.get(i).y - camera.shiftY, size*2, size);
+        image(hookMiddle,savedPositions.get(i).x - camera.shiftX, savedPositions.get(i).y - camera.shiftY, size*2, size);
       }
       fill(255, 0, 0);
       if (!facingRight)
