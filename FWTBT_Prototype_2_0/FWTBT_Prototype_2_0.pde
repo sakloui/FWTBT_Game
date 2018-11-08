@@ -15,6 +15,8 @@ Highscore highscore;
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Currency> coins = new ArrayList<Currency>();
+ArrayList<Magnet> magnet = new ArrayList<Magnet>();
+
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
@@ -141,6 +143,9 @@ void draw()
 
       highscore.updateScore();      
       gameManager.Update();
+      for(Magnet mag: magnet){
+        mag.Update();
+      }
 
 
 
@@ -161,6 +166,11 @@ void draw()
 
 
       gameManager.Draw();
+
+      for(Magnet mag: magnet){
+        mag.Draw();
+      }
+
       for (int i = 0; i < anchors.size(); i++)
       {
         anchors.get(i).Draw();

@@ -22,9 +22,12 @@ class BoxManager
     gameManager.resetValues();
     powerUpManager = new PowerUpManager();
     this.level = level;
+
+    //Clear arraylists
     anchors.clear();  
     enemies.clear();
     coins.clear();
+    magnet.clear();
 
     if(levelmusic != null)
       levelmusic.pause();
@@ -180,6 +183,22 @@ for(int i = 0; i < rows; i++)
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
           }           
 
+          //Magnet down spawn
+          if(map.pixels[p] == color(152,152,152)){
+            magnet.add(new Magnet(DOWN,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }
+          //Magnet up spawn
+          if(map.pixels[p] == color(150,150,150)){
+            magnet.add(new Magnet(UP,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }          
+          //Magnet right spawn
+          if(map.pixels[p] == color(151,151,151)){
+            magnet.add(new Magnet(RIGHT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }
+          //Magnet left spawn
+          if(map.pixels[p] == color(153,153,153)){
+            magnet.add(new Magnet(LEFT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
+          }                    
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
