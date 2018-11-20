@@ -36,7 +36,7 @@ class Enemy {
   void Update() 
   {
     CheckCollision();
-    if(enemyType == 0)
+    if(enemyType == 1)
       CheckFire();
 
     top = y - radius; 

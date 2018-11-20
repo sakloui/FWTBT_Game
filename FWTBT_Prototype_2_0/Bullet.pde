@@ -10,16 +10,24 @@ class Bullets
 		direction = dir;
 		position = pos.copy();
 		rotation = rot;
-		println(degrees(rotation));
+
+		if(dir == LEFT && degrees(rotation) <= -190)
+			rotation = radians(-190);
+		else if(dir == LEFT && degrees(rotation) >= -170)
+			rotation = radians(-170);	
+		if(dir == RIGHT && degrees(rotation) <= -10)
+			rotation = radians(-10);
+		else if(dir == RIGHT && degrees(rotation) >= 10)
+			rotation = radians(10);						
+		println(degrees(rot)+ " "+ rot);		
+
+
 	}
 
 	void Update()
 	{
-		if(direction == LEFT)
-			position.x -= speed*deltaTime;
-		if(direction == RIGHT)
-			position.x += speed*deltaTime;
-
+		position.x += cos(rotation)*(speed*deltaTime);
+		position.y += sin(rotation)*(speed*deltaTime);
 		checkOOB();
 		CheckCollision();
 	}

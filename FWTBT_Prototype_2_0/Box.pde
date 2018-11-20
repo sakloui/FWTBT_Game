@@ -86,7 +86,8 @@ class Box
     {    
       if(collides == 8 && !switched){
         switched = true;
-        updateGrid();
+        currentGrid = 0;
+        updateGridTrue = true;
         interactionsound.rewind();
         interactionsound.play();        
       }

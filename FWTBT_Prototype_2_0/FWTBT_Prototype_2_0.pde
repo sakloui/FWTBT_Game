@@ -60,6 +60,9 @@ float counter = 0;
 float loadingTime = 5f;
 
 boolean isMenu;
+boolean updateGridTrue;
+int currentGrid;
+int updateTime = 10;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -188,6 +191,9 @@ void draw()
       }
       
       powerUpManager.Draw();    
+
+      if(updateGridTrue)
+        updateGrid();
     }
   }
   else
@@ -204,19 +210,25 @@ void draw()
 
 void updateGrid()
 {
-  for(int i = 0; i < boxManager.columns; i++)
+  if(updateTime == 0)
   {
-
     for(int j = 0; j < boxManager.rows; j++)
     {
       if(foregroundImage != null)
       {
-        if(boxManager.foreground[j][i].foreCollides == 4){
-          boxManager.foreground[j][i].foreCollides = 0;
+        if(boxManager.foreground[j][currentGrid].foreCollides == 4){
+          boxManager.foreground[j][currentGrid].foreCollides = 0;
         }
       }
     }
+    currentGrid++;
+    updateTime = 10;
   }
+  updateTime--;
+
+
+  if(currentGrid == boxManager.columns -1)
+    updateGridTrue = false;
 }
 
 void keyPressed()
