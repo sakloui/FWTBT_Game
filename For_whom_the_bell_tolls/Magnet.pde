@@ -1,6 +1,6 @@
 class Magnet
 {
-  PVector position = new PVector(width/2, height - 160);
+  PVector position;
   color magnetColor = color(50, 50, 50);
   int magnetHeight = 40;
   int magnetWidth = 40;
@@ -18,8 +18,9 @@ class Magnet
   boolean slowingDownPlayer;
   float slowingDownSpeed = 20f;
   
-  Magnet(int direction)
+  Magnet(PVector spawnPos, int direction)
   {
+    position = spawnPos.copy();
     this.direction = direction;
     switch(direction)
     {
