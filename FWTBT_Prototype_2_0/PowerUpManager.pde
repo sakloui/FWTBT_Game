@@ -161,11 +161,11 @@ class PowerUpManager
     translate(width, height - 20);
     if (rocketJumpActive)
     {
-      image(rocketJumpIcon, -20, 0);
+      image(rocketJumpIcon, -20, -10, 60, 60);
     }
     if (rocketArmActive)
     {
-      image(rocketArmIcon, -60, 0);
+      image(rocketArmIcon, -60, -10, 60, 60);
     }
     textSize(24);
     text("Fuel: " + fuelCount, -200, 10);
