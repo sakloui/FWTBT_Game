@@ -1,10 +1,10 @@
-class Box
+class Box extends Rectangle
 {
   PVector position;
   float size;
-  color groundColor = color(255);
-
   float top, bottom, right, left;
+
+  color groundColor = color(255);
 
   int collides;
   int foreCollides;
@@ -21,6 +21,36 @@ class Box
     else foreCollides = collide;
     SetPosValues();
     if(collides == 3){player.position.x = position.x;player.position.y = position.y;}
+  }
+
+  protected float getX()
+  {
+    return position.x;
+  }
+
+  protected float getY()
+  {
+    return position.y;
+  }
+
+  protected float getSize() {
+    return size;
+  }
+
+  protected float getTop() {
+    return top;
+  }
+
+  protected float getBottom() {
+    return bottom;
+  }
+
+  protected float getLeft() {
+    return left;
+  }
+
+  protected float getRight() {
+    return right;
   }
 
   void SetPosValues()

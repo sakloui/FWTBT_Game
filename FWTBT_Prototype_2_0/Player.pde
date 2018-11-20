@@ -351,45 +351,45 @@ class Player
     }
   }
 
-  void GetCollisionDirection(Box box)
-  {
-    if (oldBottom < box.top && // was not colliding
-      bottom >= box.top)// now is colliding
+  void GetCollisionDirection(Rectangle box)
+  {   
+    if (oldBottom < box.getTop() && // was not colliding
+      bottom >= box.getTop())// now is colliding
     {
       collidedBottom = true;
       ResolveCollision(box);
     }
-    if (oldTop >= box.bottom && // was not colliding
-      top < box.bottom)// now is colliding
+    if (oldTop >= box.getBottom() && // was not colliding
+      top < box.getBottom())// now is colliding
     {
       collidedTop = true;
       ResolveCollision(box);
     }
-    if (oldLeft >= box.right && // was not colliding
-      left < box.right)// now is colliding
+    if (oldLeft >= box.getRight() && // was not colliding
+      left < box.getRight())// now is colliding
     {
       collidedLeft = true;
       ResolveCollision(box);
     }
-    if (oldRight < box.left && // was not colliding
-      right >= box.left) // now is colliding
+    if (oldRight < box.getLeft() && // was not colliding
+      right >= box.getLeft()) // now is colliding
     {
       collidedRight = true;
       ResolveCollision(box);
     }
   }
 
-  void ResolveCollision(Box box)
+  void ResolveCollision(Rectangle box)
   {
     if (collidedTop)
     {
-      position.y = box.position.y + box.size/2 + playerHeight/2 + 0.1f;
+      position.y = box.getY() + box.getSize()/2 + playerHeight/2 + 0.1f;
       velocity.y = 0;
       collidedTop = false;
     }
     if (collidedBottom)
     {
-      position.y = box.position.y - box.size/2 - playerHeight/2 - 0.1f;
+      position.y = box.getY() - box.getSize()/2 - playerHeight/2 - 0.1f;
       velocity.y = 0;
       grounded = true;
       collidedBottom = false;
@@ -397,13 +397,13 @@ class Player
       grounded = false;
     if (collidedRight)
     {
-      position.x = box.position.x - box.size/2 - playerWidth/2 - 0.1f;
+      position.x = box.getX() - box.getSize()/2 - playerWidth/2 - 0.1f;
       velocity.x = 0;
       collidedRight = false;
     }
     if (collidedLeft)
     {
-      position.x = box.position.x + box.size/2 + playerWidth/2 + 0.1f;
+      position.x = box.getX() + box.getSize()/2 + playerWidth/2 + 0.1f;
       velocity.x = 0;
       collidedLeft = false;
     }
