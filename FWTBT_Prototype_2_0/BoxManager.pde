@@ -180,7 +180,7 @@ for(int i = 0; i < rows; i++)
 
           //Enemy spawn         
           if(map.pixels[p] == color(255,0,0)){
-            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,0));
           }           
 
           //Magnet down spawn

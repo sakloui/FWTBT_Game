@@ -16,6 +16,7 @@ ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Currency> coins = new ArrayList<Currency>();
 ArrayList<Magnet> magnet = new ArrayList<Magnet>();
+ArrayList<Bullets> bullet = new ArrayList<Bullets>();
 
 //------Image stuff------
 PImage map;
@@ -108,6 +109,8 @@ void draw()
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
 
+
+  println(bullet.size());
   //------Background Stuff------
     background(0); 
 
@@ -140,6 +143,10 @@ void draw()
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
       }
+      for (int i = 0; i < bullet.size(); ++i) {
+        if(bullet.get(i) !=null)
+        bullet.get(i).Update();
+      }      
 
       highscore.updateScore();      
       gameManager.Update();
@@ -159,6 +166,11 @@ void draw()
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
       }           
+
+      for (int i = 0; i < bullet.size(); ++i) {
+        if(bullet.get(i) !=null)
+        bullet.get(i).Draw();
+      }     
 
       boxManager.DrawForeground();
 

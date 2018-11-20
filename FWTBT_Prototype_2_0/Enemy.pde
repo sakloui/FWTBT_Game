@@ -6,14 +6,18 @@ class Enemy {
   float boxSize = 40f;
   PVector[] boxesToCheck = new PVector[2];
 
-  Enemy(float spawnX, float spawnY) 
+  int enemyType;
+  int bulletTimer = 40;
+
+  Enemy(float spawnX, float spawnY, int type) 
   {
     radius = 20;
     x = spawnX;
     y = spawnY;
     vx = 1;
     boxesToCheck[0] = new PVector(0,0);
-    boxesToCheck[1] = new PVector(0,0);    
+    boxesToCheck[1] = new PVector(0,0);   
+    enemyType = type;
   }
 
 
@@ -32,6 +36,8 @@ class Enemy {
   void Update() 
   {
     CheckCollision();
+    if(enemyType == 0)
+      CheckFire();
 
     top = y - radius; 
     bottom = y + radius;
@@ -47,7 +53,22 @@ class Enemy {
     ellipse(x - camera.shiftX, y - camera.shiftY, radius * 2, radius * 2);
   }
 
-
+  void CheckFire()
+  {
+    if(bulletTimer == 0)
+    {
+      if(vx == 1 && x - player.position.x < 0)
+      {
+        bullet.add(new Bullets(new PVector(x,y),RIGHT));
+      }
+      if(vx == -1 && x - player.position.x > 0)
+      {
+        bullet.add(new Bullets(new PVector(x,y),LEFT));
+      }
+      bulletTimer = 40;
+    }
+    else bulletTimer--;
+  }
 
   void CheckCollision()
   {
