@@ -4,10 +4,13 @@ class Bullets
 	PVector position;
 	float speed = 400;
 	float size = 10;
-	Bullets(PVector pos,int dir)
+	float rotation;
+	Bullets(PVector pos,int dir,float rot)
 	{
 		direction = dir;
 		position = pos.copy();
+		rotation = rot;
+		println(degrees(rotation));
 	}
 
 	void Update()

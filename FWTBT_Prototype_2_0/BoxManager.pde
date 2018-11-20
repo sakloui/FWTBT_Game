@@ -28,6 +28,7 @@ class BoxManager
     enemies.clear();
     coins.clear();
     magnet.clear();
+    bullet.clear();
 
     if(levelmusic != null)
       levelmusic.pause();

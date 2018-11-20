@@ -59,11 +59,11 @@ class Enemy {
     {
       if(vx == 1 && x - player.position.x < 0)
       {
-        bullet.add(new Bullets(new PVector(x,y),RIGHT));
+        bullet.add(new Bullets(new PVector(x,y),RIGHT,atan2(player.position.y - y,player.position.x - x)));
       }
       if(vx == -1 && x - player.position.x > 0)
       {
-        bullet.add(new Bullets(new PVector(x,y),LEFT));
+        bullet.add(new Bullets(new PVector(x,y),LEFT,atan2(player.position.y - y,player.position.x - x)));
       }
       bulletTimer = 40;
     }

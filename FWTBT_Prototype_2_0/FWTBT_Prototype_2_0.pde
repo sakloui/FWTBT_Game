@@ -110,7 +110,6 @@ void draw()
   lastTime = millis();
 
 
-  println(bullet.size());
   //------Background Stuff------
     background(0); 
 
