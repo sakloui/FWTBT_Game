@@ -3,7 +3,8 @@ class Buttons
   //------Position------
   private float x;
   private float y;
-  
+  private float r;
+  private float rv;
   //------Object variables------
   String text;
   String type;
@@ -24,8 +25,10 @@ class Buttons
    this.text = text;
    this.rgb = rgb;
    this.type = type;
-   buttonUp = loadImage("grey_button_up.png");
-   buttonDown = loadImage("grey_button_down.png");
+   buttonUp = loadImage("Menu/grey_button_up.png");
+   buttonDown = loadImage("Menu/grey_button_down.png");
+   r = 0;
+   rv = 0.05;
   }
   
   
@@ -33,6 +36,7 @@ class Buttons
   {
     pushMatrix();
     fill(rgb);
+    if(type != "text")
     image(buttonUp,x,y);
     text(text,x,y);
     popMatrix();
@@ -46,7 +50,7 @@ class Buttons
         pushMatrix();
         fill(rgb);
         image(buttonDown,x,y);
-        text(text,x,y+2);
+        text(text,x,y+3);
         popMatrix();
       }
       else
@@ -57,6 +61,19 @@ class Buttons
         text(text,x,y);
         popMatrix();
       }
+    }
+    if(type == "text")
+    {
+      pushMatrix();
+      textSize(28+(mainMusic.left.get(1)*5));
+      translate(x,y+2);
+      rotate(radians(r));
+      text(text,0,0);
+      textSize(28);
+      popMatrix();
+      if(r > 5)rv = -rv;
+      if(r < -5)rv = -rv;
+      r += rv;
     }
   }
 }

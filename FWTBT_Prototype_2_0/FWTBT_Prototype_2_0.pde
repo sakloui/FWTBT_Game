@@ -4,29 +4,83 @@ import ddf.minim.*;
 //------Classes------
 Menu menu;
 Player player;
+BoxManager boxManager;
+Camera camera;
+Input input = new Input();
+PowerUpManager powerUpManager;
+GameManager gameManager;
+Highscore highscore;
+
+//------ArrayList stuff------
+ArrayList<Anchor> anchors = new ArrayList<Anchor>();
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Currency> coins = new ArrayList<Currency>();
+ArrayList<Magnet> magnet = new ArrayList<Magnet>();
 
 //------Image stuff------
 PImage map;
-PImage tile;
+PImage foregroundImage;
+
+PImage biskitGames;
+
+PImage background;
+
+PImage tileBox;
+PImage tileSteelPillar;
+PImage tileSmallPlatformTopRight;
+PImage tileSmallPlatformPillarRight;
+PImage tileSmallPlatformTopLeft;
+PImage tileSmallPlatformPillarLeft;
+PImage tileMiniPlatformTop;
+PImage steelPlatformLeft;
+PImage steelPlatformMiddle;
+PImage steelPlatformRight;
+PImage steelPlatformMiddle2;
+PImage overgrownLeft;
+PImage overgrownMiddle;
+PImage overgrownRight;
+PImage hookMiddle;
+PImage hookTop;
+
+
+
+
+
 //------Font stuff------
 PFont font;
 
 //------Variables------
-float lastTime,deltaTime;
+State currentState;
+
+float lastTime;
+float deltaTime;
+
+float counter = 0;
+float loadingTime = 5f;
+
 boolean isMenu;
 int currentLevel;
 
-int amount = 32;
+float[] volume = new float[5];
+
+
 float boxSize = 40;
-int rows = 32;
-int columns = 18;
-Box[][] boxes = new Box[rows][columns];
+
+//------Highscore stuff------
+
+
 
 //------Sounds------
 Minim minim;
 AudioPlayer click;
+AudioPlayer click2;
+AudioPlayer mainMusic;
+AudioPlayer levelmusic;
+AudioPlayer jumpsound;
+AudioPlayer walkingsound;
+AudioPlayer interactionsound;
+
 //------Keys------
-boolean isUp,isDown,isRight,isLeft,isSpace;
 
 void setup()
 {
@@ -35,10 +89,17 @@ void setup()
   imageMode(CENTER);
   ellipseMode(CENTER);
   background(0);
-  extraSetup();
-  player= new Player();
-    
 
+
+  for(int i = 0; i < volume.length; i++) {
+    volume[i] = 23;
+  }
+
+  extraSetup();
+
+  menu = new Menu();
+
+  highscore = new Highscore();
 }
 
 void draw()
@@ -46,102 +107,113 @@ void draw()
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
-  
+
   //------Background Stuff------
-  background(0);
-  
+    background(0); 
+
   //------Gamestate------
-  if(isMenu)
-  {
-    menu.draw();
+
+  counter += deltaTime;
+  if (counter >= loadingTime)
+  {  
+     
+    if(isMenu)
+    {
+      menu.draw();
+    }
+    else
+    {
+      if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
+      image(background,width/2,height/2);
+
+      if (boxManager.rows > 32){
+        camera.UpdateX();
+      }
+      if (boxManager.columns > 18){
+        camera.UpdateY();
+      }
+
+      player.Update();
+      boxManager.Update();
+      powerUpManager.Update();  
+      for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies.get(i) !=null)
+        enemies.get(i).Update();
+      }
+
+      highscore.updateScore();      
+      gameManager.Update();
+      for(Magnet mag: magnet){
+        mag.Update();
+      }
+
+
+
+
+      //----------Draws---------- 
+
+      boxManager.DrawBoxes();
+
+      gameManager.drawCurrency();
+      for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies.get(i) !=null)
+        enemies.get(i).Draw();
+      }           
+
+      boxManager.DrawForeground();
+
+      player.Draw();
+
+
+      gameManager.Draw();
+
+      for(Magnet mag: magnet){
+        mag.Draw();
+      }
+
+      for (int i = 0; i < anchors.size(); i++)
+      {
+        anchors.get(i).Draw();
+      }
+      
+      powerUpManager.Draw();    
+    }
   }
   else
   {
-    player.Update();
-    
-    for(int i = 0; i < rows; i++)
-    {
-      for(int j = 0; j < columns; j++)
-      {
-        if(boxes[i][j].collides == 1)
-          boxes[i][j].CheckCollision();
-      }
-    }
-    
-    //----------Draws----------
-    background(200, 200, 200);
-    for(int i = 0; i < rows; i++)
-    {
-      for(int j = 0; j < columns; j++)
-      {
-        boxes[i][j].Draw();
-      }
-    }
-    player.Draw();
-  }
-  
-}
-
-void loadMap(int level)
-{
-  map = loadImage("level"+level+".png");
-
-  int coll = 0;
-  
-  for(int i = 0; i < map.width; i++)
-  {
-    for(int j = 0; j < map.height; j++)
-    {
-      int p = i + (j * map.width);
-      if(map.pixels[p] == color(0,0,0)){
-        coll = 1; 
-      }
-      if(map.pixels[p] == color(255,0,0)){
-        coll = 2; 
-      }
-      if(map.pixels[p] == color(0,255,0)){
-        coll = 3; 
-      }      
-      if(map.pixels[p] == color(255,255,0)){
-        coll = 4; 
-      }    
-      if(map.pixels[p] == color(255)) { 
-        coll = 0;
-      }
-      boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, coll);
-    }
+    //draw loading text
+    pushMatrix();
+    textSize(48);
+    image(biskitGames, width/2, height/2-150,200,200);
+    text("Loading...", width/2, height/2);
+    popMatrix();
   }  
 }
 
- boolean SetMove(int k, boolean b)
+
+void updateGrid()
+{
+  for(int i = 0; i < boxManager.columns; i++)
   {
-    switch(k)
+
+    for(int j = 0; j < boxManager.rows; j++)
     {
-    case 'W':
-    case UP:
-      return isUp = b;
-    case 'S':
-    case DOWN:
-      return isDown = b;
-    case 'A':
-    case LEFT:
-      return isLeft = b;
-    case 'D':
-    case RIGHT:
-      return isRight = b;
-    case 32:
-      return isSpace = b;
-    default:
-      return b;
+      if(foregroundImage != null)
+      {
+        if(boxManager.foreground[j][i].foreCollides == 4){
+          boxManager.foreground[j][i].foreCollides = 0;
+        }
+      }
     }
   }
-  
+}
+
 void keyPressed()
 {
-  SetMove(keyCode, true);
+  input.KeyDown(keyCode, true);
 }
 
 void keyReleased()
 {
-  SetMove(keyCode, false);
+  input.KeyDown(keyCode, false);
 }
