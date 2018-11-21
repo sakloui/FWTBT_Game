@@ -17,6 +17,7 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Currency> coins = new ArrayList<Currency>();
 ArrayList<Magnet> magnet = new ArrayList<Magnet>();
 ArrayList<Bullets> bullet = new ArrayList<Bullets>();
+ArrayList<Particles> particle = new ArrayList<Particles>();
 
 //------Image stuff------
 PImage map;
@@ -112,7 +113,7 @@ void draw()
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
 
-
+  
   //------Background Stuff------
     background(0); 
 
@@ -156,6 +157,10 @@ void draw()
         mag.Update();
       }
 
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.get(i) !=null)
+        particle.get(i).Update();
+      }     
 
 
 
@@ -194,6 +199,11 @@ void draw()
 
       if(updateGridTrue)
         updateGrid();
+
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.get(i) !=null)
+        particle.get(i).Draw();
+      }         
     }
   }
   else
