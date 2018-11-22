@@ -179,12 +179,7 @@ void draw()
         bullet.get(i).Draw();
       }     
 
-      boxManager.DrawForeground();
-
-      player.Draw();
-
-
-      gameManager.Draw();
+      
 
       for(Magnet mag: magnet){
         mag.Draw();
@@ -196,6 +191,15 @@ void draw()
       }
       
       powerUpManager.Draw();    
+
+
+      boxManager.DrawForeground();
+
+      player.Draw();
+
+
+
+      gameManager.Draw();
 
       if(updateGridTrue)
         updateGrid();

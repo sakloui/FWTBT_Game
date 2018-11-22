@@ -9,7 +9,7 @@ class Box
   int collides;
   int foreCollides;
   int dist = 20;
-  float timer = random(10,200);
+  float timer = random(100,1000);
 
   boolean switched = false;
 
@@ -145,8 +145,10 @@ class Box
           rect(0, 0, size, size);
           if(timer <= 0)
           {
-            particle.add(new Particles(position));
-            timer = random(10,200);
+            for (int i = 0; i < int(random(1,5)); ++i) {
+            particle.add(new Particles(position));  
+            }
+            timer = random(100,1000);
           }
           else timer--;
           killPlayer();
