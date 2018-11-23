@@ -183,7 +183,19 @@ for(int i = 0; i < rows; i++)
           //Enemy spawn         
           if(map.pixels[p] == color(255,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,0));
-          }           
+          }         
+          //shooting enemy
+          if(map.pixels[p] == color(250,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,1));
+          }  
+          //plant enemy
+          if(map.pixels[p] == color(251,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,0));
+          }     
+          //shooting plant enemy
+          if(map.pixels[p] == color(252,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,1));
+          }                                                
 
           //Magnet down spawn
           if(map.pixels[p] == color(152,152,152)){
