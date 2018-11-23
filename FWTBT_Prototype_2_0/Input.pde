@@ -18,8 +18,10 @@ class Input
     case 'D':
     case RIGHT:
       return isRight = b;
+    case 'Z':
     case 'K':
       return isK = b;
+    case 'X':
     case 'L':
       return isL = b;
     case 32:
