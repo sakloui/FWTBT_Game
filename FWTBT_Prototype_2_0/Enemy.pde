@@ -43,7 +43,10 @@ class Enemy {
     bottom = y + radius;
     left = x - radius;
     right = x + radius;
-    x = x + vx * 3f;
+    if(enemyType != 3 && enemyType != 4)
+    {
+      x = x + vx * 3f;
+    }
     CheckKillCollision();
   }
 

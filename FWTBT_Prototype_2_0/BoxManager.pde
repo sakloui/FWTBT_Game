@@ -190,11 +190,11 @@ for(int i = 0; i < rows; i++)
           }  
           //plant enemy
           if(map.pixels[p] == color(251,0,0)){
-            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,0));
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,3));
           }     
           //shooting plant enemy
           if(map.pixels[p] == color(252,0,0)){
-            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,1));
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,4));
           }                                                
 
           //Magnet down spawn
