@@ -17,7 +17,6 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Currency> coins = new ArrayList<Currency>();
 ArrayList<Magnet> magnet = new ArrayList<Magnet>();
 ArrayList<Bullets> bullet = new ArrayList<Bullets>();
-ArrayList<Particles> particle = new ArrayList<Particles>();
 
 //------Image stuff------
 PImage map;
@@ -44,7 +43,7 @@ PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
 
-
+PImage[] basicEnemy;
 
 
 
@@ -61,9 +60,6 @@ float counter = 0;
 float loadingTime = 5f;
 
 boolean isMenu;
-boolean updateGridTrue;
-int currentGrid;
-int updateTime = 10;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -95,6 +91,7 @@ void setup()
   ellipseMode(CENTER);
   background(0);
 
+  noStroke();
 
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
@@ -130,7 +127,7 @@ void draw()
     else
     {
       if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
-      image(background,width/2,height/2);
+      image(background,width/2,height/2,background.width, height);
 
       if (boxManager.rows > 32){
         camera.UpdateX();
@@ -157,10 +154,6 @@ void draw()
         mag.Update();
       }
 
-      for (int i = 0; i < particle.size(); ++i) {
-        if(particle.get(i) !=null)
-        particle.get(i).Update();
-      }     
 
 
 
@@ -201,13 +194,7 @@ void draw()
 
       gameManager.Draw();
 
-      if(updateGridTrue)
-        updateGrid();
 
-      for (int i = 0; i < particle.size(); ++i) {
-        if(particle.get(i) !=null)
-        particle.get(i).Draw();
-      }         
     }
   }
   else
@@ -222,28 +209,7 @@ void draw()
 }
 
 
-void updateGrid()
-{
-  if(updateTime == 0)
-  {
-    for(int j = 0; j < boxManager.rows; j++)
-    {
-      if(foregroundImage != null)
-      {
-        if(boxManager.foreground[j][currentGrid].foreCollides == 4){
-          boxManager.foreground[j][currentGrid].foreCollides = 0;
-        }
-      }
-    }
-    currentGrid++;
-    updateTime = 10;
-  }
-  updateTime--;
 
-
-  if(currentGrid == boxManager.columns -1)
-    updateGridTrue = false;
-}
 
 void keyPressed()
 {

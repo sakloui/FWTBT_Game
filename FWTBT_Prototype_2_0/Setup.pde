@@ -5,6 +5,8 @@ void extraSetup()
   player= new Player();
   gameManager = new GameManager();
   //player = new Player(50);
+
+  basicEnemy = new PImage[4];
   //------Image stuff------
   tileBox = loadImage("Textures/box.png");
   tileSteelPillar = loadImage("Textures/steel_pillar.png");
@@ -24,6 +26,14 @@ void extraSetup()
   hookTop = loadImage("Textures/hook_top.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
+
+
+  for (int i = 0; i < basicEnemy.length; i++)
+  {
+    //load enemy run sprites
+    basicEnemy[i] = loadImage("Sprites/RobotOvergrownRun (" + i + ").png");
+  }
+
 
   //------Font stuff------
   font = createFont("kenvector_future.ttf", 28);

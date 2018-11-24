@@ -10,7 +10,7 @@ class GameManager
   
   GameManager()
   {
-    currencyNames = new String[5];
+    currencyNames = new String[6];
     currencyValues = new float[currencyNames.length];
     
     currencyNames[0] = "Bolts";
@@ -18,6 +18,7 @@ class GameManager
     currencyNames[2] = "Time passed";
     currencyNames[3] = "Times died";
     currencyNames[4] = "Score";
+    currencyNames[5] = "Framerate";
     
     currencyValues[0] = 0f;
     currencyValues[1] = 0f;
@@ -30,6 +31,7 @@ class GameManager
   {
     currencyValues[1] = powerUpManager.fuelCount;
     currencyValues[2] += deltaTime;
+    currencyValues[5] = round(frameRate);
 
     updateCurrency();
     

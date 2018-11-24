@@ -7,10 +7,13 @@ class Menu
   private Buttons[] button;
   private Levels level;
   private Sliders sliders;
+  private ArrayList<Background> back = new ArrayList<Background>();
   //------Variables------
   private int currentSel;
   private int alpha;
   private boolean highscoreShown;
+  private boolean mainmenuShown;
+  private int timer = 40;
   //------Sound------
   
   Menu()
@@ -45,6 +48,8 @@ class Menu
     }
     level = null;
     sliders = null;
+
+    mainmenuShown = true;
     button[0] = new Buttons(width/2,height/2-75,"Play","button",74);
     //button[0].createButton();
     button[1] = new Buttons(width/2,height/2,"Options","button",74);
@@ -56,6 +61,7 @@ class Menu
   }
   void createOptions()
   {
+    mainmenuShown = true;
     highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
@@ -74,6 +80,7 @@ class Menu
   }
   void createLevelSelect()
   {
+    mainmenuShown = false;
     highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
@@ -92,6 +99,7 @@ class Menu
   }
   void createEndLevel()
   {
+    mainmenuShown = false;
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;
@@ -123,6 +131,26 @@ class Menu
   }  
   void updateMenu()
   { 
+      if(mainmenuShown)
+      {
+        image(background,width/2,height/2,background.width, height);
+        if(timer == 0)
+        {
+          back.add(new Background());
+          timer = 40;
+        }
+        else timer--;
+        
+        for(int i = 0; i < back.size(); i++)
+        {
+          back.get(i).Update(); 
+        }
+        for(int i = 0; i < back.size(); i++)
+        {
+          back.get(i).Draw(); 
+        }        
+      }
+
       if(sliders != null)
       sliders.updateSlider();
       
@@ -137,6 +165,8 @@ class Menu
           if(button[i].selected)currentSel = i;
         }
       }
+
+
       //------Input handling------
       if(input.isUp)
       {
@@ -183,7 +213,7 @@ class Menu
         input.isSpace = false;
         if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}
         if(button[currentSel].text == "Exit")exit();
-        if(button[currentSel].text == "Select"){currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
+        if(button[currentSel].text == "Select"){mainmenuShown = false; back.clear();currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
         if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}

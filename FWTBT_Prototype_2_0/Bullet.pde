@@ -10,7 +10,6 @@ class Bullets
 		direction = dir;
 		position = pos.copy();
 		rotation = rot;
-		println("1 "+degrees(rot)+ " "+ rot);
 		if(dir == LEFT && degrees(rotation) <= 170 && degrees(rotation) >= 0)
 			rotation = radians(170);
 		if(dir == LEFT && degrees(rotation) >= -170 && degrees(rotation) <= 0)
@@ -19,7 +18,6 @@ class Bullets
 			rotation = radians(-10);
 		if(dir == RIGHT && degrees(rotation) >= 10)
 			rotation = radians(10);						
-		println("2 "+degrees(rotation)+ " "+ rot);
 
 
 	}
@@ -30,6 +28,7 @@ class Bullets
 		position.y += sin(rotation)*(speed*deltaTime);
 		checkOOB();
 		CheckCollision();
+		CheckKill();
 	}
 
 	void checkOOB()
@@ -62,12 +61,23 @@ class Bullets
 	        }
 	    }
 	}	
+	void CheckKill()
+	{
+	  if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+	  position.x - size/2 < player.position.x + player.playerWidth/2 &&
+	  position.y + size/2 > player.position.y - player.playerHeight/2 &&
+	  position.y - size/2 < player.position.y + player.playerHeight/2)
+	  {    
+	    boxManager = new BoxManager(currentLevel);
+	    gameManager.currencyValues[3]++;
+	  }        
+	}
 
 	void Draw()
 	{
 		pushMatrix();
 		translate(position.x - camera.shiftX,position.y - camera.shiftY);
-		fill(255);
+		fill(255,0,0);
 		rect(0,0,size,size);
 		popMatrix();
 		noFill();

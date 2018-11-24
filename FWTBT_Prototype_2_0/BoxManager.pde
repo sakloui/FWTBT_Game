@@ -17,6 +17,11 @@ class BoxManager
   int[] xEnemyTile = new int[50];
   int[] yEnemyTile = new int[50];  
 
+
+  boolean updateGridTrue;
+  int currentGrid;
+  int updateTime = 10;
+
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
     gameManager.resetValues();
@@ -29,7 +34,6 @@ class BoxManager
     coins.clear();
     magnet.clear();
     bullet.clear();
-    particle.clear();
 
     if(levelmusic != null)
       levelmusic.pause();
@@ -262,6 +266,35 @@ for(int i = 0; i < rows; i++)
     SetSurroundingCells();
     CheckEnemyCollision();    
     CheckCollisions();
+    if(updateGridTrue)
+      updateGrid();
+
+  }
+
+  void updateGrid()
+  {
+    if(updateTime == 0)
+    {
+      for(int j = 0; j < rows; j++)
+      {
+        if(foregroundImage != null)
+        {
+          if(foreground[j][currentGrid].foreCollides == 4){
+            foreground[j][currentGrid].foreCollides = 0;
+          }
+        }
+      }
+      currentGrid++;
+      updateTime = 10;
+    }
+    updateTime--;
+
+
+    if(currentGrid == columns -1)
+    {
+      updateGridTrue = false;
+      currentGrid = 0;
+    }
   }
 
   void CalculateCurrentTiles()

@@ -8,6 +8,8 @@ class Enemy {
 
   int enemyType;
   int bulletTimer = 40;
+  int cycle = 0;
+  int timer = 0;
 
   Enemy(float spawnX, float spawnY, int type) 
   {
@@ -53,7 +55,20 @@ class Enemy {
   void Draw() 
   {
     fill(255, 100, 100);
-    ellipse(x - camera.shiftX, y - camera.shiftY, radius * 2, radius * 2);
+    if(cycle == 3)
+      cycle = 0;
+
+    pushMatrix();
+    translate(x - camera.shiftX, y - camera.shiftY);
+    scale(vx, 1.0);
+    image(basicEnemy[cycle],0,0);
+    popMatrix();
+    if(timer == 5)
+    {
+      cycle++;
+      timer = 0;
+    }
+    timer++;
   }
 
   void CheckFire()

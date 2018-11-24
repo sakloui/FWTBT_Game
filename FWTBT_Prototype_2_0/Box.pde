@@ -87,8 +87,8 @@ class Box
     {    
       if(collides == 8 && !switched){
         switched = true;
-        currentGrid = 0;
-        updateGridTrue = true;
+        boxManager.currentGrid = 0;
+        boxManager.updateGridTrue = true;
         interactionsound.rewind();
         interactionsound.play();        
       }
@@ -143,14 +143,6 @@ class Box
         case 2:
           fill(255, 0, 0);
           rect(0, 0, size, size);
-          if(timer <= 0)
-          {
-            for (int i = 0; i < int(random(1,5)); ++i) {
-            particle.add(new Particles(position));  
-            }
-            timer = random(100,1000);
-          }
-          else timer--;
           killPlayer();
           break;
         case 3:

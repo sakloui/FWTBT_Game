@@ -154,7 +154,6 @@ class RocketArm
       }
     }
     normPos = new PVector(0.7,1);
-    println(normPos);
     if(!facingRight && normPos.x > 0)
       normPos.x *= -1;
     player.position.x += normPos.x * speed;
