@@ -54,16 +54,25 @@ class Box
          player.GetCollisionDirection(this);
        }
 
-  }  
+  }
+  void CheckLadderCollision()
+  {
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
+       {
+         player.isClimbing = true;
+       }
+  }    
   void CheckCollisionInvis()
   {
-    boolean darkened = false;
     if(position.x + size/2 > player.position.x - player.playerWidth*1.5 &&
        position.x - size/2 < player.position.x + player.playerWidth*1.5 &&
        position.y + size/2 > player.position.y - player.playerHeight &&
        position.y - size/2 < player.position.y + player.playerHeight)
        {
-       if(foreCollides == 2){
+        if(foreCollides == 2){
          // println("oh");
           tint(255,100);
         }
@@ -203,7 +212,11 @@ class Box
         case 21:
           image(hookTop,0,0,size,size);
           break;  
- 
+        case 22:
+          fill(0,255,255);
+          rect(0,0,size,size);
+          //CheckLadderCollision();
+          break;
         }
       popMatrix();
     } 

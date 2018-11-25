@@ -9,6 +9,7 @@ class Player
   PVector position;
   PVector velocity;
   float speed = 200f;
+  float climbSpeed = 250f;
   float jumpVel;
   float gravity;
   float maxGrav;
@@ -42,6 +43,7 @@ class Player
   float maxSpeed = 300f;
   float turnSpeed = 3f;
   boolean isDead = false;
+  boolean isClimbing = false;
 
   State playerState;
 
@@ -304,6 +306,28 @@ class Player
       jumpsound.play();      
     }
   }
+void Climb()
+  {
+    //accel movement
+    velocity.x = 0;
+    velocity.y = 0;
+    if (input.isRight)
+    {       
+      position.x += speed * deltaTime;
+    } else if (input.isLeft)
+    {
+      position.x -= speed * deltaTime;  
+    }
+
+    if (input.isUp)
+    {
+      position.y -= climbSpeed * deltaTime;       
+    }
+    else if (input.isDown)
+    {
+      position.y += climbSpeed * deltaTime;       
+    }
+  }  
 
   void ApplyGravity()
   {
@@ -328,21 +352,41 @@ class Player
   {
     SetOldPos();
     SetPlayerCorners();
-    if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+    if(!isClimbing)
     {
-       Move();
+      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+      {
+         Move();
+      }
+      else
+      {
+        velocity.x = 0f;
+        velocity.y = 0f;
+      }    
     }
     else
     {
-      velocity.x = 0f;
-      velocity.y = 0f;
+      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer && !powerUpManager.rocketArm.returnGrapple)
+      {
+         Climb();
+      }
+      else
+      {
+        velocity.x = 0f;
+        velocity.y = 0f;
+      }          
     }
+    
     playerState.OnTick();
-    if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
-    ApplyGravity();
-    //SetDirection();
-    position.x += velocity.x * deltaTime;
-    position.y += velocity.y * deltaTime;
+    if(!isClimbing)
+    {
+      if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+        ApplyGravity();
+    
+      //SetDirection();
+      position.x += velocity.x * deltaTime;
+      position.y += velocity.y * deltaTime;
+    }
 
     SetNewPos(); 
     if (bottom != oldBottom || right != oldRight)

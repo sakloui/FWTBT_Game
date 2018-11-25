@@ -166,6 +166,10 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(220,0,0)){
             coll = 22;
           }
+          //Ladder
+          if(map.pixels[p] == color(0,255,255)){
+            coll = 22;
+          }          
 
           //Powerup Spawns
           if(map.pixels[p] == color(100,255,255)){
@@ -443,6 +447,14 @@ for(int i = 0; i < rows; i++)
           surrounding.get(i).collides == 10 ||
           surrounding.get(i).collides == 14)
         surrounding.get(i).CheckCollisionTop();
+    }
+    for (int i = 0; i < over.size(); ++i) {
+      if (over.get(i).collides == 22)
+      {
+        over.get(i).CheckLadderCollision();
+        break;
+      }
+      else player.isClimbing = false;
     }
   }
 
