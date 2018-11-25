@@ -65,6 +65,7 @@ class Buttons
     if(type == "text")
     {
       pushMatrix();
+      fill(rgb);
       textSize(28+(mainMusic.left.get(1)*5));
       translate(x,y+2);
       rotate(radians(r));

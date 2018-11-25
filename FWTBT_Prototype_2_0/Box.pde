@@ -212,7 +212,7 @@ class Box
         case 21:
           image(hookTop,0,0,size,size);
           break;  
-        case 22:
+        case 23:
           fill(0,255,255);
           rect(0,0,size,size);
           //CheckLadderCollision();

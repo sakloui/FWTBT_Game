@@ -168,7 +168,7 @@ for(int i = 0; i < rows; i++)
           }
           //Ladder
           if(map.pixels[p] == color(0,255,255)){
-            coll = 22;
+            coll = 23;
           }          
 
           //Powerup Spawns
@@ -449,7 +449,7 @@ for(int i = 0; i < rows; i++)
         surrounding.get(i).CheckCollisionTop();
     }
     for (int i = 0; i < over.size(); ++i) {
-      if (over.get(i).collides == 22)
+      if (over.get(i).collides == 23)
       {
         over.get(i).CheckLadderCollision();
         break;

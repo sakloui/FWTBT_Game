@@ -56,7 +56,7 @@ class Menu
     //button[1].createButton();
     button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
     //button[2].createButton();    
-    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","text",74);
+    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","text",255);
     //button[4].createButton();
   }
   void createOptions()
