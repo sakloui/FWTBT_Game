@@ -314,14 +314,17 @@ void Climb()
     if (input.isRight)
     {       
       position.x += speed * deltaTime;
+      velocity.x = 100f;
     } else if (input.isLeft)
     {
-      position.x -= speed * deltaTime;  
+      position.x -= speed * deltaTime;
+      velocity.x = -100f;  
     }
 
     if (input.isUp)
     {
-      position.y -= climbSpeed * deltaTime;       
+      position.y -= climbSpeed * deltaTime;
+      velocity.y = -200f;       
     }
     else if (input.isDown)
     {
