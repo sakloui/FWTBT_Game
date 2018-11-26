@@ -49,7 +49,7 @@ class Buttons
       {
         pushMatrix();
         fill(rgb);
-        image(buttonDown,x,y);
+        image(buttonDown,x,y);    
         text(text,x,y+3);
         popMatrix();
       }
@@ -62,7 +62,7 @@ class Buttons
         popMatrix();
       }
     }
-    if(type == "text")
+    if(type == "rotatingText")
     {
       pushMatrix();
       fill(rgb);
@@ -76,5 +76,13 @@ class Buttons
       if(r < -5)rv = -rv;
       r += rv;
     }
+    if(type == "text")
+    {
+      pushMatrix();
+      fill(rgb);
+      translate(x,y+2);
+      text(text,0,0);
+      popMatrix();
+    }    
   }
 }

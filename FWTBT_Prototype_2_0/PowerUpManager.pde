@@ -173,6 +173,7 @@ class PowerUpManager
       image(rocketArmIcon, -60, -10, 60, 60);
     }
     textSize(24);
+    fill(255);
     text("Fuel: " + fuelCount, -200, 10);
     popMatrix();
   }

@@ -129,7 +129,10 @@ class Box
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
     {    
-      boxManager = new BoxManager(currentLevel);
+      menu.currentSel = 0;
+      menu.createDied();
+      menu.menuState = 0;
+      isMenu = true;
       gameManager.currencyValues[3]++;
     }        
   }

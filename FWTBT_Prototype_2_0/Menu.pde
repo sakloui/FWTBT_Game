@@ -56,7 +56,7 @@ class Menu
     //button[1].createButton();
     button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
     //button[2].createButton();    
-    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","text",255);
+    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","rotatingText",255);
     //button[4].createButton();
   }
   void createOptions()
@@ -127,6 +127,26 @@ class Menu
       highscoreShown = true;
       highscore.showHighscore();        
     }
+
+  }  
+  void createDied()
+  {
+    mainmenuShown = false;
+    for(int i = 0; i < button.length;i++)
+    {
+      button[i] = null;
+    
+    }
+    level = null;
+    sliders = null;
+
+    button[0] = new Buttons(width/2,height-125,"Retry","button",74);
+    button[0].createButton();
+    button[0].selected = true;  
+    button[1] = new Buttons(width/2,height-50,"Main Menu","button",74);
+    button[1].createButton();
+    button[2] = new Buttons(width/2,height/2,"You died, continue?","text",255);
+    button[2].createButton();          
 
   }  
   void updateMenu()
@@ -219,6 +239,7 @@ class Menu
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
         if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
         if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
+        if(button[currentSel].text == "Retry"){boxManager = new BoxManager(currentLevel);isMenu = false;}
       }
   }
     

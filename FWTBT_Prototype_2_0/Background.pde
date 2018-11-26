@@ -10,7 +10,7 @@ class Background
     size = random(5,40);
     position.x = 0-size/2;
     speed = random(0.5,2);
-    alpha = random(50,200);
+    alpha = random(50,220);
   }
   void Update()
   {
