@@ -42,6 +42,7 @@ class Player
   float maxSpeed = 300f;
   float turnSpeed = 3f;
   boolean isDead = false;
+  boolean onMovingPlatform = false;
 
   State playerState;
 
@@ -300,6 +301,7 @@ class Player
     {
       velocity.y = -jumpVel;  
       grounded = false;
+      onMovingPlatform = false;
       jumpsound.rewind();
       jumpsound.play();      
     }
@@ -345,67 +347,96 @@ class Player
     position.y += velocity.y * deltaTime;
 
     SetNewPos(); 
-    if (bottom != oldBottom || right != oldRight)
+    if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
     {
-      ResolveCollision(boxManager.bottomBox);
+      ResolveCollision(boxManager.bottomBox, "Box");
     }
   }
 
   void GetCollisionDirection(Rectangle box)
-  {   
+  {  
     if (oldBottom < box.getTop() && // was not colliding
       bottom >= box.getTop())// now is colliding
     {
       collidedBottom = true;
-      ResolveCollision(box);
+      //ResolveCollision(box);
     }
     if (oldTop >= box.getBottom() && // was not colliding
       top < box.getBottom())// now is colliding
     {
       collidedTop = true;
-      ResolveCollision(box);
+      //ResolveCollision(box);
     }
     if (oldLeft >= box.getRight() && // was not colliding
       left < box.getRight())// now is colliding
     {
       collidedLeft = true;
-      ResolveCollision(box);
+      //ResolveCollision(box);
     }
     if (oldRight < box.getLeft() && // was not colliding
       right >= box.getLeft()) // now is colliding
     {
       collidedRight = true;
-      ResolveCollision(box);
+      //ResolveCollision(box);
+    }
+    if(box.getName() == "Box")
+    {
+      ResolveCollision(box, "Box");
+    }
+    else if(box.getName() == "MovingPlatform")
+    {
+      ResolveCollision(box, "MovingPlatform");
     }
   }
 
-  void ResolveCollision(Rectangle box)
+  void ResolveCollision(Rectangle box, String object)
   {
-    if (collidedTop)
+    if(object == "MovingPlatform")
     {
-      position.y = box.getY() + box.getSize()/2 + playerHeight/2 + 0.1f;
-      velocity.y = 0;
-      collidedTop = false;
+      if(velocity.y > 0)
+      {
+        if (collidedBottom)
+        {
+          position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
+          velocity.y = 0;
+          grounded = true;
+          onMovingPlatform = true;
+          collidedBottom = false;
+        }
+      }
+      else
+      {
+        return;
+      }
     }
-    if (collidedBottom)
+    else
     {
-      position.y = box.getY() - box.getSize()/2 - playerHeight/2 - 0.1f;
-      velocity.y = 0;
-      grounded = true;
-      collidedBottom = false;
-    } else
-      grounded = false;
-    if (collidedRight)
-    {
-      position.x = box.getX() - box.getSize()/2 - playerWidth/2 - 0.1f;
-      velocity.x = 0;
-      collidedRight = false;
-    }
-    if (collidedLeft)
-    {
-      position.x = box.getX() + box.getSize()/2 + playerWidth/2 + 0.1f;
-      velocity.x = 0;
-      collidedLeft = false;
+      if (collidedTop)
+      {
+        position.y = box.getY() + box.getHeight()/2 + playerHeight/2 + 0.1f;
+        velocity.y = 0;
+        collidedTop = false;
+      }
+      if (collidedBottom)
+      {
+        position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
+        velocity.y = 0;
+        grounded = true;
+        collidedBottom = false;
+      } else
+        grounded = false;
+      if (collidedRight)
+      {
+        position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;
+        velocity.x = 0;
+        collidedRight = false;
+      }
+      if (collidedLeft)
+      {
+        position.x = box.getX() + box.getWidth()/2 + playerWidth/2 + 0.1f;
+        velocity.x = 0;
+        collidedLeft = false;
+      }
     }
 
     SetNewPos();

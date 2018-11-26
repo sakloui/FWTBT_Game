@@ -2,7 +2,13 @@ abstract class Rectangle
 {
 	PVector position;
 	float size;
+	float rectWidth, rectHeight;
 	float top, bottom, left, right;
+	String name;
+
+	protected String getName() {
+		return name;
+	}
 
 	protected float getX()
 	{
@@ -16,6 +22,14 @@ abstract class Rectangle
 
 	protected float getSize() {
 		return size;
+	}
+
+	protected float getWidth() {
+		return rectWidth;
+	}
+
+	protected float getHeight() {
+		return rectHeight;
 	}
 
 	protected float getTop() {

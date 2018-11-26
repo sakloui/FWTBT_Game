@@ -1,22 +1,30 @@
 class MovingPlatform extends Rectangle
 {
 	PVector position;
-	float platformWidth, platformHeight;
 	float maxLeft, maxRight;
 
 	float platformSpeed;
 	boolean movingRight;
+	boolean movesPlayer;
 
-	MovingPlatform(PVector spawnPos, float platWidth, float platHeight, float farLeft, float farRight)
+	MovingPlatform(PVector spawnPos, float platWidth, float platHeight, float farLeft, float farRight, boolean movesPlayer)
 	{
 		position = spawnPos.copy();
-		platformWidth = platWidth;
-		platformHeight = platHeight;
+		rectWidth = platWidth;
+		rectHeight = platHeight;
 		maxLeft = farLeft;
 		maxRight = farRight;
 
-		platformSpeed = 20f;
+		platformSpeed = 200f;
 		movingRight = true;
+
+		name = "MovingPlatform";
+
+		this.movesPlayer = movesPlayer;
+	}
+
+	protected String getName() {
+		return name;
 	}
 
 	protected float getX()
@@ -31,6 +39,14 @@ class MovingPlatform extends Rectangle
 
 	protected float getSize() {
 		return size;
+	}
+
+	protected float getWidth() {
+		return rectWidth;
+	}
+
+	protected float getHeight() {
+		return rectHeight;
 	}
 
 	protected float getTop() {
@@ -49,16 +65,26 @@ class MovingPlatform extends Rectangle
 		return right;
 	}
 
+	void SetPosValues()
+	{
+		top = position.y - rectHeight/2;
+		bottom = top + rectHeight;
+		right = position.x + rectWidth/2;
+		left = right - rectWidth;
+	}
+
 	void updateMovingPlatform()
 	{
+		SetPosValues();
 		movePlatform();
+		checkCollisions();
 	}
 
 	void movePlatform()
 	{
 		if(movingRight)
 		{
-			if(position.x + (platformWidth/2) > maxRight)
+			if(position.x + (rectWidth/2) > maxRight)
 			{
 				movingRight = false;
 			}
@@ -67,9 +93,9 @@ class MovingPlatform extends Rectangle
 				position.x += platformSpeed * deltaTime;	
 			}
 		}
-		if(!movingRight)
+		else if(!movingRight)
 		{
-			if(position.x - (platformWidth/2) < maxLeft)
+			if(position.x - (rectWidth/2) < maxLeft)
 			{
 				movingRight = true;
 			}
@@ -78,16 +104,39 @@ class MovingPlatform extends Rectangle
 				position.x -= platformSpeed * deltaTime;	
 			}
 		}
+
+		if(movingRight)
+		{
+			//position.x += platformSpeed * deltaTime;
+			if(player.onMovingPlatform)
+			{
+				player.position.x += platformSpeed * deltaTime;
+			}
+		}
+		else
+		{
+			//position.x -= platformSpeed * deltaTime;	
+			if(player.onMovingPlatform)
+			{
+				player.position.x -= platformSpeed * deltaTime;
+			}
+		}
 	}
 
 	void checkCollisions()
 	{
-		if(position.x + platformWidth/2 > player.position.x - player.playerWidth/2 &&
-		position.x - platformWidth/2 < player.position.x + player.playerWidth/2 &&
-		position.y + platformHeight/2 > player.position.y - player.playerHeight/2 &&
-		position.y - platformHeight/2 < player.position.y + player.playerHeight/2)
+		if(player.onMovingPlatform)
 		{
-			//player.GetCollisionDirection(this);
+			if((player.position.x > position.x + (rectWidth/2) + (player.playerWidth/2)) || (player.position.x < position.x - (rectWidth/2) - (player.playerWidth/2)))
+				player.onMovingPlatform = false;
+		}
+
+		if(position.x + rectWidth/2 > player.position.x - player.playerWidth/2 &&
+		position.x - rectWidth/2 < player.position.x + player.playerWidth/2 &&
+		position.y - (rectHeight/2)+1 > player.position.y - player.playerHeight/2 &&
+		position.y - rectHeight/2 < player.position.y + player.playerHeight/2)
+		{
+			player.GetCollisionDirection(this);
 		}
 	}
 
@@ -95,7 +144,7 @@ class MovingPlatform extends Rectangle
 	{
 		pushMatrix();
 		translate(position.x, position.y);
-		rect(0, 0, platformWidth, platformHeight);
+		rect(0, 0, rectWidth, rectHeight);
 		popMatrix();
 	}
 }

@@ -1,5 +1,7 @@
 import ddf.minim.*;
 
+boolean spawnedPlatform = false;
+MovingPlatform movingPlatform;
 
 //------Classes------
 Menu menu;
@@ -113,6 +115,12 @@ void draw()
 
   //------Gamestate------
 
+  if(input.isUp && !spawnedPlatform)
+  {
+    movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
+    spawnedPlatform = true;
+  }
+
   counter += deltaTime;
   if (counter >= loadingTime)
   {  
@@ -134,6 +142,10 @@ void draw()
       }
 
       player.Update();
+      if(spawnedPlatform)
+      {
+        movingPlatform.updateMovingPlatform();
+      }
       boxManager.Update();
       powerUpManager.Update();  
       for (int i = 0; i < enemies.size(); ++i) {
@@ -177,6 +189,11 @@ void draw()
       }
       
       powerUpManager.Draw();    
+
+      if(spawnedPlatform)
+      {
+        movingPlatform.drawMovingPlatform();
+      }
     }
   }
   else

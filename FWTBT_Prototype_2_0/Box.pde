@@ -14,13 +14,20 @@ class Box extends Rectangle
 
   Box(PVector position, float size, boolean foreground,int collide)
   {
+    this.name = "Box";
     this.position = position.copy();
     this.size = size;
+    this.rectWidth = size;
+    this.rectHeight = size;
     if(!foreground)
     collides = collide;
     else foreCollides = collide;
     SetPosValues();
     if(collides == 3){player.position.x = position.x;player.position.y = position.y;}
+  }
+
+  protected String getName() {
+    return name;
   }
 
   protected float getX()
