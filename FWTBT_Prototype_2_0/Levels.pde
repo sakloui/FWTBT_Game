@@ -15,14 +15,14 @@ class Levels
   
   //------Images------
   private PImage greyPanel;
-  private PImage map2;
-  private PImage map3;
+  private PImage[] map;
   
   Levels(int levels,int rgb)
   {
    this.rgb = rgb;
    this.levels = levels;
    level = new int[levels];
+   map = new PImage[levels+1];
    selectedLevel = 0;
    greyPanel = loadImage("Menu/grey_panel.png");
   }
@@ -33,6 +33,7 @@ class Levels
     for(int i = 0; i < level.length;i++)
     {
       image(greyPanel,width/2,height/2);
+      map[i] = loadImage("thumbnail" + (i+1) + ".png");
       
     }
   }
@@ -58,8 +59,7 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/2,height/2,300,400);
-      map = loadImage("level" + (selectedLevel + 1) + ".png");
-      image(map,width/2,height/2,200,150);
+      image(map[selectedLevel],width/2,height/2,200,150);
       text("level " + (i+1),width/2,height/2-100);
 
       int score = highscore.getHighscore(selectedLevel);
@@ -71,8 +71,7 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/4*3,height/2,150,200);
-      map2 = loadImage("level" + (selectedLevel + 2) + ".png");
-      image(map2,width/4*3,height/2,100,75);      
+      image(map[selectedLevel + 1],width/4*3,height/2,100,75);      
       textSize(16);
       text("level " + (i+1),width/4*3,height/2-50);
 
@@ -88,8 +87,8 @@ class Levels
       image(greyPanel,width/4,height/2,150,200);
       if(selectedLevel != 0)
       {
-      map3 = loadImage("level" + (selectedLevel) + ".png");
-      image(map3,width/4,height/2,100,75);   
+      
+      image(map[selectedLevel - 1],width/4,height/2,100,75);   
       }
       textSize(16);
       text("level " + (i+1),width/4,height/2-50);

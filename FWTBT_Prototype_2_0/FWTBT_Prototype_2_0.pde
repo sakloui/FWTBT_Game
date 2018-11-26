@@ -183,14 +183,14 @@ void draw()
         anchors.get(i).Draw();
       }
       
-      powerUpManager.Draw();    
+   
 
 
       boxManager.DrawForeground();
 
       player.Draw();
 
-
+      powerUpManager.Draw(); 
 
       gameManager.Draw();
 

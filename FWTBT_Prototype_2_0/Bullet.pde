@@ -5,6 +5,7 @@ class Bullets
 	float speed = 400;
 	float size = 10;
 	float rotation;
+	int despawnTime = 1000;
 	Bullets(PVector pos,int dir,float rot)
 	{
 		direction = dir;
@@ -29,6 +30,7 @@ class Bullets
 		checkOOB();
 		CheckCollision();
 		CheckKill();
+		despawn();
 	}
 
 	void checkOOB()
@@ -71,6 +73,15 @@ class Bullets
 	    boxManager = new BoxManager(currentLevel);
 	    gameManager.currencyValues[3]++;
 	  }        
+	}
+
+	void despawn()
+	{
+		if(despawnTime == 0)
+		{
+			bullet.remove(this);
+		}
+		else despawnTime--;
 	}
 
 	void Draw()

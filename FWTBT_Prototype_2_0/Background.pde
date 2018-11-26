@@ -16,7 +16,7 @@ class Background
   {
     position.x += speed;
     alpha -= random(0,0.2);
-    if(alpha <= 0 || position.x > width)
+    if(alpha <= 0 || position.x - size/2> width)
     	menu.back.remove(this);
   }
   

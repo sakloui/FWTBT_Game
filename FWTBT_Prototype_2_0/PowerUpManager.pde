@@ -9,6 +9,7 @@ class PowerUpManager
 
   int iconSize = 20;
   int fuelCount = 0;
+  int maxFuelCount = 500;
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
 
@@ -98,11 +99,15 @@ class PowerUpManager
 
   void UpdatePowerUps()
   {
-      for (int i = 0; i < fuels.size(); i++)
-      {
-        if(fuels.get(i) != null)         
-        fuels.get(i).Update();
-      }
+    if(fuelCount > maxFuelCount)
+    {
+      fuelCount = maxFuelCount;
+    }
+    for (int i = 0; i < fuels.size(); i++)
+    {
+      if(fuels.get(i) != null)         
+      fuels.get(i).Update();
+    }
     if(rocketJump != null)
       rocketJump.Update();
     if(rocketArm != null)
