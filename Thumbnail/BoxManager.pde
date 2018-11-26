@@ -1,6 +1,6 @@
 class BoxManager
 {
-  float boxSize = 40;
+  float boxSize = 20;
   int rows = 32;
   int columns = 18;
   int level;
@@ -35,7 +35,7 @@ class BoxManager
     columns = map.height;
     if(rows > 32)
     {
-      boxSize = 40 / (map.width/32);
+      boxSize = 20 / (map.width/32);
     }
     boxes = new Box[rows][columns];
     foreground = new Box[rows][columns];

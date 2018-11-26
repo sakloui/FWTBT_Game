@@ -31,7 +31,8 @@ int maxLevels = 6;
 
 void setup()
 {
-	size(1280,720,P2D);
+	//need to scale stuff
+	size(640,360,P2D);
 	rectMode(CENTER);
 	imageMode(CENTER);
 	extraSetup();
@@ -45,8 +46,10 @@ void draw()
 	boxManager.Update();
 	boxManager.DrawBoxes();
 	boxManager.DrawForeground();
-	saveFrame("Data/thumbnail-####.png");	
+	saveFrame("Data/thumbnail##.png");	
 	if(currentLevel == maxLevels)
+	{
 		exit();	
-	currentLevel++;
+	}
+	else currentLevel++;
 }

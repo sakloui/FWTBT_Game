@@ -6,16 +6,16 @@ class Background
   float alpha;
   Background()
   {
-    position.x = 0;
     position.y = random(0,height);
     size = random(5,40);
+    position.x = 0-size/2;
     speed = random(0.5,2);
     alpha = random(50,200);
   }
   void Update()
   {
     position.x += speed;
-    alpha -= random(0,0.2);
+    alpha -= random(0,0.3);
     if(alpha <= 0 || position.x - size/2> width)
     	menu.back.remove(this);
   }
