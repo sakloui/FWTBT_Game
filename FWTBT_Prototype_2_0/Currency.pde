@@ -5,10 +5,15 @@ class Currency
 
 	int currentCoins;
 	int size;
+	String type;
 
-	Currency(PVector pos)
+	Currency(PVector pos, String type)
 	{
-		  currency = loadImage("Textures/currency.png");
+		  this.type = type;
+		  if(type == "norm")
+		  	currency = loadImage("Textures/currency.png");
+		  else if(type == "gold")
+		  	currency = loadImage("Textures/currency_golden.png");
 		  position = pos.copy();
 		  size = currency.width;
 	}
@@ -20,7 +25,10 @@ class Currency
 	       position.y + size/2 > player.position.y - player.playerHeight/2 &&
 	       position.y - size/2 < player.position.y + player.playerHeight/2)
 	    {
-	        gameManager.currencyValues[0]++;
+	    	if(type == "norm")
+	        	gameManager.currencyValues[0]++;
+	        else if(type == "gold")
+	        	gameManager.currencyValues[0] += 10;
 	    	coins.remove(this);
 	    }
 	}

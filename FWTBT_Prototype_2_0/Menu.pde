@@ -132,6 +132,7 @@ class Menu
   void createDied()
   {
     mainmenuShown = false;
+    highscoreShown = false;
     for(int i = 0; i < button.length;i++)
     {
       button[i] = null;

@@ -31,6 +31,7 @@ class Player
   PImage[] run;
   PImage[] slide;
   PImage[] jump;
+  PImage[] fire;
   int currentDirection;
   float currentFrame;
   float currentRunFrame;
@@ -44,6 +45,10 @@ class Player
   float turnSpeed = 3f;
   boolean isDead = false;
   boolean isClimbing = false;
+
+  boolean isFire;
+  int fireTime = 50;
+  int fireFrame = 0;
 
   State playerState;
 
@@ -88,6 +93,9 @@ class Player
     run = new PImage[8];
     String runName;
 
+    fire = new PImage[7];
+    String fireName;
+
     for (int i = 0; i < idle.length; i++)
     {
       //load idle sprites
@@ -111,6 +119,12 @@ class Player
       runName = "Sprites/Run (" + i + ").png";
       run[i] = loadImage(runName);
     }
+    for (int i = 0; i < 7; i++)
+    {
+      //load run sprites
+      fireName = "Sprites/RobotSpriteFlame" + i + ".png";
+      fire[i] = loadImage(fireName);
+    }    
   }
 
   void SetOldPos()
@@ -351,6 +365,23 @@ void Climb()
     left = right - playerWidth;
   }
 
+  void fireRocket()
+  {   
+    if(isFire)
+    {
+      if(fireTime == 0 || (velocity.y >= -0.5 && velocity.y <= 0.5))
+      {
+        isFire = false;
+        fireTime = 50;
+        fireFrame = 0;
+      }
+      else fireTime--;       
+      if(fireFrame >= fire.length)
+        fireFrame = 0;
+      image(fire[fireFrame],position.x - camera.shiftX, position.y + playerHeight/2 - camera.shiftY,30,30);
+      fireFrame++;
+    }
+  }
   void Update()
   {
     SetOldPos();
@@ -469,6 +500,7 @@ void Climb()
       translate(position.x, position.y);
       //rect(0, 0, playerWidth, playerHeight);
       popMatrix();
+      fireRocket();      
     }
   }
 

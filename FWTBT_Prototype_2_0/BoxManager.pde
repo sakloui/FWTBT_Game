@@ -1,3 +1,5 @@
+
+
 class BoxManager
 {
   float boxSize = 40;
@@ -185,8 +187,11 @@ for(int i = 0; i < rows; i++)
             powerUpManager.fuels.add(new Fuel(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }
           if(map.pixels[p] == color(241,0,0)){
-            coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
-          }     
+            coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), "norm"));
+          }    
+          if(map.pixels[p] == color(242,0,0)){
+            coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), "gold"));
+          }               
 
           //Enemy spawn         
           if(map.pixels[p] == color(255,0,0)){

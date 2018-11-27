@@ -71,6 +71,8 @@ class PowerUpManager
       {
         RocketJump();
         rocketJumpCD = true;
+        player.isFire = true;        
+        input.isK = false;
       }
     }
 
@@ -80,6 +82,7 @@ class PowerUpManager
       {
         RocketArm();
         rocketArmCD = true;
+        input.isL = false;
       }
     }
   }
