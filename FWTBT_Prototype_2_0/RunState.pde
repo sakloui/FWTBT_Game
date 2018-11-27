@@ -19,7 +19,8 @@ public class RunState extends State
       currentDirection = player.currentDirection;
     }
   }
-   public void OnTick()
+  
+  public void OnTick()
   {
     velocity = player.velocity.copy();
     currentFrame = (currentFrame + animationSpeed) % 8;    
@@ -41,7 +42,8 @@ public class RunState extends State
       currentDirection = LEFT;
     }
   }
-   public void OnDraw()
+  
+  public void OnDraw()
   {
     
     pushMatrix();
@@ -59,9 +61,9 @@ public class RunState extends State
     }
     popMatrix();
   }
-   public void OnStateExit()
+  
+  public void OnStateExit()
   {
-    
     player.currentDirection = currentDirection;
   }
 }

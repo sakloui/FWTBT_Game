@@ -3,6 +3,7 @@ import ddf.minim.*;
 boolean spawnedPlatform = false;
 MovingPlatform movingPlatform;
 Laser laser;
+ArrayList<SlipperyTile> slipperyTiles = new ArrayList<SlipperyTile>();
 
 //------Classes------
 Menu menu;
@@ -119,7 +120,11 @@ void draw()
   if(input.isUp && !spawnedPlatform)
   {
     //movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
-    laser = new Laser(new PVector(width/2, height-200), 0f, 90f, 30f, 150f);
+    laser = new Laser(new PVector(width/2, height-200), 0f, 180f, 100f, 150f, 0);
+    for(int i = 0; i < 10; i++)
+    {
+      slipperyTiles.add(new SlipperyTile(new PVector(420 + i*40, 700)));
+    }
     spawnedPlatform = true;
   }
 
@@ -148,6 +153,16 @@ void draw()
       {
         //movingPlatform.updateMovingPlatform();
         laser.updateLaser();
+
+        player.onOil = false;
+
+        for(int i = 0; i < 10; i++)
+        {
+          slipperyTiles.get(i).updateSlipperyTile();
+
+          if(slipperyTiles.get(i).underPlayer)
+            player.onOil = true;
+        }
       }
       boxManager.Update();
       powerUpManager.Update();  
@@ -197,6 +212,10 @@ void draw()
       {
         //movingPlatform.drawMovingPlatform();
         laser.drawLaser();
+        for(int i = 0; i < 10; i++)
+        {
+          slipperyTiles.get(i).drawSlipperyTile();
+        }
       }
     }
   }

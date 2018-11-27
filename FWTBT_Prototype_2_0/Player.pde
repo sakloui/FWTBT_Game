@@ -43,6 +43,7 @@ class Player
   float turnSpeed = 3f;
   boolean isDead = false;
   boolean onMovingPlatform = false;
+  boolean onOil;
 
   State playerState;
 
@@ -64,6 +65,7 @@ class Player
     maxGrav = 350;
 
     currentDirection = 1;
+    onOil = false;
 
     SetupSprites();
 
@@ -141,8 +143,18 @@ class Player
 
   void Move()
   {
-    //accel movement
+    if(onOil)
+    {
+      acceleration.x = 75f;
+      deceleration.x = -125f;
+    }
+    else
+    {
+      acceleration.x = 650f;
+      deceleration.x = -750f; 
+    }
 
+    //accel movement
     if (input.isRight)
     {
       if ( walkingsound.position() == walkingsound.length() && grounded)

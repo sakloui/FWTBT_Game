@@ -5,7 +5,7 @@ class Laser
 	color laserColor;
 	float laserLength;
 	float minAngle, maxAngle;
-	//float direction;
+	float direction;
 	float rotationSpeed;
 	float angle;
 
@@ -21,51 +21,23 @@ class Laser
 	}
 	*/
 
-	Laser(PVector pos, float minAngle, float maxAngle, float speed, float length)
+	final int LEFT = 0, RIGHT = 1;
+
+	Laser(PVector pos, float minAngle, float maxAngle, float speed, float length, int dir)
 	{
 		spawnPos = pos;
 		this.minAngle = minAngle;
 		this.maxAngle = maxAngle;
 		rotationSpeed = speed;
 		laserLength = length;
-		movingUp = true;
+		direction = dir;
+		if(dir == 1)
+			movingUp = true;
+		else
+			movingUp = false;	
 		laserColor = color(255, 0, 0);
 		endPoint = new PVector(0, 0);
-		/*
-		switch (dir) {
-			case 0:
-				//direction = Direction.UP;
-				direction = 0;
-				//endPoint.x = spawnPos.x;
-				//endPoint.y = spawnPos.y - laserLength;
-				angle = 270;
-				break;
-			case 1:
-				//direction = Direction.DOWN;
-				direction = 1;
-				//endPoint.x = spawnPos.x;
-				//endPoint.y = spawnPos.y + laserLength;
-				angle = 90;
-				break;
-			case 2:
-				//direction = Direction.LEFT;
-				direction = 2;
-				//endPoint.x = spawnPos.x - laserLength;
-				//endPoint.y = spawnPos.y;
-				angle = 180;
-				break;
-			case 3:
-				//direction = Direction.RIGHT;
-				direction = 3;
-				//endPoint.x = spawnPos.x + laserLength;
-				//endPoint.y = spawnPos.y;
-				angle = 0;
-				break;
-			default:
-				println("Laser invalid direction");
-				break;
-		}
-		*/
+		
 		angle = minAngle;
 
 		endPoint.x = spawnPos.x + (cos(radians(angle)) * laserLength);
@@ -84,13 +56,19 @@ class Laser
 			movingUp = false;
 		else if(movingUp && angle < maxAngle)
 		{
-			angle += rotationSpeed * deltaTime;
+			if(direction == LEFT)
+				angle -= rotationSpeed * deltaTime;
+			else if(direction == RIGHT)
+				angle += rotationSpeed * deltaTime;
 		}
 		if(!movingUp && angle <= minAngle)
 			movingUp = true;
 		else if(!movingUp && angle > minAngle)
 		{
-			angle -= rotationSpeed * deltaTime;
+			if(direction == LEFT)
+				angle += rotationSpeed * deltaTime;
+			else if(direction == RIGHT)
+				angle -= rotationSpeed * deltaTime;
 		}
 
 		endPoint.x = spawnPos.x + (cos(radians(angle)) * laserLength);
@@ -99,7 +77,7 @@ class Laser
 
 	void checkCollision()
 	{
-		if(isIntersecting(spawnPos.x, spawnPos.y, endPoint.x, endPoint.y, player.position.x, player.top, player.position.x, player.bottom))
+		if(isIntersecting(spawnPos.x, spawnPos.y, endPoint.x, endPoint.y, player.position.x, player.top + 10, player.position.x, player.bottom))
 		{
 			println("Intersecting " + deltaTime);
 		}
@@ -127,9 +105,9 @@ class Laser
 		stroke(laserColor);
 		line(endPoint.x, endPoint.y, spawnPos.x, spawnPos.y);
 
-		strokeWeight(4);
-		stroke(255);
-		line(player.position.x, player.top, player.position.x, player.bottom);
+		//strokeWeight(4);
+		//stroke(255);
+		//line(player.position.x, player.top + 10, player.position.x, player.bottom);
 
 		fill(255, 255, 0);
 		noStroke();
