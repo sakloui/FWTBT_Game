@@ -43,6 +43,11 @@ PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
 
+PImage uiScreen;
+PImage uiScreenOverlay;
+PImage uiScreen2;
+PImage uiScreen2Overlay;
+
 PImage[] basicEnemy;
 
 
@@ -110,16 +115,16 @@ void draw()
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
 
-  
+
   //------Background Stuff------
-    background(0); 
+    background(0);
 
   //------Gamestate------
 
   counter += deltaTime;
   if (counter >= loadingTime)
-  {  
-     
+  {
+
     if(isMenu)
     {
       menu.draw();
@@ -138,7 +143,7 @@ void draw()
 
       player.Update();
       boxManager.Update();
-      powerUpManager.Update();  
+      powerUpManager.Update();
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
@@ -146,9 +151,9 @@ void draw()
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
         bullet.get(i).Update();
-      }      
+      }
 
-      highscore.updateScore();      
+      highscore.updateScore();
       gameManager.Update();
       for(Magnet mag: magnet){
         mag.Update();
@@ -157,7 +162,7 @@ void draw()
 
 
 
-      //----------Draws---------- 
+      //----------Draws----------
 
       boxManager.DrawBoxes();
 
@@ -165,14 +170,14 @@ void draw()
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
-      }           
+      }
 
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
         bullet.get(i).Draw();
-      }     
+      }
 
-      
+
 
       for(Magnet mag: magnet){
         mag.Draw();
@@ -182,15 +187,15 @@ void draw()
       {
         anchors.get(i).Draw();
       }
-      
-   
+
+
 
 
       boxManager.DrawForeground();
 
       player.Draw();
 
-      powerUpManager.Draw(); 
+      powerUpManager.Draw();
 
       gameManager.Draw();
 
@@ -205,7 +210,7 @@ void draw()
     image(biskitGames, width/2, height/2-150,200,200);
     text("Loading...", width/2, height/2);
     popMatrix();
-  }  
+  }
 }
 
 

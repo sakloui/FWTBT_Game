@@ -27,6 +27,11 @@ void extraSetup()
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
+  //--------ui--------
+  uiScreen = loadImage("ui/screen.png");
+  uiScreenOverlay = loadImage("ui/screenOverlay.png");
+  uiScreen2 = loadImage("ui/screen2.png");
+  uiScreen2Overlay = loadImage("ui/screen2Overlay.png");
 
   for (int i = 0; i < basicEnemy.length; i++)
   {
@@ -77,7 +82,7 @@ void extraSetup()
   jumpsound.setGain(-40 + volume[1]);
   walkingsound.setGain(-40 + volume[1]);
   interactionsound.setGain(-40 + volume[1]);
-  mainMusic.loop();  
+  mainMusic.loop();
 
 
 }
