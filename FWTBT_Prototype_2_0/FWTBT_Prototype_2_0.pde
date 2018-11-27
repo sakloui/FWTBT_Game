@@ -2,6 +2,7 @@ import ddf.minim.*;
 
 boolean spawnedPlatform = false;
 MovingPlatform movingPlatform;
+Laser laser;
 
 //------Classes------
 Menu menu;
@@ -117,7 +118,8 @@ void draw()
 
   if(input.isUp && !spawnedPlatform)
   {
-    movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
+    //movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
+    laser = new Laser(new PVector(width/2, height-200), 0f, 90f, 30f, 150f);
     spawnedPlatform = true;
   }
 
@@ -144,7 +146,8 @@ void draw()
       player.Update();
       if(spawnedPlatform)
       {
-        movingPlatform.updateMovingPlatform();
+        //movingPlatform.updateMovingPlatform();
+        laser.updateLaser();
       }
       boxManager.Update();
       powerUpManager.Update();  
@@ -192,7 +195,8 @@ void draw()
 
       if(spawnedPlatform)
       {
-        movingPlatform.drawMovingPlatform();
+        //movingPlatform.drawMovingPlatform();
+        laser.drawLaser();
       }
     }
   }

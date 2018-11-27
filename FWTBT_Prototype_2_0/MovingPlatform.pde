@@ -15,7 +15,7 @@ class MovingPlatform extends Rectangle
 		maxLeft = farLeft;
 		maxRight = farRight;
 
-		platformSpeed = 200f;
+		platformSpeed = 80f;
 		movingRight = true;
 
 		name = "MovingPlatform";

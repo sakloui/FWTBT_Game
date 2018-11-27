@@ -349,7 +349,8 @@ class Player
     SetNewPos(); 
     if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
     {
-      ResolveCollision(boxManager.bottomBox, "Box");
+      //ResolveCollision(boxManager.bottomBox, "Box");
+      GetCollisionDirection(boxManager.bottomBox);
     }
   }
 
@@ -371,6 +372,7 @@ class Player
       left < box.getRight())// now is colliding
     {
       collidedLeft = true;
+
       //ResolveCollision(box);
     }
     if (oldRight < box.getLeft() && // was not colliding
@@ -441,6 +443,61 @@ class Player
 
     SetNewPos();
   }
+
+  /*
+  void ResolveCollision(MovingPlatform box, String object)
+  {
+    if(object == "MovingPlatform")
+    {
+      if(velocity.y > 0)
+      {
+        if (collidedBottom)
+        {
+          position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
+          velocity.y = 0;
+          grounded = true;
+          onMovingPlatform = true;
+          collidedBottom = false;
+        }
+      }
+    }
+
+    SetNewPos();
+  }
+
+  void ResolveCollision(Box box, String object)
+  {
+    if (collidedTop)
+    {
+      position.y = box.getY() + box.getHeight()/2 + playerHeight/2 + 0.1f;
+      velocity.y = 0;
+      collidedTop = false;
+    }
+    if (collidedBottom)
+    {
+      position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
+      velocity.y = 0;
+      grounded = true;
+      collidedBottom = false;
+    }
+    else
+      grounded = false;
+    if (collidedRight)
+    {
+      position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;
+      velocity.x = 0;
+      collidedRight = false;
+    }
+    if (collidedLeft)
+    {
+      position.x = box.getX() + box.getWidth()/2 + playerWidth/2 + 0.1f;
+      velocity.x = 0;
+      collidedLeft = false;
+    }
+
+    SetNewPos();
+  } 
+  */ 
 
   void Draw()
   {
