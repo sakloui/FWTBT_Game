@@ -1,14 +1,14 @@
 public class RunState extends State
 {
-   PVector velocity;
+  PVector velocity;
   float animationSpeed;
+  float modAnimSpeed;
   float currentFrame;
   //int currentDirection;
   final int LEFT = 0, RIGHT = 1;
   
   public void OnStateEnter()
   {
-    
     animationSpeed = 0.25f;
     if(player == null)
     {
@@ -23,7 +23,14 @@ public class RunState extends State
   public void OnTick()
   {
     velocity = player.velocity.copy();
-    currentFrame = (currentFrame + animationSpeed) % 8;    
+    if(abs(velocity.x) < 150)
+      modAnimSpeed = animationSpeed / 1.2f;
+    else
+    {
+      modAnimSpeed = animationSpeed * (abs(velocity.x) / 200);    
+    }
+
+    currentFrame = (currentFrame + modAnimSpeed) % 8;    
     
     if(velocity.x == 0)
     {
@@ -33,11 +40,11 @@ public class RunState extends State
     {
       player.SetState(new JumpState());
     }
-    if(velocity.x > 0)
+    if(input.isRight/*velocity.x > 0*/)
     {
       currentDirection = RIGHT;
     }
-    else if(velocity.x < 0)
+    else if(input.isLeft/*velocity.x < 0*/)
     {
       currentDirection = LEFT;
     }

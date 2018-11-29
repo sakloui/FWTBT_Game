@@ -43,7 +43,10 @@ class Player
   float turnSpeed = 3f;
   boolean isDead = false;
   boolean onMovingPlatform = false;
-  boolean onOil;
+  boolean onOil = false;
+  boolean oilCD = false;
+  float oilCounter;
+  float oilTimer = 3f;
 
   State playerState;
 
@@ -145,13 +148,30 @@ class Player
   {
     if(onOil)
     {
+      oilCD = true;
+      oilCounter = 0f;
       acceleration.x = 75f;
       deceleration.x = -125f;
     }
     else
     {
-      acceleration.x = 650f;
-      deceleration.x = -750f; 
+      if(oilCD)
+      {
+        acceleration.x = 125;
+        deceleration.x = -200f;
+
+        oilCounter += deltaTime;
+        if(oilCounter >= oilTimer)
+        {
+          oilCD = false;
+          oilCounter = 0f;  
+        }
+      }
+      else
+      {
+        acceleration.x = 650f;
+        deceleration.x = -750f;  
+      }
     }
 
     //accel movement
@@ -311,7 +331,13 @@ class Player
     //jump
     if (input.isUp && grounded)
     {
-      velocity.y = -jumpVel;  
+      if(!onOil)
+        velocity.y = -jumpVel;  
+      else
+      {
+        velocity.y = -jumpVel/1.5;
+        velocity.x = (velocity.x /4 * 3.5);  
+      }
       grounded = false;
       onMovingPlatform = false;
       jumpsound.rewind();
