@@ -24,10 +24,10 @@ public class RunState extends State
   {
     velocity = player.velocity.copy();
     if(abs(velocity.x) < 150)
-      modAnimSpeed = animationSpeed / 1.2f;
+      modAnimSpeed = animationSpeed / 1.4f;
     else
     {
-      modAnimSpeed = animationSpeed * (abs(velocity.x) / 200);    
+      modAnimSpeed = animationSpeed * (abs(velocity.x) / 300);    
     }
 
     currentFrame = (currentFrame + modAnimSpeed) % 8;    
@@ -52,7 +52,6 @@ public class RunState extends State
   
   public void OnDraw()
   {
-    
     pushMatrix();
     translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
     if(currentDirection == RIGHT)

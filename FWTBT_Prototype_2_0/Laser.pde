@@ -21,7 +21,7 @@ class Laser
 	}
 	*/
 
-	final int LEFT = 0, RIGHT = 1;
+	final int LEFT = 0, RIGHT = 1, MIXED = 2;
 
 	Laser(PVector pos, float minAngle, float maxAngle, float speed, float length, int dir)
 	{
@@ -52,25 +52,22 @@ class Laser
 
 	void moveLaser()
 	{
-		if(movingUp && angle >= maxAngle)
-			movingUp = false;
-		else if(movingUp && angle < maxAngle)
+		if(direction == LEFT)
+			angle -= rotationSpeed * deltaTime;
+		else if(direction == RIGHT)
+			angle += rotationSpeed * deltaTime;
+		else if(direction == MIXED)
 		{
-			if(direction == LEFT)
-				angle -= rotationSpeed * deltaTime;
-			else if(direction == RIGHT)
-				angle += rotationSpeed * deltaTime;
-		}
-		if(!movingUp && angle <= minAngle)
-			movingUp = true;
-		else if(!movingUp && angle > minAngle)
-		{
-			if(direction == LEFT)
-				angle += rotationSpeed * deltaTime;
-			else if(direction == RIGHT)
+			if(movingUp && angle >= maxAngle)
+				movingUp = false;
+			else if(movingUp && angle < maxAngle)
+				angle += rotationSpeed * deltaTime; 
+			if(!movingUp && angle <= minAngle)
+				movingUp = true;
+			else if(!movingUp && angle > minAngle)
 				angle -= rotationSpeed * deltaTime;
 		}
-
+		
 		endPoint.x = spawnPos.x + (cos(radians(angle)) * laserLength);
 		endPoint.y = spawnPos.y + (sin(radians(angle)) * laserLength);
 	}
@@ -108,6 +105,10 @@ class Laser
 		//strokeWeight(4);
 		//stroke(255);
 		//line(player.position.x, player.top + 10, player.position.x, player.bottom);
+
+		text("angle: " + angle, width/2, 100);
+		text("minAngle: " + minAngle, width/2, 200);
+		text("maxAngle: " + maxAngle, width/2, 300);
 
 		fill(255, 255, 0);
 		noStroke();

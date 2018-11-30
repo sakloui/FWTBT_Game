@@ -1,6 +1,6 @@
 public class IdleState extends State
 {
-   PVector velocity;
+  PVector velocity;
   float animationSpeed;
   float currentFrame;
   //int currentDirection;
@@ -19,9 +19,9 @@ public class IdleState extends State
       currentDirection = player.currentDirection;
     }
   }
-   public void OnTick()
+  public void OnTick()
   {
-     currentFrame = (currentFrame + animationSpeed) % 2;
+    currentFrame = (currentFrame + animationSpeed) % 2;
     velocity = player.velocity.copy();
     if(velocity.x == 0 && velocity.y == 0) return;
     
@@ -37,7 +37,6 @@ public class IdleState extends State
   }
    public void OnDraw()
   {
-    
     pushMatrix();
     translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
     if(currentDirection == RIGHT)

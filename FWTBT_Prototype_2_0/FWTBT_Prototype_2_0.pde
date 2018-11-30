@@ -4,6 +4,7 @@ boolean spawnedPlatform = false;
 MovingPlatform movingPlatform;
 Laser laser;
 ArrayList<SlipperyTile> slipperyTiles = new ArrayList<SlipperyTile>();
+Boss boss;
 
 //------Classes------
 Menu menu;
@@ -94,6 +95,7 @@ void setup()
   ellipseMode(CENTER);
   background(0);
 
+  boss = new Boss();
 
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
@@ -120,7 +122,7 @@ void draw()
   if(input.isUp && !spawnedPlatform)
   {
     //movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
-    laser = new Laser(new PVector(width/2, height-200), 0f, 180f, 100f, 150f, 0);
+    laser = new Laser(new PVector(width/2, height-200), 0f, 180f, 100f, 150f, 2);
     for(int i = 0; i < 10; i++)
     {
       slipperyTiles.add(new SlipperyTile(new PVector(420 + i*40, 700)));

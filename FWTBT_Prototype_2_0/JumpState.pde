@@ -49,9 +49,9 @@ public class JumpState extends State
       //currentDirection = DOWN;
     }
    }
-   public void OnDraw()
-  {
-    
+  
+  public void OnDraw()
+  {  
     pushMatrix();
     translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
     if(currentDirection == RIGHT)
@@ -67,7 +67,8 @@ public class JumpState extends State
     }
     popMatrix();
   }
-   public void OnStateExit()
+  
+  public void OnStateExit()
   {
     
     player.currentDirection = currentDirection;

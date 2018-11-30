@@ -331,7 +331,7 @@ class Player
     //jump
     if (input.isUp && grounded)
     {
-      if(!onOil)
+      if(!oilCD)
         velocity.y = -jumpVel;  
       else
       {
