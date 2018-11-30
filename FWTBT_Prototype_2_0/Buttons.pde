@@ -14,7 +14,7 @@ class Buttons
   //------Images-------
   private PImage buttonUp;
   private PImage buttonDown;
-  
+  private PImage logo;
   //------Color------
   private color rgb;
   
@@ -27,6 +27,7 @@ class Buttons
    this.type = type;
    buttonUp = loadImage("Menu/grey_button_up.png");
    buttonDown = loadImage("Menu/grey_button_down.png");
+   //logo = loadImage("Menu/ForWhomTheBellTolls");
    r = 0;
    rv = 0.05;
   }
@@ -62,6 +63,23 @@ class Buttons
         popMatrix();
       }
     }
+    if(type == "image")
+    {
+      pushMatrix();
+      fill(rgb);
+      translate(x,y+2);
+      image(logo,0,0);
+      textSize(28);
+      popMatrix();
+    }
+    if(type == "text")
+    {
+      pushMatrix();
+      fill(rgb);
+      translate(x,y+2);
+      text(text,0,0);
+      popMatrix();
+    }      
     if(type == "rotatingText")
     {
       pushMatrix();
@@ -83,6 +101,6 @@ class Buttons
       translate(x,y+2);
       text(text,0,0);
       popMatrix();
-    }    
+    }       
   }
 }

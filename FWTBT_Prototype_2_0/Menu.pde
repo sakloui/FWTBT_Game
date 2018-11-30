@@ -154,7 +154,7 @@ class Menu
   { 
       if(mainmenuShown)
       {
-        image(background,width/2,height/2,background.width, height);
+        image(background,width/2,height/2,width, height);
         if(timer == 0)
         {
           back.add(new Background());

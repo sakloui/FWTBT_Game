@@ -11,13 +11,14 @@ PowerUpManager powerUpManager;
 GameManager gameManager;
 Highscore highscore;
 
+
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Currency> coins = new ArrayList<Currency>();
 ArrayList<Magnet> magnet = new ArrayList<Magnet>();
 ArrayList<Bullets> bullet = new ArrayList<Bullets>();
-
+ArrayList<Particles> particle = new ArrayList<Particles>();
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
@@ -127,7 +128,7 @@ void draw()
     else
     {
       if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
-      image(background,width/2,height/2,background.width, height);
+      
 
       if (boxManager.rows > 32){
         camera.UpdateX();
@@ -135,6 +136,8 @@ void draw()
       if (boxManager.columns > 18){
         camera.UpdateY();
       }
+      
+      image(background,width/2,height/2,width, height);
 
       player.Update();
       boxManager.Update();

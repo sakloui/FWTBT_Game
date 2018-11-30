@@ -388,7 +388,7 @@ void Climb()
     SetPlayerCorners();
     if(!isClimbing)
     {
-      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer)
       {
          Move();
       }
@@ -414,7 +414,7 @@ void Climb()
     playerState.OnTick();
     if(!isClimbing)
     {
-      if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+      if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlaye)
         ApplyGravity();
     
       //SetDirection();
