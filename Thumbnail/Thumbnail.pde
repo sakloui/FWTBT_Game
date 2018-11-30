@@ -26,8 +26,19 @@ PImage hookTop;
 
 PImage[] basicEnemy;
 
+PImage tutorialA;
+PImage tutorialD;
+PImage tutorialW;
+PImage tutorialDeath;
+PImage tutorialLadderW;
+PImage tutorialLadderS;
+PImage tutorialX;
+PImage tutorialZ;
+PImage tutorialK;
+PImage tutorialL;
+
 int currentLevel = 1;
-int maxLevels = 6;
+int maxLevels = 7;
 
 void setup()
 {

@@ -10,6 +10,7 @@ class BoxManager
   Box[][] foreground = new Box[rows][columns];
 
   ArrayList<Box> over = new ArrayList<Box>();
+  ArrayList<Box> foreOver = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
   Box bottomBox;
 
@@ -168,10 +169,47 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(220,0,0)){
             coll = 22;
           }
-          //Ladder
-          if(map.pixels[p] == color(0,255,255)){
-            coll = 23;
-          }          
+          //Ladder      
+          //Tutorial stuff
+          if(map.pixels[p] == color(0,55,0)){
+            coll = 24;
+          }     
+
+          if(map.pixels[p] == color(0,60,0)){
+            coll = 25;
+          }     
+
+          if(map.pixels[p] == color(0,65,0)){
+            coll = 26;
+          }     
+
+          if(map.pixels[p] == color(0,70,0)){
+            coll = 27;
+          }     
+
+          if(map.pixels[p] == color(0,75,0)){
+            coll = 28;
+          }      
+
+          if(map.pixels[p] == color(0,80,0)){
+            coll = 29;
+          }    
+
+          if(map.pixels[p] == color(0,85,0)){
+            coll = 30;
+          }    
+
+          if(map.pixels[p] == color(0,90,0)){
+            coll = 31;
+          }    
+
+          if(map.pixels[p] == color(0,95,0)){
+            coll = 32;
+          }    
+
+          if(map.pixels[p] == color(0,100,0)){
+            coll = 33;
+          }                       
 
           //Powerup Spawns
           if(map.pixels[p] == color(100,255,255)){
@@ -259,7 +297,10 @@ for(int i = 0; i < rows; i++)
         }   
         if(foregroundImage.pixels[p] == color(0,30,0)){
           coll = 7;
-        }                                 
+        }        
+        if(foregroundImage.pixels[p] == color(0,255,255)){
+          coll = 8;
+        }                                     
         foreground[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, true, coll);
       }
     }
@@ -269,7 +310,7 @@ for(int i = 0; i < rows; i++)
   {
     over = new ArrayList<Box>();
     surrounding = new ArrayList<Box>();
-
+    foreOver = new ArrayList<Box>();
     CalculateCurrentTiles();
     SetOverCells();
     SetSurroundingCells();
@@ -347,6 +388,20 @@ for(int i = 0; i < rows; i++)
         }
       }
     }
+    for (int i = 0; i < 6; i++)
+    {
+      if (xTile[i] >= rows || xTile[i] <= 0);
+      else if (yTile[i] >= columns || yTile[i] <= 0);
+      else
+      {
+        Box box = foreground[xTile[i]][yTile[i]];
+
+        if (!foreOver.contains(box))
+        {
+          foreOver.add(box);
+        }
+      }
+    }    
   }
 
   void SetSurroundingCells()
@@ -453,10 +508,10 @@ for(int i = 0; i < rows; i++)
           surrounding.get(i).collides == 14)
         surrounding.get(i).CheckCollisionTop();
     }
-    for (int i = 0; i < over.size(); ++i) {
-      if (over.get(i).collides == 23)
+    for (int i = 0; i < foreOver.size(); ++i) {
+      if (foreOver.get(i).foreCollides == 8)
       {
-        over.get(i).CheckLadderCollision();
+        foreOver.get(i).CheckLadderCollision();
         break;
       }
       else player.isClimbing = false;

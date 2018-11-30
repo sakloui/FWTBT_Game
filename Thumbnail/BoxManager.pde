@@ -138,10 +138,47 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(220,0,0)){
             coll = 22;
           }
-          //Ladder
-          if(map.pixels[p] == color(0,255,255)){
-            coll = 23;
-          }                            
+          //Ladder      
+          //Tutorial stuff
+          if(map.pixels[p] == color(0,55,0)){
+            coll = 24;
+          }     
+
+          if(map.pixels[p] == color(0,60,0)){
+            coll = 25;
+          }     
+
+          if(map.pixels[p] == color(0,65,0)){
+            coll = 26;
+          }     
+
+          if(map.pixels[p] == color(0,70,0)){
+            coll = 27;
+          }     
+
+          if(map.pixels[p] == color(0,75,0)){
+            coll = 28;
+          }      
+
+          if(map.pixels[p] == color(0,80,0)){
+            coll = 29;
+          }    
+
+          if(map.pixels[p] == color(0,85,0)){
+            coll = 30;
+          }    
+
+          if(map.pixels[p] == color(0,90,0)){
+            coll = 31;
+          }    
+
+          if(map.pixels[p] == color(0,95,0)){
+            coll = 32;
+          }    
+
+          if(map.pixels[p] == color(0,100,0)){
+            coll = 33;
+          }                       
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
@@ -175,7 +212,10 @@ for(int i = 0; i < rows; i++)
         }   
         if(foregroundImage.pixels[p] == color(0,30,0)){
           coll = 7;
-        }                                 
+        }        
+        if(foregroundImage.pixels[p] == color(0,255,255)){
+          coll = 8;
+        }                                     
         foreground[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, true, coll);
       }
     }

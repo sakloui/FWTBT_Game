@@ -129,7 +129,10 @@ class Box
   //      position.y + size/2 > player.position.y - player.playerHeight/2 &&
   //      position.y - size/2 < player.position.y + player.playerHeight/2)
   //   {    
-  //     boxManager = new BoxManager(currentLevel);
+  //     menu.currentSel = 0;
+  //     menu.createDied();
+  //     menu.menuState = 0;
+  //     isMenu = true;
   //     gameManager.currencyValues[3]++;
   //   }        
   // }
@@ -152,7 +155,6 @@ class Box
         case 2:
           fill(255, 0, 0);
           rect(0, 0, size, size);
-          //killPlayer();
           break;
         case 3:
           fill(0, 255, 0);
@@ -161,7 +163,6 @@ class Box
         case 4:
           fill(255, 255, 0);
           rect(0, 0, size, size);
-          //CheckCollisionNext();
           break;
         case 5:
           image(tileSteelPillar,0,0,size,size);
@@ -173,7 +174,6 @@ class Box
         case 8:
           fill(255,255,100);
           rect(0, 0, size, size);
-          //CheckCollisionSwitch();
           break;
 
         case 10:
@@ -212,12 +212,37 @@ class Box
         case 21:
           image(hookTop,0,0,size,size);
           break;  
-        case 23:
-          fill(0,255,255);
-          rect(0,0,size,size);
-          //CheckLadderCollision();
+        case 24:
+          image(tutorialA,0,0,size*2,size*2);
           break;
-        }
+        case 25:
+          image(tutorialD,0,0,size*2,size*2);
+          break;
+        case 26:
+          image(tutorialLadderS,0,0,size*2,size*2);
+          break;
+        case 27:
+          image(tutorialW,0,0,size*2,size*2);
+          break;
+        case 28:
+          image(tutorialK,0,0,size*2,size*2);
+          break;
+        case 29:
+          image(tutorialL,0,0,size*2,size*2);
+          break;
+        case 30:
+          image(tutorialX,0,0,size*2,size*2);
+          break;
+        case 31:
+          image(tutorialZ,0,0,size*2,size*2);
+          break;
+        case 32:
+          image(tutorialLadderW,0,0,size*2,size*2);
+          break;                                                  
+        case 33:
+          image(tutorialDeath,0,0,size*2,size*2);
+          break;                                                  
+        }        
       popMatrix();
     } 
   }
@@ -237,20 +262,17 @@ void Drawforeground()
           fill(100,100,0,200);
           rect(0,0,size,size);
           break; 
-        case 2:
-          //CheckCollisionInvis();        
+        case 2:      
           image(tileSteelPillar, 0, 0, size, size); 
           noTint();
           break;
         case 3:
           fill(0, 0,255);
           rect(0, 0, size, size);
-          //killPlayer();
           break;  
         case 4:
           fill(0,0,255);
           rect(0, 0, size, size);
-          //killPlayer();
           break; 
         case 5:
           image(overgrownLeft, 0, 0, size, size);
@@ -260,7 +282,11 @@ void Drawforeground()
           break;
         case 7:
           image(overgrownRight, 0, 0, size, size);
-          break;          
+          break; 
+        case 8:
+          fill(0,255,255);
+          rect(0,0,size,size);
+          break;                   
       }               
       popMatrix();
     } 

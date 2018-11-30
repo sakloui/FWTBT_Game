@@ -215,12 +215,37 @@ class Box
         case 21:
           image(hookTop,0,0,size,size);
           break;  
-        case 23:
-          fill(0,255,255);
-          rect(0,0,size,size);
-          //CheckLadderCollision();
+        case 24:
+          image(tutorialA,0,0,80,80);
           break;
-        }
+        case 25:
+          image(tutorialD,0,0,80,80);
+          break;
+        case 26:
+          image(tutorialLadderS,0,0,80,80);
+          break;
+        case 27:
+          image(tutorialW,0,0,80,80);
+          break;
+        case 28:
+          image(tutorialK,0,0,80,80);
+          break;
+        case 29:
+          image(tutorialL,0,0,80,80);
+          break;
+        case 30:
+          image(tutorialX,0,0,80,80);
+          break;
+        case 31:
+          image(tutorialZ,0,0,80,80);
+          break;
+        case 32:
+          image(tutorialLadderW,0,0,80,80);
+          break;                                                  
+        case 33:
+          image(tutorialDeath,0,0,80,80);
+          break;                                                  
+        }        
       popMatrix();
     } 
   }
@@ -263,7 +288,12 @@ void Drawforeground()
           break;
         case 7:
           image(overgrownRight, 0, 0, size, size);
-          break;          
+          break; 
+        case 8:
+          fill(0,255,255);
+          rect(0,0,size,size);
+          //CheckLadderCollision();
+          break;                   
       }               
       popMatrix();
     } 

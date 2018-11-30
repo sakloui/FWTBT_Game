@@ -27,6 +27,17 @@ void extraSetup()
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
+  tutorialA = loadImage("Textures/Tutorial/Tutorial_A_groot.png");
+  tutorialD = loadImage("Textures/Tutorial/Tutorial_D_groot.png");
+  tutorialW = loadImage("Textures/Tutorial/Tutorial_W_jump_groot.png");
+  tutorialDeath = loadImage("Textures/Tutorial/Tutorial_death_warning.png");
+  tutorialLadderW = loadImage("Textures/Tutorial/Tutorial_W_ladder_groot.png");
+  tutorialLadderS = loadImage("Textures/Tutorial/Tutorial_W_ladder_groot.png");
+  tutorialX = loadImage("Textures/Tutorial/Tutorial_X_groot.png");
+  tutorialZ = loadImage("Textures/Tutorial/Tutorial_Z_groot.png");
+  tutorialK = loadImage("Textures/Tutorial/Tutorial_K_groot.png");
+  tutorialL = loadImage("Textures/Tutorial/Tutorial_L_groot.png");
+
 
   for (int i = 0; i < basicEnemy.length; i++)
   {

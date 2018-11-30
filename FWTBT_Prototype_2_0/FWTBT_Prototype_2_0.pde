@@ -46,6 +46,19 @@ PImage hookTop;
 
 PImage[] basicEnemy;
 
+PImage tutorialA;
+PImage tutorialD;
+PImage tutorialW;
+PImage tutorialDeath;
+PImage tutorialLadderW;
+PImage tutorialLadderS;
+PImage tutorialX;
+PImage tutorialZ;
+PImage tutorialK;
+PImage tutorialL;
+
+
+
 
 
 //------Font stuff------
@@ -136,7 +149,7 @@ void draw()
       if (boxManager.columns > 18){
         camera.UpdateY();
       }
-      
+
       image(background,width/2,height/2,width, height);
 
       player.Update();
@@ -163,12 +176,7 @@ void draw()
       //----------Draws---------- 
 
       boxManager.DrawBoxes();
-
-      gameManager.drawCurrency();
-      for (int i = 0; i < enemies.size(); ++i) {
-        if(enemies.get(i) !=null)
-        enemies.get(i).Draw();
-      }           
+      
 
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
@@ -187,9 +195,15 @@ void draw()
       }
       
    
-
+      gameManager.drawCurrency();
+      for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies.get(i) !=null)
+        enemies.get(i).Draw();
+      }  
 
       boxManager.DrawForeground();
+
+         
 
       player.Draw();
 
