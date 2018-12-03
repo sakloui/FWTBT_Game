@@ -211,9 +211,9 @@ for(int i = 0; i < rows; i++)
             coll = 33;
           }     
           //Wires
-          if(map.pixels[p] == color(255,100,0)){
-            coll = 34;
-          }                       
+          // if(map.pixels[p] == color(255,100,0)){
+          //   coll = 34;
+          // }                       
           if(map.pixels[p] == color(255,100,5)){
             coll = 35;
           }                       

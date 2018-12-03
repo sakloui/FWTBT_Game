@@ -24,7 +24,7 @@ class Boss
 		//set aggro- and attack range
 		//set facing direction
 		
-		setupSprites();
+		//setupSprites();
 		SetState(new IdleState());
 	}
 

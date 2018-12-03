@@ -466,13 +466,9 @@ void Climb()
     }
 
     SetNewPos();  
-    if (bottom != oldBottom || right != oldRight)
+    if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
     {
-      
-      if(boxManager.bottomBox != null)
-      {
         ResolveCollision(boxManager.bottomBox, "Box");
-      }
     }
    
   }

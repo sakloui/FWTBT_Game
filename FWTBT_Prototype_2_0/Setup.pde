@@ -25,6 +25,8 @@ void extraSetup()
   hookMiddle = loadImage("Textures/hook_middle.png");
   hookTop = loadImage("Textures/hook_top.png");
   exitDoor = loadImage("Textures/Door_open.png");
+  enterDoor = loadImage("Textures/Door_locked.png");
+  ladder = loadImage("Textures/Ladder.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 

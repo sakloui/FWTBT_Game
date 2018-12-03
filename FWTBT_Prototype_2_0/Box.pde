@@ -24,7 +24,7 @@ class Box extends Rectangle
     collides = collide;
     else foreCollides = collide;
     SetPosValues();
-    if(collides == 3){player.position.x = position.x;player.position.y = position.y;}
+    if(collides == 3){player.position.x = position.x;player.position.y = position.y - 15;}
   }
 
 
@@ -205,7 +205,7 @@ class Box extends Rectangle
           break;
         case 3:
           fill(0, 255, 0);
-          rect(0, 0, size, size);
+          image(enterDoor,0, -20,80,80);
           break;
         case 4:
           image(exitDoor,0, -20,80,80);
@@ -290,9 +290,9 @@ class Box extends Rectangle
         case 33:
           image(tutorialDeath,0,0,80,80);
           break;  
-        case 34:
-          image(wireStart,0,0,size,size);
-          break;  
+        // case 34:
+        //   image(wireStart,0,0,size,size);
+        //   break;  
         case 35:
           image(wireHeel,0,0,size,size);
           break;  
@@ -340,12 +340,12 @@ void Drawforeground()
           noTint();
           break;
         case 3:
-          fill(0, 0,255);
+          fill(0, 0,255,100);
           rect(0, 0, size, size);
           killPlayer();
           break;  
         case 4:
-          fill(0,0,255);
+          fill(0,0,255,100);
           rect(0, 0, size, size);
           killPlayer();
           break; 
@@ -360,7 +360,7 @@ void Drawforeground()
           break; 
         case 8:
           fill(0,255,255);
-          rect(0,0,size,size);
+          image(ladder,0,0,size,size);
           //CheckLadderCollision();
           break;                   
       }               

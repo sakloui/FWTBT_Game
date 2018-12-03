@@ -137,7 +137,7 @@ class Box
   //   }        
   // }
 
-  void Draw()
+void Draw()
   {
     //if (collides != 0)
     {
@@ -158,11 +158,10 @@ class Box
           break;
         case 3:
           fill(0, 255, 0);
-          rect(0, 0, size, size);
+          image(enterDoor,0, -20*(size/40),size*2,size*2);
           break;
         case 4:
-          fill(255, 255, 0);
-          rect(0, 0, size, size);
+          image(exitDoor,0, -20*(size/40),size*2,size*2);
           break;
         case 5:
           image(tileSteelPillar,0,0,size,size);
@@ -241,7 +240,31 @@ class Box
           break;                                                  
         case 33:
           image(tutorialDeath,0,0,size*2,size*2);
-          break;                                                  
+          break;  
+        case 34:
+          image(wireStart,0,0,size,size);
+          break;  
+        case 35:
+          image(wireHeel,0,0,size,size);
+          break;  
+        case 36:
+          image(wireHeel2,0,0,size,size);
+          break;
+        case 37:
+          image(wireCompleet,0,0,size,size);
+          break;  
+        case 38:
+          image(wireStartBroken,0,0,size,size);
+          break;  
+        case 39:
+          image(wireHeelBroken,0,0,size,size);
+          break;
+        case 40:
+          image(wireHeel2Broken,0,0,size,size);
+          break;          
+        case 41:
+          image(wireCompleetBroken,0,0,size,size);
+          break;                                                                                                                              
         }        
       popMatrix();
     } 
@@ -262,16 +285,16 @@ void Drawforeground()
           fill(100,100,0,200);
           rect(0,0,size,size);
           break; 
-        case 2:      
+        case 2:        
           image(tileSteelPillar, 0, 0, size, size); 
           noTint();
           break;
         case 3:
-          fill(0, 0,255);
+          fill(0, 0,255,100);
           rect(0, 0, size, size);
           break;  
         case 4:
-          fill(0,0,255);
+          fill(0,0,255,100);
           rect(0, 0, size, size);
           break; 
         case 5:
@@ -285,7 +308,8 @@ void Drawforeground()
           break; 
         case 8:
           fill(0,255,255);
-          rect(0,0,size,size);
+          image(ladder,0,0,size,size);
+          //CheckLadderCollision();
           break;                   
       }               
       popMatrix();

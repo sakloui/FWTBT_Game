@@ -49,6 +49,8 @@ PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
 PImage exitDoor;
+PImage enterDoor;
+PImage ladder;
 
 PImage wireStart;
 PImage wireHeel;
@@ -233,6 +235,8 @@ void draw()
         enemies.get(i).Draw();
       }  
 
+      powerUpManager.Draw();
+
       boxManager.DrawForeground();
 
          
@@ -241,7 +245,7 @@ void draw()
 
 
 
-      powerUpManager.Draw(); 
+ 
 
       gameManager.Draw();
 

@@ -23,6 +23,18 @@ PImage overgrownMiddle;
 PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
+PImage exitDoor;
+PImage enterDoor;
+PImage ladder;
+
+PImage wireStart;
+PImage wireHeel;
+PImage wireHeel2;
+PImage wireCompleet;
+PImage wireStartBroken;
+PImage wireHeelBroken;
+PImage wireHeel2Broken;
+PImage wireCompleetBroken;
 
 PImage[] basicEnemy;
 
@@ -38,7 +50,7 @@ PImage tutorialK;
 PImage tutorialL;
 
 int currentLevel = 1;
-int maxLevels = 7;
+int maxLevels = 8;
 
 void setup()
 {
