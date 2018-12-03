@@ -51,6 +51,8 @@ PImage hookTop;
 PImage exitDoor;
 
 PImage[] basicEnemy;
+PImage[] electricOrb;
+PImage[] electricOrbPurple;
 
 PImage tutorialA;
 PImage tutorialD;
