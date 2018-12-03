@@ -47,6 +47,10 @@ PImage uiScreen;
 PImage uiScreenOverlay;
 PImage uiScreen2;
 PImage uiScreen2Overlay;
+PImage uiScreenGreen;
+PImage uiScreenOverlayGreen;
+PImage uiScreen2Green;
+PImage uiScreen2OverlayGreen;
 
 PImage[] basicEnemy;
 

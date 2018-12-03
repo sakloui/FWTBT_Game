@@ -9,7 +9,7 @@ class PowerUpManager
 
   int iconSize = 20;
   int fuelCount = 0;
-  int maxFuelCount = 200;
+  int maxFuelCount = 100;
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
 

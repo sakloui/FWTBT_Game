@@ -58,15 +58,27 @@ class GameManager
     imageMode(CORNERS);
     translate(imagePos.x, imagePos.y);
 
-    image(uiScreen, 0, 0);
-    image(uiScreenOverlay, 16, 32, 16+36, (32+76)*(1 - currencyValues[1] / powerUpManager.maxFuelCount));
+    if (currencyValues[1] < powerUpManager.maxFuelCount){
+      image(uiScreen, 0, 0);
+      image(uiScreenOverlay, 16, 40, 16+36, 40 + (69*(1 - currencyValues[1] / powerUpManager.maxFuelCount)));
+    } else {
+      image(uiScreenGreen, 0, 0);
+    }
 
     int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highscore.getHighscore(currentLevel)));
     PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
+    PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);
 
     int uiScreenOverlayPixels = int((60+8)*(1 + currencyValues[4] / highscore.getHighscore(currentLevel)));
-    image(uiScreen2, 60, 0);
-    image(cropOverlay, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+
+    if (currencyValues[4] < highscore.getHighscore(currentLevel)){
+      image(uiScreen2, 60, 0);
+      image(cropOverlay, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+    } else {
+      image(uiScreen2Green, 60, 0);
+      image(cropOverlayGreen, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+    }
+
 
     popMatrix();
     imageMode(CENTER);
