@@ -122,12 +122,12 @@ void draw()
   if(input.isUp && !spawnedPlatform)
   {
     //movingPlatform = new MovingPlatform(new PVector(width/2, height-100), 200, 20, width/2 - 300, width/2 + 300, true);
-    laser = new Laser(new PVector(width/2, height-200), 0f, 180f, 100f, 150f, 2);
+    //laser = new Laser(new PVector(width/2, height-200), 0f, 180f, 100f, 150f, 2);
     for(int i = 0; i < 10; i++)
     {
-      slipperyTiles.add(new SlipperyTile(new PVector(420 + i*40, 700)));
+      //slipperyTiles.add(new SlipperyTile(new PVector(420 + i*40, 700)));
     }
-    spawnedPlatform = true;
+    //spawnedPlatform = true;
   }
 
   counter += deltaTime;

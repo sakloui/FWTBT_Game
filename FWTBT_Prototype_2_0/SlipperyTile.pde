@@ -2,11 +2,13 @@ class SlipperyTile
 {
 	PVector position;
 	boolean underPlayer;
+	float size;
 
 	SlipperyTile(PVector pos)
 	{
 		position = pos;
 		underPlayer = false;
+		size = 40f;
 	}
 
 	void updateSlipperyTile()
@@ -25,7 +27,7 @@ class SlipperyTile
 	{
 		pushMatrix();
 		translate(position.x, position.y);
-		rect(0, 0, 40, 40);
+		rect(0, 0, size, size);
 		popMatrix();
 	}
 }

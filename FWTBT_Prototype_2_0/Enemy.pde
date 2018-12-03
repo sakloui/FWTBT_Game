@@ -16,7 +16,6 @@ class Enemy {
     boxesToCheck[1] = new PVector(0,0);    
   }
 
-
   void CheckKillCollision()
   {
     if (x + radius > player.position.x - player.playerWidth/2 && 
@@ -29,6 +28,7 @@ class Enemy {
       gameManager.currencyValues[3]++;
     }    
   }
+
   void Update() 
   {
     CheckCollision();
@@ -46,7 +46,6 @@ class Enemy {
     fill(255, 100, 100);
     ellipse(x - camera.shiftX, y - camera.shiftY, radius * 2, radius * 2);
   }
-
 
 
   void CheckCollision()
