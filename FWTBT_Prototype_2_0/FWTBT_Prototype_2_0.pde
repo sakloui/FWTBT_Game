@@ -50,6 +50,15 @@ PImage hookMiddle;
 PImage hookTop;
 PImage exitDoor;
 
+PImage wireStart;
+PImage wireHeel;
+PImage wireHeel2;
+PImage wireCompleet;
+PImage wireStartBroken;
+PImage wireHeelBroken;
+PImage wireHeel2Broken;
+PImage wireCompleetBroken;
+
 PImage[] basicEnemy;
 
 PImage tutorialA;

@@ -209,7 +209,33 @@ for(int i = 0; i < rows; i++)
 
           if(map.pixels[p] == color(0,100,0)){
             coll = 33;
+          }     
+          //Wires
+          if(map.pixels[p] == color(255,100,0)){
+            coll = 34;
           }                       
+          if(map.pixels[p] == color(255,100,5)){
+            coll = 35;
+          }                       
+          if(map.pixels[p] == color(255,100,10)){
+            coll = 36;
+          }                       
+          if(map.pixels[p] == color(255,100,15)){
+            coll = 37;
+          }                       
+          if(map.pixels[p] == color(255,100,20)){
+            coll = 38;
+          }                       
+          if(map.pixels[p] == color(255,100,25)){
+            coll = 39;
+          }                       
+          if(map.pixels[p] == color(255,100,30)){
+            coll = 40;
+          }                       
+          if(map.pixels[p] == color(255,100,35)){
+            coll = 41;
+          }                       
+
 
           //Powerup Spawns
           if(map.pixels[p] == color(100,255,255)){

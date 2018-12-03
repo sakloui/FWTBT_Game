@@ -135,10 +135,10 @@ class Box extends Rectangle
   }
   void CheckCollisionSwitch()
   {
-    if(position.x + 10 > player.position.x - player.playerWidth/2 &&
-       position.x - 10 < player.position.x + player.playerWidth/2 &&
-       position.y + 10 > player.position.y - player.playerHeight/2 &&
-       position.y - 10 < player.position.y + player.playerHeight/2)
+    if(position.x + 5 > player.position.x - player.playerWidth/2 &&
+       position.x - 5 < player.position.x + player.playerWidth/2 &&
+       position.y + 5 > player.position.y - player.playerHeight/2 &&
+       position.y - 5 < player.position.y + player.playerHeight/2)
     {    
       if(collides == 8 && !switched){
         switched = true;
@@ -289,7 +289,31 @@ class Box extends Rectangle
           break;                                                  
         case 33:
           image(tutorialDeath,0,0,80,80);
-          break;                                                  
+          break;  
+        case 34:
+          image(wireStart,0,0,size,size);
+          break;  
+        case 35:
+          image(wireHeel,0,0,size,size);
+          break;  
+        case 36:
+          image(wireHeel2,0,0,size,size);
+          break;
+        case 37:
+          image(wireCompleet,0,0,size,size);
+          break;  
+        case 38:
+          image(wireStartBroken,0,0,size,size);
+          break;  
+        case 39:
+          image(wireHeelBroken,0,0,size,size);
+          break;
+        case 40:
+          image(wireHeel2Broken,0,0,size,size);
+          break;          
+        case 41:
+          image(wireCompleetBroken,0,0,size,size);
+          break;                                                                                                                              
         }        
       popMatrix();
     } 

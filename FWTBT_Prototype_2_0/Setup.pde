@@ -28,6 +28,15 @@ void extraSetup()
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
+  wireStart = loadImage("Textures/Wires_start_point.png");
+  wireHeel = loadImage("Textures/Wires_heel.png");
+  wireHeel2 = loadImage("Textures/Wires_heel_2.png");
+  wireCompleet = loadImage("Textures/Wires_complete.png");
+  wireStartBroken = loadImage("Textures/Wires_start_point_broken.png");
+  wireHeelBroken = loadImage("Textures/Wires_broken.png");
+  wireHeel2Broken = loadImage("Textures/Wires_broken_2.png");
+  wireCompleetBroken = loadImage("Textures/Wires_complete_broken.png");  
+
   tutorialA = loadImage("Textures/Tutorial/Tutorial_A_groot.png");
   tutorialD = loadImage("Textures/Tutorial/Tutorial_D_groot.png");
   tutorialW = loadImage("Textures/Tutorial/Tutorial_W_jump_groot.png");
