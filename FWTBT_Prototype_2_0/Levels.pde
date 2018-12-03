@@ -59,7 +59,8 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/2,height/2,300,400);
-      image(map[selectedLevel],width/2,height/2,200,150);
+      if(map[selectedLevel] != null)
+        image(map[selectedLevel],width/2,height/2,200,150);
       text("level " + (i+1),width/2,height/2-100);
 
       int score = highscore.getHighscore(selectedLevel);
@@ -71,7 +72,8 @@ class Levels
       {
       pushMatrix();
       image(greyPanel,width/4*3,height/2,150,200);
-      image(map[selectedLevel + 1],width/4*3,height/2,100,75);      
+      if(map[selectedLevel + 1] != null)
+        image(map[selectedLevel + 1],width/4*3,height/2,100,75);      
       textSize(16);
       text("level " + (i+1),width/4*3,height/2-50);
 
@@ -87,8 +89,8 @@ class Levels
       image(greyPanel,width/4,height/2,150,200);
       if(selectedLevel != 0)
       {
-      
-      image(map[selectedLevel - 1],width/4,height/2,100,75);   
+      if(map[selectedLevel - 1] != null)
+        image(map[selectedLevel - 1],width/4,height/2,100,75);   
       }
       textSize(16);
       text("level " + (i+1),width/4,height/2-50);

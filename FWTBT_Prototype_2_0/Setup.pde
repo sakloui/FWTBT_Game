@@ -24,6 +24,7 @@ void extraSetup()
   overgrownRight = loadImage("Textures/overgrown_platform_4.png");
   hookMiddle = loadImage("Textures/hook_middle.png");
   hookTop = loadImage("Textures/hook_top.png");
+  exitDoor = loadImage("Textures/Door_open.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 

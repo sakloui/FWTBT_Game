@@ -1,5 +1,10 @@
 import ddf.minim.*;
 
+boolean spawnedPlatform = false;
+MovingPlatform movingPlatform;
+Laser laser;
+ArrayList<SlipperyTile> slipperyTiles = new ArrayList<SlipperyTile>();
+Boss boss;
 
 //------Classes------
 Menu menu;
@@ -43,6 +48,7 @@ PImage overgrownMiddle;
 PImage overgrownRight;
 PImage hookMiddle;
 PImage hookTop;
+PImage exitDoor;
 
 PImage[] basicEnemy;
 
@@ -107,6 +113,8 @@ void setup()
 
   noStroke();
 
+  boss = new Boss();
+
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
   }
@@ -153,6 +161,21 @@ void draw()
       image(background,width/2,height/2,width, height);
 
       player.Update();
+      if(spawnedPlatform)
+      {
+        //movingPlatform.updateMovingPlatform();
+        laser.updateLaser();
+
+        player.onOil = false;
+
+        for(int i = 0; i < 10; i++)
+        {
+          slipperyTiles.get(i).updateSlipperyTile();
+
+          if(slipperyTiles.get(i).underPlayer)
+            player.onOil = true;
+        }
+      }      
       boxManager.Update();
       powerUpManager.Update();  
       for (int i = 0; i < enemies.size(); ++i) {
@@ -207,10 +230,21 @@ void draw()
 
       player.Draw();
 
+
+
       powerUpManager.Draw(); 
 
       gameManager.Draw();
 
+      if(spawnedPlatform)
+      {
+        //movingPlatform.drawMovingPlatform();
+        laser.drawLaser();
+        for(int i = 0; i < 10; i++)
+        {
+          slipperyTiles.get(i).drawSlipperyTile();
+        }
+      }
 
     }
   }

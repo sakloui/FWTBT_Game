@@ -1,4 +1,4 @@
-class Box
+class Box extends Rectangle
 {
   PVector position;
   float size;
@@ -15,14 +15,18 @@ class Box
 
   Box(PVector position, float size, boolean foreground,int collide)
   {
+    this.name = "Box";
     this.position = position.copy();
     this.size = size;
+    this.rectWidth = size;
+    this.rectHeight = size;
     if(!foreground)
     collides = collide;
     else foreCollides = collide;
     SetPosValues();
     if(collides == 3){player.position.x = position.x;player.position.y = position.y;}
   }
+
 
   void SetPosValues()
   {
@@ -31,6 +35,48 @@ class Box
     right = position.x + size/2;
     left = right - size;
   }
+
+  protected String getName() {
+    return name;
+  }
+
+  protected float getX()
+  {
+    return position.x;
+  }
+
+  protected float getY()
+  {
+    return position.y;
+  }
+
+  protected float getSize() {
+    return size;
+  }
+
+  protected float getTop() {
+    return top;
+  }
+
+  protected float getBottom() {
+    return bottom;
+  }
+
+  protected float getLeft() {
+    return left;
+  }
+
+  protected float getRight() {
+    return right;
+  }
+  protected int getCollides() {
+    return collides;
+  }  
+  protected Box getBox() {
+    return this;
+  }    
+  
+
 
   void CheckCollision()
   {
@@ -89,10 +135,10 @@ class Box
   }
   void CheckCollisionSwitch()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2 &&
-       position.y + size/2 > player.position.y - player.playerHeight/2 &&
-       position.y - size/2 < player.position.y + player.playerHeight/2)
+    if(position.x + 10 > player.position.x - player.playerWidth/2 &&
+       position.x - 10 < player.position.x + player.playerWidth/2 &&
+       position.y + 10 > player.position.y - player.playerHeight/2 &&
+       position.y - 10 < player.position.y + player.playerHeight/2)
     {    
       if(collides == 8 && !switched){
         switched = true;
@@ -162,8 +208,7 @@ class Box
           rect(0, 0, size, size);
           break;
         case 4:
-          fill(255, 255, 0);
-          rect(0, 0, size, size);
+          image(exitDoor,0, -20,80,80);
           CheckCollisionNext();
           break;
         case 5:
