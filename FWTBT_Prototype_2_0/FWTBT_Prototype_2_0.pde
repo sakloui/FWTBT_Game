@@ -172,6 +172,8 @@ void draw()
       }
 
       image(background,width/2,height/2,width, height);
+      fill(255,255,255,25);
+      rect(width/2,height/2,width,height);
 
       player.Update();
       if(spawnedPlatform)
