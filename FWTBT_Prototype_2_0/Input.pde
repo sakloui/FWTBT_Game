@@ -6,23 +6,17 @@ class Input
   {
     switch(k)
     {
-    case 'W':
     case UP:
       return isUp = b;
-    case 'S':
     case DOWN:
       return isDown = b;
-    case 'A':
     case LEFT:
       return isLeft = b;
-    case 'D':
     case RIGHT:
       return isRight = b;
     case 'Z':
-    case 'K':
       return isK = b;
     case 'X':
-    case 'L':
       return isL = b;
     case 32:
       return isSpace = b;

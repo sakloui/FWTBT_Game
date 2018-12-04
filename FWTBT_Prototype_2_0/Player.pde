@@ -72,9 +72,9 @@ class Player
     velocity = new PVector(0, 0);
     position = new PVector(width/2, height/2);
 
-    jumpVel = 465f;
-    gravity = 9.81f * 65;
-    maxGrav = 350;
+    jumpVel = 640f;
+    gravity = 9.81f * 120;
+    maxGrav = 450;
 
     currentDirection = 1;
     onOil = false;    
@@ -348,7 +348,7 @@ class Player
      */
 
     //jump
-    if (input.isUp && grounded)
+    if (input.isSpace && grounded)
     {
       if(!oilCD)
         velocity.y = -jumpVel;  

@@ -30,8 +30,10 @@ class Enemy {
       y + radius > player.position.y - player.playerHeight/2 &&
       y - radius < player.position.y + player.playerHeight/2)
     {
-      enemies.remove(this);
-      boxManager = new BoxManager(currentLevel);
+      menu.currentSel = 0;
+      menu.createDied();
+      menu.menuState = 0;
+      isMenu = true;
       gameManager.currencyValues[3]++;
     }    
   }

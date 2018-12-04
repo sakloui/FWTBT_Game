@@ -103,13 +103,14 @@ class Box extends Rectangle
   }
   void CheckLadderCollision()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2 &&
-       position.y + size/2 > player.position.y - player.playerHeight/2 &&
-       position.y - size/2 < player.position.y + player.playerHeight/2)
-       {
-         player.isClimbing = true;
-       }
+    if(input.isUp || input.isDown || player.isClimbing)
+      if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+         position.x - size/2 < player.position.x + player.playerWidth/2 &&
+         position.y + size/2 > player.position.y - player.playerHeight/2 &&
+         position.y - size/2 < player.position.y + player.playerHeight/2)
+         {
+           player.isClimbing = true;
+         }
   }    
   void CheckCollisionInvis()
   {

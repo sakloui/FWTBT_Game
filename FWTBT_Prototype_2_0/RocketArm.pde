@@ -46,14 +46,14 @@ class RocketArm
   void Move()
   {
     position.x += player.velocity.x * deltaTime;
-    position.y = player.position.y +10;
+    position.y = player.position.y ;
     oldPos.x = player.position.x;
-    oldPos.y = player.position.y +10;
+    oldPos.y = player.position.y;
     
     for(int i = 0; i < savedPositions.size(); i++)
     {
       savedPositions.get(i).x += player.velocity.x * deltaTime;
-      savedPositions.get(i).y = player.position.y +10;
+      savedPositions.get(i).y = player.position.y;
     }
   }
 
