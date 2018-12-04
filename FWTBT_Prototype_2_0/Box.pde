@@ -267,7 +267,7 @@ class Box extends Rectangle
           image(tutorialD,0,0,80,80);
           break;
         case 26:
-          image(tutorialLadderS,0,0,80,80);
+          image(tutorialLadderW,0,0,80,80);
           break;
         case 27:
           image(tutorialW,0,0,80,80);
@@ -285,33 +285,39 @@ class Box extends Rectangle
           image(tutorialZ,0,0,80,80);
           break;
         case 32:
-          image(tutorialLadderW,0,0,80,80);
+          image(tutorialLadderS,0,0,80,80);
           break;                                                  
         case 33:
           image(tutorialDeath,0,0,80,80);
-          break;  
+          break;
+        case 34:
+          image(tutorialSecret,0,0,80,80);
+          break;
+        case 35:
+          image(tutorialEnd,0,0,80,80);
+          break;                      
         // case 34:
         //   image(wireStart,0,0,size,size);
         //   break;  
-        case 35:
+        case 36:
           image(wireHeel,0,0,size,size);
           break;  
-        case 36:
+        case 37:
           image(wireHeel2,0,0,size,size);
           break;
-        case 37:
+        case 38:
           image(wireCompleet,0,0,size,size);
           break;  
-        case 38:
+        case 39:
           image(wireStartBroken,0,0,size,size);
           break;  
-        case 39:
+        case 40:
           image(wireHeelBroken,0,0,size,size);
           break;
-        case 40:
+        case 41:
           image(wireHeel2Broken,0,0,size,size);
           break;          
-        case 41:
+        case 42:
           image(wireCompleetBroken,0,0,size,size);
           break;                                                                                                                              
         }        

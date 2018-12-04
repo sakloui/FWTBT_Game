@@ -7,7 +7,7 @@ class Enemy {
   PVector[] boxesToCheck = new PVector[2];
 
   int enemyType;
-  int bulletTimer = 40;
+  int bulletTimer = 100;
   int cycle = 0;
   int timer = 0;
 
@@ -83,7 +83,7 @@ class Enemy {
       {
         bullet.add(new Bullets(new PVector(x,y),LEFT,atan2(player.position.y - y,player.position.x - x)));
       }
-      bulletTimer = 40;
+      bulletTimer = 100;
     }
     else bulletTimer--;
   }

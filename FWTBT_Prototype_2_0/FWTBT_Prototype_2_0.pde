@@ -73,6 +73,8 @@ PImage tutorialX;
 PImage tutorialZ;
 PImage tutorialK;
 PImage tutorialL;
+PImage tutorialSecret;
+PImage tutorialEnd;
 
 
 
