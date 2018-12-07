@@ -1,6 +1,6 @@
 class Player
 {
-  //----------body----------
+  //----------Body----------
   float playerWidth;
   float playerHeight;
   color playerColor;
@@ -14,19 +14,24 @@ class Player
   float gravity;
   float maxGrav;
 
-  //----------collisions----------
+  PVector acceleration;
+  PVector deceleration;
+  float accelRate = 12f * 60;
+  float decelRate = 20f * 60;
+  float maxSpeed = 300f;
+  float turnSpeed = 3f;
+
+  boolean grounded = false;
+  boolean canJump = false;
+
+  //----------Collisions----------
   float top, bottom, right, left;
   float oldTop, oldBottom, oldRight, oldLeft;
   PVector[] corners = new PVector[6];
   PVector playerBottom;
-  //topLeft, topRight, bottomLeft, bottomRight;
   boolean collidedTop, collidedBottom, collidedRight, collidedLeft;
 
-  //----------Other----------
-  color textColor = color(0);
-  boolean grounded = false;
-  boolean canJump = false;
-
+  //----------Animations----------
   PImage[] idle;
   PImage[] run;
   PImage[] slide;
@@ -37,25 +42,22 @@ class Player
   float currentRunFrame;
   float animationSpeed = 0.3f;
 
-  PVector acceleration;
-  PVector deceleration;
-  float accelRate = 12f * 60;
-  float decelRate = 20f * 60;
-  float maxSpeed = 300f;
-  float turnSpeed = 3f;
-  boolean isDead = false;
+  //----------Player state checks----------
   boolean isClimbing = false;
-
   boolean isFire;
-  int fireTime = 50;
-  int fireFrame = 0;
-
   boolean onMovingPlatform = false;
   boolean onOil = false;
   boolean oilCD = false;
+  boolean isDead = false;
+
+  //----------Other----------
+  color textColor = color(0);
+  
   float oilCounter;
   float oilTimer = 3f;
 
+  int fireTime = 50;
+  int fireFrame = 0;
 
   State playerState;
 
@@ -81,7 +83,7 @@ class Player
 
     SetupSprites();
 
-    //set values once for the first time SetOldPos() is called
+    //set values once before SetOldPos() is called
     SetNewPos();
 
     this.SetState(new IdleState());
@@ -89,11 +91,9 @@ class Player
 
   void SetupSprites()
   {
+    //load all sprites from data folder
     idle = new PImage[2];
     String idleName;
-
-    slide = new PImage[5];
-    String slideName;
 
     jump = new PImage[5];
     String jumpName;
@@ -106,30 +106,24 @@ class Player
 
     for (int i = 0; i < idle.length; i++)
     {
-      //load idle sprites
       idleName = "Sprites/Idle (" + i + ").png";
       idle[i] = loadImage(idleName);
     }
+
     for (int i = 0; i < jump.length; i++)
     {
-      //load jump sprites
       jumpName = "Sprites/Jump (" + i + ").png";
       jump[i] = loadImage(jumpName);
-      // //load slide sprites
-      // slideName = "Sprites/Slide (" + i + ").png";
-      // slide[i] = loadImage(slideName);
-      // slide[i].resize(80, 0);
     }
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < run.length; i++)
     {
-      //load run sprites
       runName = "Sprites/Run (" + i + ").png";
       run[i] = loadImage(runName);
     }
-    for (int i = 0; i < 7; i++)
+
+    for (int i = 0; i < fire.length; i++)
     {
-      //load run sprites
       fireName = "Sprites/RobotSpriteFlame" + i + ".png";
       fire[i] = loadImage(fireName);
     }    
@@ -137,6 +131,7 @@ class Player
 
   void SetOldPos()
   {
+    //save the old player position before moving the player
     oldTop = top;
     oldBottom = bottom;
     oldRight = right;
@@ -145,6 +140,7 @@ class Player
 
   void SetPlayerCorners()
   {
+    //save the corners of the player sprite to calculate the surrounding tiles
     corners[0] = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
     corners[1] = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
     corners[2] = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
@@ -152,48 +148,15 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
+    //same the bottom for groundCheck
     playerBottom = new PVector(position.x, position.y + playerHeight/2);
-
-    /*
-    topLeft = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
-     topRight = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
-     bottomLeft = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
-     bottomRight = new PVector(position.x + (playerWidth/2), position.y + (playerHeight/2));
-     */
   }
 
   void Move()
   {
-    if(onOil)
-    {
-      oilCD = true;
-      oilCounter = 0f;
-      acceleration.x = 75f;
-      deceleration.x = -125f;
-    }
-    else
-    {
-      if(oilCD)
-      {
-        acceleration.x = 125;
-        deceleration.x = -200f;
-
-        oilCounter += deltaTime;
-        if(oilCounter >= oilTimer)
-        {
-          oilCD = false;
-          oilCounter = 0f;  
-        }
-      }
-      else
-      {
-        acceleration.x = 650f;
-        deceleration.x = -750f;  
-      }
-    }
+    handleOilMovement();
     
     //accel movement
-
     if (input.isRight)
     {
       if ( walkingsound.position() == walkingsound.length() && grounded)
@@ -207,20 +170,24 @@ class Player
       }         
       if (velocity.x >= 0)
       {
-        ///acceleration.x += 20f * maxSpeed;
+        //increase velocity untill maxSpeed is reached
         velocity.x += acceleration.x * deltaTime;
         if (velocity.x > maxSpeed)
           velocity.x = maxSpeed;
-      } else if (velocity.x + deceleration.x < 0)
+      }
+      else if (velocity.x + deceleration.x < 0)
+      //if right key pressed but player is moving to the left
       {
-        ///deceleration.x -= 20f * turnSpeed;
+        //change direction with extra speed (turnSpeed)
         velocity.x -= turnSpeed * deceleration.x * deltaTime;
-      } else
-        ///velocity is lower than 0 but not low enough to add deceleration.
+      } 
+      else
+      //velocity is lower than 0 but not low enough to add deceleration.
       {
         velocity.x = 0;
       }
-    } else if (input.isLeft)
+    } 
+    else if (input.isLeft)
     {
       if ( walkingsound.position() == walkingsound.length() && grounded)
       {
@@ -233,119 +200,41 @@ class Player
       }         
       if (velocity.x <= 0)
       {
-        //acceleration.x += 20f * maxSpeed;
+        //increase velocity untill maxSpeed is reached
         velocity.x -= acceleration.x * deltaTime;
         if (velocity.x < -maxSpeed)
           velocity.x = -maxSpeed;
-      } else if (velocity.x - deceleration.x > 0)
+      } 
+      else if (velocity.x - deceleration.x > 0)
+      //if left key pressed but player is moving to the right
       {
-        ///deceleration.x -= 20f * turnSpeed;
+        //change direction with extra speed (turnSpeed)
         velocity.x += turnSpeed * deceleration.x * deltaTime;
-      } else
-        ///velocity is higher than 0 but not high enough to add deceleration.
+      } 
+      else
+      //velocity is higher than 0 but not high enough to add deceleration.
       {
         velocity.x = 0;
       }      
-    } else
+    }
+    else
+    //if no key is pressed
     {
       if (velocity.x + deceleration.x * deltaTime > 0)
       {
-        //deceleration.x -= 20f;
+        //if player is moving to the right, decelerate player
         velocity.x += deceleration.x * deltaTime;
-      } else if (velocity.x - deceleration.x * deltaTime < 0)
+      }
+      else if (velocity.x - deceleration.x * deltaTime < 0)
       {
-        //deceleration.x -= 20f;
+        //if player is moving to the left, decelerate player
         velocity.x -= deceleration.x * deltaTime;
-      } else 
+      } 
+      else 
       {
         velocity.x = 0;
       }
     }
-
-    /*
-    if (input.isRight)
-     {
-     acceleration.x = accelRate;
-     if (velocity.x > maxSpeed)
-     velocity.x = maxSpeed;
-     else
-     velocity.add(acceleration.mult(deltaTime));
-     } else if (input.isLeft)
-     {
-     acceleration.x = accelRate;
-     if (velocity.x < -maxSpeed)
-     velocity.x = -maxSpeed;
-     else
-     {
-     velocity.sub(acceleration.mult(deltaTime));
-     }
-     } 
-     else
-     {
-     if (velocity.x > decelRate * turnSpeed && input.isLeft)
-     {
-     decelRate *= turnSpeed;
-     } 
-     if (velocity.x > decelRate * deltaTime)
-     {
-     acceleration.x = decelRate;
-     velocity.sub(acceleration.mult(deltaTime));
-     decelRate /= turnSpeed;
-     }
-     else if (velocity.x < decelRate * turnSpeed && input.isRight)
-     {
-     decelRate *= turnSpeed;
-     }
-     if (velocity.x < -decelRate * deltaTime)
-     {
-     if (input.isRight)
-     {
-     decelRate *= turnSpeed;
-     }
-     acceleration.x = decelRate;
-     velocity.add(acceleration.mult(deltaTime));
-     decelRate /= turnSpeed;
-     } 
-     else
-     {
-     acceleration.x = 0;
-     velocity.x = 0;
-     }
-     }
-     */
-
-    /*
-    //standard left right
-     if (input.isRight)
-     {
-     velocity.x = speed * deltaTime;
-     }    
-     if (input.isLeft)
-     {
-     velocity.x = -speed * deltaTime;
-     }
-     
-     if (!input.isRight && !input.isLeft)
-     {
-     velocity.x = 0;
-     }
-     */
-
-    /*
-    //standard up-down
-     if (input.isUp)
-     {
-     velocity.y = -speed * deltaTime;
-     } 
-     if (input.isDown)
-     {
-     velocity.y = speed * deltaTime;
-     } 
-     if (!input.isUp && !input.isDown)
-     {
-     velocity.y = 0;
-     }
-     */
 
     //jump
     if (input.isUp && grounded)
@@ -363,9 +252,44 @@ class Player
       jumpsound.play();      
     }
   }
-void Climb()
+
+  void handleOilMovement()
   {
-    //accel movement
+    if(onOil)
+    {
+      oilCD = true;
+      oilCounter = 0f;
+      acceleration.x = 75f;
+      deceleration.x = -125f;
+    }
+    else
+    {
+      if(oilCD)
+      {
+        //if not on oil, but still oil under feet (cooldown not yet passed)
+        acceleration.x = 125;
+        deceleration.x = -200f;
+
+        //reduce cooldown
+        oilCounter += deltaTime;
+        if(oilCounter >= oilTimer)
+        {
+          oilCD = false;
+          oilCounter = 0f;  
+        }
+      }
+      else
+      {
+        //no oil under feet, reset acceleration to normal
+        acceleration.x = 650f;
+        deceleration.x = -750f;  
+      }
+    }
+  }
+
+  void Climb()
+  {
+    //linear movement
     velocity.x = 0;
     velocity.y = 0;
     if (input.isRight)
@@ -393,15 +317,20 @@ void Climb()
   {
     if (!grounded)
     {
+      //apply gravity
       velocity.y += gravity * deltaTime;
+
+      //don't let player fall faster than maxGravity
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-    } else
+    } 
+    else
       velocity.y = 0;
   }
 
   void SetNewPos()
   {
+    //save position after moving the player
     top = position.y - playerHeight/2;
     bottom = top + playerHeight;
     right = position.x + playerWidth/2;
@@ -425,13 +354,14 @@ void Climb()
       fireFrame++;
     }
   }
+
   void Update()
   {
     SetOldPos();
     SetPlayerCorners();
     if(!isClimbing)
     {
-      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
+      if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
       {
          Move();
       }
@@ -443,7 +373,7 @@ void Climb()
     }
     else
     {
-      if (powerUpManager.rocketArm == null ||!powerUpManager.rocketArm.pullPlayer && !powerUpManager.rocketArm.returnGrapple)
+      if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer && !powerUpManager.rocketArm.returnGrapple)
       {
          Climb();
       }
@@ -454,7 +384,9 @@ void Climb()
       }          
     }
     
+    //update player idle, run or jump state
     playerState.OnTick();
+
     if(!isClimbing)
     {
       if (powerUpManager.rocketArm == null || !powerUpManager.rocketArm.pullPlayer/* && !powerUpManager.rocketArm.returnGrapple*/)
@@ -466,19 +398,23 @@ void Climb()
     }
 
     SetNewPos();  
-    if (bottom != oldBottom || right != oldRight)
+    if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
+    //if the player moved
     {
-      
       if(boxManager.bottomBox != null)
       {
+        //check for boxes under the player
         ResolveCollision(boxManager.bottomBox, "Box");
       }
     }
    
   }
 
-   void GetCollisionDirection(Rectangle box)
-  { 
+  void GetCollisionDirection(Rectangle box)
+  {
+    //check which side of the player collided
+    //set that corresponding boolean to true and call ResolveCollision
+
     if (box.getCollides() == 0) return;
     if (oldBottom < box.getTop() && // was not colliding
       bottom >= box.getTop())// now is colliding
@@ -522,6 +458,7 @@ void Climb()
     if(object == "MovingPlatform")
     {
       if(velocity.y > 0)
+      //only collide with moving platform when moving downward
       {
         if (collidedBottom)
         {
@@ -541,20 +478,27 @@ void Climb()
     {
       if (collidedTop)
       {
+        //move the player under the box
         position.y = box.getY() + box.getHeight()/2 + playerHeight/2 + 0.1f;
         velocity.y = 0;
         collidedTop = false;
       }
       if (collidedBottom)
       {
+        //move the player on top of the box
         position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
         velocity.y = 0;
         grounded = true;
         collidedBottom = false;
-      } else
+      } 
+      else
+      {
+        //if not collidedBottom, player is in the air
         grounded = false;
+      }
       if (collidedRight)
       {
+        //move the player left of the box
         position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;
         velocity.x = 0;
         collidedRight = false;
@@ -562,12 +506,13 @@ void Climb()
       }
       if (collidedLeft)
       {
+        //move the player right of the box
         position.x = box.getX() + box.getWidth()/2 + playerWidth/2 + 0.1f;
         velocity.x = 0;
         collidedLeft = false;
       }
     }
-
+    //save new position after changing the player position to outside the colliding box
     SetNewPos();
   }
 
@@ -578,9 +523,9 @@ void Climb()
       pushMatrix();
       fill(playerColor);
       noStroke();
+      //draw the idle/run/jump animations
       playerState.OnDraw();
       translate(position.x, position.y);
-      //rect(0, 0, playerWidth, playerHeight);
       popMatrix();
       fireRocket();      
     }

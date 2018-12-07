@@ -1,18 +1,15 @@
 class PowerUpManager
 {
+  //----------Objects----------
   ArrayList<Fuel> fuels = new ArrayList<Fuel>();
   RocketJump rocketJump;
   RocketArm rocketArm;
 
+  //----------Sprites----------
   PImage rocketJumpIcon = loadImage("PowerUps/RocketJump.png");
   PImage rocketArmIcon = loadImage("PowerUps/RocketArm.png");
 
-  int iconSize = 20;
-  int fuelCount = 0;
-  int maxFuelCount = 500;
-  boolean rocketJumpActive = false;
-  boolean rocketArmActive = false;
-
+  //----------Powerup cooldowns----------
   boolean rocketJumpCD = false;
   boolean rocketArmCD = false;
   float rocketJumpCounter = 0f;
@@ -20,13 +17,16 @@ class PowerUpManager
   float rocketJumpDelay = 2.5f;
   float rocketArmDelay = 2f;
 
+  //----------Other----------
+  int iconSize = 20;
+  int fuelCount = 0;
+  int maxFuelCount = 500;
+  boolean rocketJumpActive = false;
+  boolean rocketArmActive = false;
+
   PowerUpManager()
   {
-    SpawnObjects();
-  }
-
-  void SpawnObjects()
-  {
+    
   }
 
   void Update()
@@ -38,28 +38,14 @@ class PowerUpManager
     UpdatePowerUps();
     
     if(rocketJumpCD)
+    {
+      //if still on cooldown, reduce cooldown
       RocketJumpCD();
-    if(rocketArmCD)
-      RocketArmCD();
-  }
-
-  void RocketJumpCD()
-  {
-    rocketJumpCounter += deltaTime;
-    if (rocketJumpCounter > rocketJumpDelay)
-    {
-      rocketJumpCounter = 0;
-      rocketJumpCD = false;
     }
-  }
-  
-  void RocketArmCD()
-  {
-    rocketArmCounter += deltaTime;
-    if (rocketArmCounter > rocketArmDelay)
+    if(rocketArmCD)
     {
-      rocketArmCounter = 0;
-      rocketArmCD = false;
+      //if still on cooldown, reduce cooldown
+      RocketArmCD();
     }
   }
 
@@ -68,6 +54,7 @@ class PowerUpManager
     if (input.isK && rocketJumpActive && rocketJump.fuelCost <= fuelCount)
     {
       if(!rocketJumpCD)
+      //if not on cooldown
       {
         RocketJump();
         rocketJumpCD = true;
@@ -79,6 +66,7 @@ class PowerUpManager
     if (input.isL && rocketArmActive && rocketArm.fuelCost <= fuelCount)
     {
       if(!rocketArmCD)
+      //if not on cooldown
       {
         RocketArm();
         rocketArmCD = true;
@@ -89,6 +77,7 @@ class PowerUpManager
 
   void CheckPowerUps()
   {
+    //check if powerUps are picked up
     if (rocketJump != null && rocketJump.pickedUp)
     {
       rocketJumpActive = true;
@@ -102,19 +91,45 @@ class PowerUpManager
 
   void UpdatePowerUps()
   {
+    //make sure fuelCount is never bigger than maxFuelCount
     if(fuelCount > maxFuelCount)
     {
       fuelCount = maxFuelCount;
     }
     for (int i = 0; i < fuels.size(); i++)
     {
-      if(fuels.get(i) != null)         
-      fuels.get(i).Update();
+      if(fuels.get(i) != null)      
+      {
+        //play fuel animation
+        fuels.get(i).Update();
+      } 
     }
     if(rocketJump != null)
       rocketJump.Update();
     if(rocketArm != null)
       rocketArm.Update();
+  }
+
+  void RocketJumpCD()
+  {
+    //reduce cooldown
+    rocketJumpCounter += deltaTime;
+    if (rocketJumpCounter > rocketJumpDelay)
+    {
+      rocketJumpCounter = 0;
+      rocketJumpCD = false;
+    }
+  }
+  
+  void RocketArmCD()
+  {
+    //reduce cooldown
+    rocketArmCounter += deltaTime;
+    if (rocketArmCounter > rocketArmDelay)
+    {
+      rocketArmCounter = 0;
+      rocketArmCD = false;
+    }
   }
 
   void RocketJump()
@@ -127,8 +142,9 @@ class PowerUpManager
   void RocketArm()
   {
     fuelCount -= rocketArm.fuelCost;
-    player.velocity.x /= 2.5;
-    player.velocity.y /= 2.5;
+    //reduce velocity while shooting grappling hook
+    player.velocity.x /= 2.5f;
+    player.velocity.y /= 2.5f;
     rocketArm.position = player.position.copy();
     rocketArm.savedPositions.add(new PVector(rocketArm.position.x, rocketArm.position.y +10));
     rocketArm.oldPos = rocketArm.position.copy();
