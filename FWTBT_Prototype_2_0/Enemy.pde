@@ -69,7 +69,7 @@ class Enemy {
     }
     else if (enemyType == 6) 
     {
-      image(electricOrbPurple[cycle], 0, 0)
+      image(electricOrbPurple[cycle], 0, 0);
     }
     
     popMatrix();
