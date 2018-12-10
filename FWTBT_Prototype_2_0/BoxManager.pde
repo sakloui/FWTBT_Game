@@ -1,26 +1,29 @@
-
-
 class BoxManager
 {
+  //----------Properties----------
   float boxSize = 40;
   int rows = 32;
   int columns = 18;
   int level;
+
+  //----------Arrays and lists----------
   Box[][] boxes = new Box[rows][columns];
   Box[][] foreground = new Box[rows][columns];
-
+  
+  //----------Surrounding boxes----------
   ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> foreOver = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
   Box bottomBox;
 
+  //----------Current player location----------
   int[] xTile = new int[6];
   int[] yTile = new int[6];
   int xBottom, yBottom;
   int[] xEnemyTile = new int[50];
   int[] yEnemyTile = new int[50];  
 
-
+  //----------Other----------
   boolean updateGridTrue;
   int currentGrid;
   int updateTime = 10;
@@ -64,6 +67,7 @@ class BoxManager
 
     player.velocity = new PVector(0, 0);
 
+    //fill 2 dimensional array with Box-objects
     boxes = new Box[rows][columns];
     foreground = new Box[rows][columns];
     camera.shiftX = 0;
@@ -358,11 +362,13 @@ for(int i = 0; i < rows; i++)
       yPercentage = player.corners[i].y / (height * ((float) columns / 18)) * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
+    //get the tiles underneath the player for groundCheck
     xPercentage = player.playerBottom.x / width * 100;
     xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / height * 100;
     yBottom = floor(columns / 100f * yPercentage);
 
+    //get enemy tile position
     for (int i = 0; i < enemies.size(); ++i) {
       float xEnemyPercentage = enemies.get(i).x / (width * ((float) rows / 32)) * 100;
       xEnemyTile[i] = floor(rows / 100f * xEnemyPercentage);
@@ -374,14 +380,18 @@ for(int i = 0; i < rows; i++)
 
   void SetOverCells()
   {
+    //add the boxes the player is currently on top of to the over ArrayList
     for (int i = 0; i < 6; i++)
     {
       if (xTile[i] >= rows || xTile[i] <= 0);
       else if (yTile[i] >= columns || yTile[i] <= 0);
       else
+      //if valid row and column
       {
+        //store box in temporary box variable
         Box box = boxes[xTile[i]][yTile[i]];
 
+        //if the box is not yet in the over ArrayList, add it
         if (!over.contains(box))
         {
           over.add(box);
@@ -406,13 +416,15 @@ for(int i = 0; i < rows; i++)
 
   void SetSurroundingCells()
   {
+    //get the boxes surrounding the player
     for (int i = 0; i < 6; i++)
     {
-      //if cell is within the array of cells
+      //if grid cell is within the array of cells(boxes)
       if (xTile[i] >= rows || xTile[i] + 1 >= rows || xTile[i] <= 0 || xTile[i] - 1 < 0);
       else if (yTile[i] >= columns || yTile[i] + 1 >= columns || yTile[i] <= 0 || yTile[i] - 1 < 0);
       else
       {
+        //set temporary box variables to the box surrounding player
         Box boxTop = boxes[xTile[i]][yTile[i]-1];
         Box boxBottom = boxes[xTile[i]][yTile[i]+1];
         Box boxRight = boxes[xTile[i]-1][yTile[i]];
@@ -422,6 +434,7 @@ for(int i = 0; i < rows; i++)
         Box boxBottomLeft = boxes[xTile[i]-1][yTile[i]+1];
         Box boxBottomRight = boxes[xTile[i]+1][yTile[i]+1];
 
+        //if its not yet in the surrounding boxes ArrayList, add it
         if (!surrounding.contains(boxTop) && !over.contains(boxTop))
         {
           surrounding.add(boxTop);
@@ -460,7 +473,10 @@ for(int i = 0; i < rows; i++)
     if (xBottom + 1 >= rows || xBottom - 1 < 0);
     else if (yBottom + 1 >= columns || yBottom - 1 < 0);
     else
+    {
+      //set bottomBox to the boxes below the player
       bottomBox = boxes[xBottom][yBottom];
+    }
   }
 
   void SetGridColor()
@@ -520,6 +536,8 @@ for(int i = 0; i < rows; i++)
 
   void CheckEnemyCollision()
   {
+    //check for collision left and right of the enemy
+    //if there is a tiles that it collides with, it changes direction
     for (int i = 0; i < enemies.size(); ++i) {
       if(enemies.get(i) != null)
       {
@@ -530,12 +548,12 @@ for(int i = 0; i < rows; i++)
           //check left and right tile
         if (!(xEnemyTile[i] <= 0 || xEnemyTile[i] >= rows - 1))
         {
+          //set the boxes to check collision on
           enemies.get(i).boxesToCheck[0] = new PVector(xEnemyTile[i]-1, yEnemyTile[i]);
           enemies.get(i).boxesToCheck[1] = new PVector(xEnemyTile[i]+1, yEnemyTile[i]);           
         }   
       } 
     }
-    
   }
 
   void DrawBoxes()

@@ -1,16 +1,18 @@
 class Box extends Rectangle
 {
-  PVector position;
+  //----------Box properties----------
   float size;
   color groundColor = color(255);
 
+  //----------Position----------
+  PVector position;
   float top, bottom, right, left;
 
+  //----------Other----------
   int collides;
   int foreCollides;
   int dist = 20;
   float timer = random(100,1000);
-
   boolean switched = false;
 
   Box(PVector position, float size, boolean foreground,int collide)
@@ -30,12 +32,15 @@ class Box extends Rectangle
 
   void SetPosValues()
   {
+    //save the top, bottom, left and right positions for collision detection
     top = position.y - size/2;
     bottom = top + size;
     right = position.x + size/2;
     left = right - size;
   }
 
+  //all protected methods are from the Rectangle super class
+  //these are used for collision detection
   protected String getName() {
     return name;
   }
@@ -75,19 +80,19 @@ class Box extends Rectangle
   protected Box getBox() {
     return this;
   }    
-  
-
 
   void CheckCollision()
   {
+    //if the player is within a box
     if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
        position.x - size/2 < player.position.x + player.playerWidth/2 &&
        position.y + size/2 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-         player.GetCollisionDirection(this);
+          //handle collision in the player class, pass *this* (instance of the box class) to the method
+          //the method uses the protected methods to above to get the box position variables
+          player.GetCollisionDirection(this);
        }
-
   }
   void CheckCollisionTop()
   {
@@ -96,8 +101,9 @@ class Box extends Rectangle
        position.y + 10 > player.position.y - player.playerHeight/2 &&
        position.y - size/2 < player.position.y + player.playerHeight/2)
        {
-
-         player.GetCollisionDirection(this);
+          //handle collision in the player class, pass *this* (instance of the box class) to the method
+          //the method uses the protected methods to above to get the box position variables
+          player.GetCollisionDirection(this);
        }
 
   }
