@@ -148,7 +148,7 @@ class Menu
     button[1].createButton();
     button[2] = new Buttons(width/2,height/2,"You died, continue?","text",255);
     button[2].createButton();   
-    button[3] = new Buttons(width/2, height/2-50, "The highscore is: " + str(highscore.getHighscore(currentLevel)), "text", 255);           
+    button[3] = new Buttons(width/2, height/2-50, "The highscore is: " + str(highscore.getHighscore(currentLevel-1)), "text", 255);           
 
   }  
   void updateMenu()
