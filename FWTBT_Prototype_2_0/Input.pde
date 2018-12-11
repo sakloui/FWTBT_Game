@@ -21,7 +21,10 @@ class Input
     case 32:
       return isSpace = b;
     case 'P':
-      return isP = b;      
+      return isP = b; 
+    case 27:
+      key = 0;
+      return isP = b;     
     default:
       return b;
     }

@@ -136,10 +136,10 @@ class Box extends Rectangle
   }
   void CheckCollisionSwitch()
   {
-    if(position.x + 5 > player.position.x - player.playerWidth/2 &&
-       position.x - 5 < player.position.x + player.playerWidth/2 &&
-       position.y + 5 > player.position.y - player.playerHeight/2 &&
-       position.y - 5 < player.position.y + player.playerHeight/2)
+    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
+       position.x - size/2 < player.position.x + player.playerWidth/2 &&
+       position.y + size/2 > player.position.y - player.playerHeight/2 &&
+       position.y - size/2 < player.position.y + player.playerHeight/2)
     {    
       if(collides == 8 && !switched){
         switched = true;
@@ -153,10 +153,10 @@ class Box extends Rectangle
 
   void CheckCollisionNext()
   {
-    if(position.x + size/2 > player.position.x - player.playerWidth/2 &&
-       position.x - size/2 < player.position.x + player.playerWidth/2 &&
-       position.y + size/2 > player.position.y - player.playerHeight/2 &&
-       position.y - size/2 < player.position.y + player.playerHeight/2)
+    if(position.x + 80/2 > player.position.x - player.playerWidth/2 &&
+       position.x - 80/2 < player.position.x + player.playerWidth/2 &&
+       position.y + 80/2 > player.position.y - player.playerHeight/2 &&
+       position.y - 80/2 < player.position.y + player.playerHeight/2)
        {
           if(collides == 4)
           {

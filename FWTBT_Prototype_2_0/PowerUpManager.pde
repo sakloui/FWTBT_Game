@@ -146,8 +146,6 @@ class PowerUpManager
 
   void Draw()
   {
-    DrawPowerUps();
-    DrawIcons();
   }
 
   void DrawPowerUps()

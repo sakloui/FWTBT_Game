@@ -239,17 +239,17 @@ void draw()
         enemies.get(i).Draw();
       }  
 
-      powerUpManager.Draw();
+      powerUpManager.DrawPowerUps();
 
       boxManager.DrawForeground();
 
-         
+
 
       player.Draw();
 
 
+      powerUpManager.DrawIcons();
 
- 
 
       gameManager.Draw();
 
