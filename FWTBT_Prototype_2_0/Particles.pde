@@ -2,14 +2,18 @@ class Particles
 {
 	PVector position;
 	float vx;
+	float vi;
 	float size = 5;
+	color colors;
 	
 	float vy;
-	Particles(PVector pos)
+	Particles(PVector pos,float velx, float vely, float velinc, color col)
 	{
 		position = pos.copy();
-		vx = random(-3,3);
-		vy = random(-1,4);
+		vx = velx;
+		vy = vely;
+		colors = col;
+		vi = velinc;
 	}
 
 	void Update()
@@ -24,7 +28,7 @@ class Particles
 		}
 		position.y -= vy;
 		if(vy > -20)
-			vy -= 0.1;
+			vy -= vi;
 
 
 
@@ -66,7 +70,7 @@ class Particles
 
 	void Draw()
 	{
-		fill(255,255,0);
+		fill(colors);
 		rect(position.x - camera.shiftX ,position.y - camera.shiftY,size,size);
 		noFill();
 	}

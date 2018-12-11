@@ -76,6 +76,14 @@ PImage tutorialL;
 PImage tutorialSecret;
 PImage tutorialEnd;
 
+PImage uiScreen;
+PImage uiScreenOverlay;
+PImage uiScreen2;
+PImage uiScreen2Overlay;
+PImage uiScreenGreen;
+PImage uiScreenOverlayGreen;
+PImage uiScreen2Green;
+PImage uiScreen2OverlayGreen;
 
 
 
@@ -202,6 +210,14 @@ void draw()
         bullet.get(i).Update();
       }      
 
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.size() > 100)
+          particle.remove(0);
+        if(particle.get(i) !=null)
+          particle.get(i).Update();
+      }      
+
+      menu.update();
       highscore.updateScore();      
       gameManager.Update();
       for(Magnet mag: magnet){
@@ -221,7 +237,10 @@ void draw()
         bullet.get(i).Draw();
       }     
 
-      
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.get(i) !=null)
+        particle.get(i).Draw();
+      }      
 
       for(Magnet mag: magnet){
         mag.Draw();

@@ -45,6 +45,7 @@ class Player
   float turnSpeed = 3f;
   boolean isDead = false;
   boolean isClimbing = false;
+  boolean inAir = false;
 
   boolean isFire;
   int fireTime = 50;
@@ -358,6 +359,7 @@ class Player
         velocity.x = (velocity.x /4 * 3.5);  
       }
       grounded = false;
+      inAir = true;
       onMovingPlatform = false;
       jumpsound.rewind();
       jumpsound.play();      
@@ -396,8 +398,10 @@ void Climb()
       velocity.y += gravity * deltaTime;
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
+      inAir = true;
     } else
       velocity.y = 0;
+
   }
 
   void SetNewPos()
@@ -427,6 +431,15 @@ void Climb()
   }
   void Update()
   {
+    println(collidedBottom);
+      if(inAir && grounded){
+        inAir = false;
+        int rand = ceil(random(1,4));
+        for(int i = 0; i < rand; i++)
+        {
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(1,4),0.1, color(255,255,0)));
+        }
+      }    
     SetOldPos();
     SetPlayerCorners();
     if(!isClimbing)
@@ -466,9 +479,9 @@ void Climb()
     }
 
     SetNewPos();  
-    if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
+    if(boxManager.bottomBox != null && boxManager.bottomBox.collides == 0)
     {
-        ResolveCollision(boxManager.bottomBox, "Box");
+      grounded = false;
     }
    
   }
@@ -548,7 +561,10 @@ void Climb()
         grounded = true;
         collidedBottom = false;
       } else
+      {
         grounded = false;
+      }
+
       if (collidedRight)
       {
         position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;

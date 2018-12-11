@@ -52,6 +52,15 @@ void extraSetup()
   tutorialSecret = loadImage("Textures/Tutorial/Tutorial_Secret_point.png");
   tutorialEnd = loadImage("Textures/Tutorial/Tutorial_Victory.png");
 
+  uiScreen = loadImage("ui/screen.png");
+  uiScreenOverlay = loadImage("ui/screenOverlay.png");
+  uiScreen2 = loadImage("ui/screen2.png");
+  uiScreen2Overlay = loadImage("ui/screen2Overlay.png");
+
+  uiScreenGreen = loadImage("ui/screenGreen.png");
+  uiScreenOverlayGreen = loadImage("ui/screenOverlayGreen.png");
+  uiScreen2Green = loadImage("ui/screen2Green.png");
+  uiScreen2OverlayGreen = loadImage("ui/screen2OverlayGreen.png");
 
   for (int i = 0; i < basicEnemy.length; i++)
   {

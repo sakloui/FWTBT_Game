@@ -1,5 +1,8 @@
 class Anchor
 {
+  
+  // This stores and draws the position of the anchor, the position is used in the RocketArm class to check if it's close to the grapple hook. 
+  
   PVector position;
   int size = 40;
   color anchorColor = color(100, 255, 255);

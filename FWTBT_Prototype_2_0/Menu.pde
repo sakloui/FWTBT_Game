@@ -29,7 +29,12 @@ class Menu
   
   void update()
   {
-    
+    if(input.isR){
+      boxManager = new BoxManager(currentLevel);
+      gameManager.currencyValues[3]++;
+      gameManager.currencyValues[2] = 0;
+      input.isR = false;
+    }
     
   }
   
@@ -239,9 +244,9 @@ class Menu
         if(button[currentSel].text == "Select"){mainmenuShown = false; back.clear();currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
         if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
-        if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
+        if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu(); gameManager = new GameManager();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
         if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
-        if(button[currentSel].text == "Retry"){boxManager = new BoxManager(currentLevel);isMenu = false;}
+        if(button[currentSel].text == "Retry"){boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
       }
   }
     
