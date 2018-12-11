@@ -1,15 +1,16 @@
 public class RunState extends State
 {
-   PVector velocity;
+  PVector velocity;
   float animationSpeed;
   float currentFrame;
-  //int currentDirection;
   final int LEFT = 0, RIGHT = 1;
   
   public void OnStateEnter()
   {
-    
+    //set the speed for the jump animation
     animationSpeed = 0.25f;
+
+    //get the direction the player is facing to draw the sprite in the correct direction
     if(player == null)
     {
       currentDirection = 1;
@@ -19,11 +20,15 @@ public class RunState extends State
       currentDirection = player.currentDirection;
     }
   }
-   public void OnTick()
+  
+  public void OnTick()
   {
+    //currentFrame is the sprite that's selected from the array of sprites
+    //currentFrame is incremented untill it reaches the length of the array, then it restarts
     velocity = player.velocity.copy();
     currentFrame = (currentFrame + animationSpeed) % 8;    
     
+    //check if state switch is needed
     if(velocity.x == 0)
     {
       player.SetState(new IdleState());
@@ -41,11 +46,12 @@ public class RunState extends State
       currentDirection = LEFT;
     }
   }
-   public void OnDraw()
-  {
-    
+  
+  public void OnDraw()
+  {  
     pushMatrix();
     translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
+    //draw the currect sprite from the array, flip the sprite if it needs to face left
     if(currentDirection == RIGHT)
     {
       image(player.run[int(currentFrame)], 0, 0);
@@ -59,9 +65,9 @@ public class RunState extends State
     }
     popMatrix();
   }
-   public void OnStateExit()
+  
+  public void OnStateExit()
   {
-    
     player.currentDirection = currentDirection;
   }
 }
