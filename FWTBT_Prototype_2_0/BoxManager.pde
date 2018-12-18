@@ -15,6 +15,8 @@ class BoxManager
   ArrayList<Box> foreOver = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
   Box bottomBox;
+  Box bottomRightBox;
+  Box bottomLeftBox;
 
   //----------Current player location----------
   int[] xTile = new int[6];
@@ -23,6 +25,14 @@ class BoxManager
   int[] xEnemyTile = new int[50];
   int[] yEnemyTile = new int[50];  
 
+  Box boxTop;
+  Box boxBottom;
+  Box boxRight;
+  Box boxLeft;
+  Box boxTopLeft;
+  Box boxTopRight;
+  Box boxBottomLeft;
+  Box boxBottomRight;
 
   //----------Other----------
   boolean updateGridTrue;
@@ -95,51 +105,51 @@ for(int i = 0; i < rows; i++)
           if(map.pixels[p] == color(0,0,0)){
             coll = 1;
           }
-          if(map.pixels[p] == color(255,100,0)){
+          else if(map.pixels[p] == color(255,100,0)){
             coll = 2;
           }
-          if(map.pixels[p] == color(0,255,0)){
+          else if(map.pixels[p] == color(0,255,0)){
             coll = 3;
           }
-          if(map.pixels[p] == color(255,255,0)){
+          else if(map.pixels[p] == color(255,255,0)){
             coll = 4;
           }
           //steel pillar col 
-          if(map.pixels[p] == color(0,0,1)){
+          else if(map.pixels[p] == color(0,0,1)){
             coll = 5;
           }          
-          if(map.pixels[p] == color(150,150,150)){
+          else if(map.pixels[p] == color(150,150,150)){
             coll = 7;
           }
-          if(map.pixels[p] == color(255,255,100)){
+          else if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
           //small platform top right
-          if(map.pixels[p] == color(0,5,0)){
+          else if(map.pixels[p] == color(0,5,0)){
             coll = 10;
           }
           //small platform pillar right
-          if(map.pixels[p] == color(0,10,0)){
+          else if(map.pixels[p] == color(0,10,0)){
             coll = 11;
           }
           //small platform top left
-          if(map.pixels[p] == color(5,0,0)){
+          else if(map.pixels[p] == color(5,0,0)){
             coll = 12;
           }
           //small platform pillar right
-          if(map.pixels[p] == color(10,0,0)){
+          else if(map.pixels[p] == color(10,0,0)){
             coll = 13;
           }
           //mini platform top
-          if(map.pixels[p] == color(0,0,5)){
+          else if(map.pixels[p] == color(0,0,5)){
             coll = 14;
           }
           //steel platform left
-          if(map.pixels[p] == color(20,10,0)){
+          else if(map.pixels[p] == color(20,10,0)){
             coll = 15;
           }
           //steel platform middle
-          if(map.pixels[p] == color(25,0,0)){
+          else if(map.pixels[p] == color(25,0,0)){
             coll = 16;
             int rand = ceil(random(0, 5));
             if(rand == 5)
@@ -150,164 +160,164 @@ for(int i = 0; i < rows; i++)
             }
           }
           //steel platform right
-          if(map.pixels[p] == color(20,0,10)){
+          else if(map.pixels[p] == color(20,0,10)){
             coll = 17;
           }
           //steel platform middle 2
-          if(map.pixels[p] == color(30,0,0)){
+          else if(map.pixels[p] == color(30,0,0)){
             coll = 18;
           }
           //steel pillar
-          if(map.pixels[p] == color(20,0,0)){
+          else if(map.pixels[p] == color(20,0,0)){
             coll = 19;
           }
           //hook middle
-          if(map.pixels[p] == color(100,0,0)){
+          else if(map.pixels[p] == color(100,0,0)){
             coll = 20;
           }
           //hook top
-          if(map.pixels[p] == color(110,0,0)){
+          else if(map.pixels[p] == color(110,0,0)){
             coll = 21;
           }
 
           //Invisible hitboxes enemy
-          if(map.pixels[p] == color(220,0,0)){
+          else if(map.pixels[p] == color(220,0,0)){
             coll = 22;
           }
           //Ladder      
           //Tutorial stuff
-          if(map.pixels[p] == color(0,55,0)){
+          else if(map.pixels[p] == color(0,55,0)){
             coll = 24;
           }     
 
-          if(map.pixels[p] == color(0,60,0)){
+          else if(map.pixels[p] == color(0,60,0)){
             coll = 25;
           }     
 
-          if(map.pixels[p] == color(0,65,0)){
+          else if(map.pixels[p] == color(0,65,0)){
             coll = 26;
           }     
 
-          if(map.pixels[p] == color(0,70,0)){
+          else if(map.pixels[p] == color(0,70,0)){
             coll = 27;
           }     
 
-          if(map.pixels[p] == color(0,75,0)){
+          else if(map.pixels[p] == color(0,75,0)){
             coll = 28;
           }      
 
-          if(map.pixels[p] == color(0,80,0)){
+          else if(map.pixels[p] == color(0,80,0)){
             coll = 29;
           }    
 
-          if(map.pixels[p] == color(0,85,0)){
+          else if(map.pixels[p] == color(0,85,0)){
             coll = 30;
           }    
 
-          if(map.pixels[p] == color(0,90,0)){
+          else if(map.pixels[p] == color(0,90,0)){
             coll = 31;
           }    
 
-          if(map.pixels[p] == color(0,95,0)){
+          else if(map.pixels[p] == color(0,95,0)){
             coll = 32;
           }    
 
-          if(map.pixels[p] == color(0,100,0)){
+          else if(map.pixels[p] == color(0,100,0)){
             coll = 33;
           }   
-          if(map.pixels[p] == color(0,105,0)){
+          else if(map.pixels[p] == color(0,105,0)){
             coll = 34;
           } 
-          if(map.pixels[p] == color(0,110,0)){
+          else if(map.pixels[p] == color(0,110,0)){
             coll = 35;
           }           
           //Wires
-          // if(map.pixels[p] == color(255,100,0)){
+          // else if(map.pixels[p] == color(255,100,0)){
           //   coll = 34;
           // }                       
-          if(map.pixels[p] == color(255,100,5)){
+          else if(map.pixels[p] == color(255,100,5)){
             coll = 36;
           }                       
-          if(map.pixels[p] == color(255,100,10)){
+          else if(map.pixels[p] == color(255,100,10)){
             coll = 37;
           }                       
-          if(map.pixels[p] == color(255,100,15)){
+          else if(map.pixels[p] == color(255,100,15)){
             coll = 38;
           }                       
-          if(map.pixels[p] == color(255,100,20)){
+          else if(map.pixels[p] == color(255,100,20)){
             coll = 39;
           }                       
-          if(map.pixels[p] == color(255,100,25)){
+          else if(map.pixels[p] == color(255,100,25)){
             coll = 40;
           }                       
-          if(map.pixels[p] == color(255,100,30)){
+          else if(map.pixels[p] == color(255,100,30)){
             coll = 41;
           }                       
-          if(map.pixels[p] == color(255,100,35)){
+          else if(map.pixels[p] == color(255,100,35)){
             coll = 42;
           }                       
 
 
           //Powerup Spawns
-          if(map.pixels[p] == color(100,255,255)){
+          else if(map.pixels[p] == color(100,255,255)){
             anchors.add(new Anchor(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }
-          if(map.pixels[p] == color(244,0,0)){
+          else if(map.pixels[p] == color(244,0,0)){
             powerUpManager.rocketArm = new RocketArm(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
           }         
-          if(map.pixels[p] == color(243,0,0)){
+          else if(map.pixels[p] == color(243,0,0)){
             powerUpManager.rocketJump = new RocketJump(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j));
           } 
-          if(map.pixels[p] == color(240,0,0)){
+          else if(map.pixels[p] == color(240,0,0)){
             powerUpManager.fuels.add(new Fuel(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }
-          if(map.pixels[p] == color(241,0,0)){
+          else if(map.pixels[p] == color(241,0,0)){
             coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), "norm"));
           }    
-          if(map.pixels[p] == color(242,0,0)){
+          else if(map.pixels[p] == color(242,0,0)){
             coins.add(new Currency(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), "gold"));
           }               
 
           //Enemy spawn         
-          if(map.pixels[p] == color(255,0,0)){
+          else if(map.pixels[p] == color(255,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,0));
           }         
           //shooting enemy
-          if(map.pixels[p] == color(250,0,0)){
+          else if(map.pixels[p] == color(250,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,1));
           }  
           //plant enemy
-          if(map.pixels[p] == color(251,0,0)){
+          else if(map.pixels[p] == color(251,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,2));
           }     
           //shooting plant enemy
-          if(map.pixels[p] == color(252,0,0)){
+          else if(map.pixels[p] == color(252,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,3));
           }                                                
-          if(map.pixels[p] == color(253,0,0)){
+          else if(map.pixels[p] == color(253,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,4));
           }                                                
-          if(map.pixels[p] == color(254,0,0)){
+          else if(map.pixels[p] == color(254,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,5));
           }                                                
 
           //Magnet down spawn
-          if(map.pixels[p] == color(152,152,152)){
+          else if(map.pixels[p] == color(152,152,152)){
             magnet.add(new Magnet(DOWN,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }
           //Magnet up spawn
-          if(map.pixels[p] == color(150,150,150)){
+          else if(map.pixels[p] == color(150,150,150)){
             magnet.add(new Magnet(UP,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }          
           //Magnet right spawn
-          if(map.pixels[p] == color(151,151,151)){
+          else if(map.pixels[p] == color(151,151,151)){
             magnet.add(new Magnet(RIGHT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }
           //Magnet left spawn
-          if(map.pixels[p] == color(153,153,153)){
+          else if(map.pixels[p] == color(153,153,153)){
             magnet.add(new Magnet(LEFT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }                    
-
+          
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
         }
@@ -464,14 +474,14 @@ for(int i = 0; i < rows; i++)
       else
       {
         //set temporary box variables to the box surrounding player
-        Box boxTop = boxes[xTile[i]][yTile[i]-1];
-        Box boxBottom = boxes[xTile[i]][yTile[i]+1];
-        Box boxRight = boxes[xTile[i]-1][yTile[i]];
-        Box boxLeft = boxes[xTile[i]+1][yTile[i]];
-        Box boxTopLeft = boxes[xTile[i]-1][yTile[i]-1];
-        Box boxTopRight = boxes[xTile[i]+1][yTile[i]-1];
-        Box boxBottomLeft = boxes[xTile[i]-1][yTile[i]+1];
-        Box boxBottomRight = boxes[xTile[i]+1][yTile[i]+1];
+         boxTop = boxes[xTile[i]][yTile[i]-1];
+         boxBottom = boxes[xTile[i]][yTile[i]+1];
+         boxRight = boxes[xTile[i]-1][yTile[i]];
+         boxLeft = boxes[xTile[i]+1][yTile[i]];
+         boxTopLeft = boxes[xTile[i]-1][yTile[i]-1];
+         boxTopRight = boxes[xTile[i]+1][yTile[i]-1];
+         boxBottomLeft = boxes[xTile[i]-1][yTile[i]+1];
+         boxBottomRight = boxes[xTile[i]+1][yTile[i]+1];
 
         //if its not yet in the surrounding boxes ArrayList, add it
         if (!surrounding.contains(boxTop) && !over.contains(boxTop))
@@ -530,14 +540,14 @@ for(int i = 0; i < rows; i++)
     //  }
     // }
 
-    //over cells
-    for (int i = 0; i < surrounding.size(); i++)
-    {
-     if(surrounding.get(i).collides == 0){
-     surrounding.get(i).collides = 50;
-     surrounding.get(i).groundColor = color(255);
-    }
-    }
+    // //over cells
+    // for (int i = 0; i < over.size(); i++)
+    // {
+    //  if(over.get(i).collides == 0){
+    //  over.get(i).collides = 50;
+    //  over.get(i).groundColor = color(255);
+    // }
+    // }
   }
 
   void CheckCollisions()
@@ -605,11 +615,11 @@ for(int i = 0; i < rows; i++)
         boxes[i][j].Draw();
       }
     }
-    SetGridColor();
-    for (int i = 0; i < over.size(); i++)
-    {
-      surrounding.get(i).Draw();
-    }
+
+    // for (int i = 0; i < surrounding.size(); i++)
+    // {
+    //   surrounding.get(i).Draw();
+    // }
     pushMatrix();
     fill(0);
     rect(bottomBox.position.x - camera.shiftX,bottomBox.position.y - camera.shiftY,30,30);

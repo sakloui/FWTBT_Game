@@ -369,6 +369,11 @@ class Player
       }
       grounded = false;
       inAir = true;
+      int rand = ceil(random(1,6));
+      for(int i = 0; i < rand; i++)
+      {
+        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(255,255,0,100)));
+      }        
       onMovingPlatform = false;
       jumpsound.rewind();
       jumpsound.play();      
@@ -402,6 +407,7 @@ void Climb()
 
   void ApplyGravity()
   {
+
     if (!grounded)
     {
       //apply gravity
@@ -410,7 +416,7 @@ void Climb()
       //don't let player fall faster than maxGravity      
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-      inAir = true;
+      inAir = true;   
     } else
       velocity.y = 0;
   }
@@ -443,13 +449,12 @@ void Climb()
   }
   void Update()
   {
-    println(inAir);
       if(inAir && grounded){
         inAir = false;
         int rand = ceil(random(1,4));
         for(int i = 0; i < rand; i++)
         {
-          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(1,4),0.1, color(255,255,0)));
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
         }
       }    
     SetOldPos();
@@ -492,9 +497,18 @@ void Climb()
     }
 
     SetNewPos();  
-    if(boxManager.bottomBox != null && boxManager.bottomBox.collides == 0)
+
+    if(boxManager.bottomBox != null && boxManager.boxBottomRight != null && boxManager.boxBottomLeft != null)
     {
-      grounded = false;
+      if (boxManager.bottomBox.collides == 0 && boxManager.boxBottomRight.collides == 0 && boxManager.boxBottomLeft.collides == 0)
+      {
+        grounded = false;
+      }   
+
+    }
+    else
+    {
+      println(boxManager.bottomBox + " " + boxManager.boxBottomRight + " " + boxManager.boxBottomLeft);
     }
    
   }
@@ -504,7 +518,11 @@ void Climb()
     //check which side of the player collided
     //set that corresponding boolean to true and call ResolveCollision
 
-    if (box.getCollides() == 0) return;
+    if (box.getCollides() == 0)
+    {
+      grounded = false;
+      return;
+    } 
     if (oldBottom < box.getTop() && // was not colliding
       bottom >= box.getTop())// now is colliding
     {
@@ -579,11 +597,12 @@ void Climb()
         velocity.y = 0;
         grounded = true;
         collidedBottom = false;
-      } else
-      {
-        //if not collidedBottom, player is in the air        
-        grounded = false;
-      }
+      } 
+      // else
+      // {
+      //   //if not collidedBottom, player is in the air        
+      //   grounded = false;
+      // }
 
       if (collidedRight)
       {
