@@ -1,0 +1,28 @@
+class Background
+{
+  PVector position = new PVector(0,0);
+  float size;
+  float speed;
+  float alpha;
+  Background()
+  {
+    position.y = random(0,height);
+    size = random(5,40);
+    position.x = 0-size/2;
+    speed = random(0.5,2);
+    alpha = random(50,220);
+  }
+  void Update()
+  {
+    position.x += speed;
+    alpha -= random(0,0.3);
+    if(alpha <= 0 || position.x - size/2> width)
+    	menu.back.remove(this);
+  }
+  
+  void Draw()
+  {
+    fill(210,190,200,alpha);
+    ellipse(position.x, position.y, size, size);
+  }	
+}
