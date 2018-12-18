@@ -259,7 +259,10 @@ for(int i = 0; i < rows; i++)
           }                       
           else if(map.pixels[p] == color(255,100,35)){
             coll = 42;
-          }                       
+          }    
+          if(map.pixels[p] == color(225,0,0)){
+            coll = 43;
+          }  
 
 
           //Powerup Spawns
@@ -320,7 +323,10 @@ for(int i = 0; i < rows; i++)
           //Magnet left spawn
           else if(map.pixels[p] == color(153,153,153)){
             magnet.add(new Magnet(LEFT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
-          }                    
+          }  
+          if(map.pixels[p] == color(225,0,0)){
+            boss = new Boss(new PVector(width/2, height/2));
+          }    
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
