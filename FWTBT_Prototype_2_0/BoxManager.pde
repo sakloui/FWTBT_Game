@@ -41,6 +41,8 @@ class BoxManager
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
+    counter = 0;
+    loadingTime = 1;
     gameManager.resetValues();
     powerUpManager = new PowerUpManager();
     this.level = level;
@@ -51,6 +53,7 @@ class BoxManager
     coins.clear();
     magnet.clear();
     bullet.clear();
+    particle.clear();
 
     if(levelmusic != null)
       levelmusic.pause();
@@ -88,6 +91,7 @@ class BoxManager
         
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  
+
   }
 
   void PlaceCollisionBoxes()
@@ -317,7 +321,7 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(153,153,153)){
             magnet.add(new Magnet(LEFT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }                    
-          
+
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
         }
@@ -620,10 +624,6 @@ for(int i = 0; i < rows; i++)
     // {
     //   surrounding.get(i).Draw();
     // }
-    pushMatrix();
-    fill(0);
-    rect(bottomBox.position.x - camera.shiftX,bottomBox.position.y - camera.shiftY,30,30);
-    popMatrix();
   }
   void DrawForeground()
   {

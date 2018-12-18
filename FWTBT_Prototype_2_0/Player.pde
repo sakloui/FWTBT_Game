@@ -62,8 +62,8 @@ class Player
 
   Player()
   {
-    playerWidth = 39;
-    playerHeight = 60;
+    playerWidth = 25;
+    playerHeight = 55;
     playerColor = color(155, 0, 0);
 
     acceleration = new PVector(0, 0);
@@ -449,14 +449,7 @@ void Climb()
   }
   void Update()
   {
-      if(inAir && grounded){
-        inAir = false;
-        int rand = ceil(random(1,4));
-        for(int i = 0; i < rand; i++)
-        {
-          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
-        }
-      }    
+  
     SetOldPos();
     SetPlayerCorners();
     if(!isClimbing)
@@ -500,7 +493,15 @@ void Climb()
 
     if(boxManager.bottomBox != null && boxManager.boxBottomRight != null && boxManager.boxBottomLeft != null)
     {
-      if (boxManager.bottomBox.collides == 0 && boxManager.boxBottomRight.collides == 0 && boxManager.boxBottomLeft.collides == 0)
+      if (boxManager.bottomBox.collides != 1 ||
+          boxManager.bottomBox.collides != 5 ||
+          boxManager.bottomBox.collides != 15 ||
+          boxManager.bottomBox.collides != 16 ||
+          boxManager.bottomBox.collides != 17 ||
+          boxManager.bottomBox.collides != 18 ||
+          boxManager.bottomBox.collides != 12 ||
+          boxManager.bottomBox.collides != 10 ||
+          boxManager.bottomBox.collides != 14)
       {
         grounded = false;
       }   
@@ -510,7 +511,14 @@ void Climb()
     {
       println(boxManager.bottomBox + " " + boxManager.boxBottomRight + " " + boxManager.boxBottomLeft);
     }
-   
+      if(inAir && grounded){
+        inAir = false;
+        int rand = ceil(random(1,4));
+        for(int i = 0; i < rand; i++)
+        {
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
+        }
+      }     
   }
 
    void GetCollisionDirection(Rectangle box)
@@ -598,11 +606,6 @@ void Climb()
         grounded = true;
         collidedBottom = false;
       } 
-      // else
-      // {
-      //   //if not collidedBottom, player is in the air        
-      //   grounded = false;
-      // }
 
       if (collidedRight)
       {
