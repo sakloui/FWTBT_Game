@@ -65,6 +65,9 @@ void extraSetup()
   uiScreen2Green = loadImage("ui/screen2Green.png");
   uiScreen2OverlayGreen = loadImage("ui/screen2OverlayGreen.png");
 
+  uiScreen3 = loadImage("ui/screen3.png");
+  uiScreen4 = loadImage("ui/screen4.png");
+
   for (int i = 0; i < basicEnemy.length; i++)
   {
     //load enemy run sprites
@@ -75,7 +78,8 @@ void extraSetup()
 
 
   //------Font stuff------
-  font = createFont("kenvector_future.ttf", 28);
+  font = createFont("fonts/kenvector_future.ttf", 28);
+  pixelFont = createFont("fonts/pixelated.ttf", 36);  
   textFont(font);
   textMode(SHAPE);
   textAlign(CENTER,CENTER);

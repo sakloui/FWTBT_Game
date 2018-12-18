@@ -86,12 +86,13 @@ PImage uiScreenGreen;
 PImage uiScreenOverlayGreen;
 PImage uiScreen2Green;
 PImage uiScreen2OverlayGreen;
-
-
+PImage uiScreen3;
+PImage uiScreen4;
 
 
 //------Font stuff------
 PFont font;
+PFont pixelFont;
 
 //------Variables------
 State currentState;

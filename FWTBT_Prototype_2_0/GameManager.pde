@@ -42,7 +42,8 @@ class GameManager
   void Draw()
   {
     pushMatrix();
-    textSize(24);
+    textFont(pixelFont);
+    textSize(32);
     textAlign(RIGHT, BOTTOM);
     fill(255);
     translate(currencyPos.x, currencyPos.y);
@@ -51,7 +52,7 @@ class GameManager
       text(currencyNames[i] + ": " + round(currencyValues[i]), 0, textOffset * i);
     }
     popMatrix();
-    textAlign(CENTER,CENTER);
+    textAlign(LEFT,CENTER);
 
     //images
     pushMatrix();
@@ -65,6 +66,20 @@ class GameManager
       image(uiScreenGreen, 0, 0);
       image(uiScreenOverlayGreen, 16, 40, 16+36, 40 + (69*(1 - currencyValues[1] / powerUpManager.maxFuelCount)));
     }
+
+    image(uiScreen3,60,60);
+    fill(79,0,0);
+    text("DEATHS :" + int(currencyValues[3]),72.5,89);
+    fill(255,0,0);
+    text("DEATHS :" + int(currencyValues[3]),72.5,85);
+    fill(255);   
+
+    image(uiScreen4,0,120);
+    fill(79,0,0);
+    text("Time : " + int(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
+    fill(255,0,0);
+    text("Time : " + int(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
+    fill(255);        
 
     int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highscore.getHighscore(currentLevel-1)));
 
@@ -83,7 +98,9 @@ class GameManager
 
 
     popMatrix();
+    textFont(font);    
     imageMode(CENTER);
+    textAlign(CENTER,CENTER);
   }
 
   void resetValues()
