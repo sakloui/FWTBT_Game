@@ -296,7 +296,7 @@ class Box extends Rectangle
         case 33:
           image(tutorialDeath,0,0,80,80);
           break;                                                  
-        }        
+        }     
       popMatrix();
     } 
   }

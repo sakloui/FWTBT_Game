@@ -1,15 +1,22 @@
 class Fire
 {
-	PVector position;
-	boolean underPlayer;
+	//----------Properties----------
 	float size;
 
+	//----------Position----------
+	PVector position;
+	
+	//----------Animation----------
+	//currentFrame represents the specific image from the array that's being drawn
 	float currentFrame;
 	float animationSpeed;
 
+	//----------Other----------
+	boolean underPlayer;
+
 	Fire(PVector pos)
 	{
-		position = pos;
+		position = pos.copy();
 		underPlayer = false;
 		size = 40f;
 

@@ -74,9 +74,9 @@ class Player
     velocity = new PVector(0, 0);
     position = new PVector(width/2, height/2);
 
-    jumpVel = 465f;
-    gravity = 9.81f * 65;
-    maxGrav = 350;
+    jumpVel = 1.25f * 465f;
+    gravity = 2.5 * 9.81f * 65;
+    maxGrav = 1.5 * 350;
 
     currentDirection = 1;
     onOil = false;    
@@ -403,6 +403,14 @@ class Player
     {
       if(boxManager.bottomBox != null)
       {
+        if (oldBottom < boxManager.bottomBox.getTop() && // was not colliding
+        bottom >= boxManager.bottomBox.getTop())// now is colliding
+        {
+          collidedBottom = true;
+          //ResolveCollision(box);
+        }
+        println("grounded: "+grounded);
+
         //check for boxes under the player
         ResolveCollision(boxManager.bottomBox, "Box");
       }
@@ -524,6 +532,9 @@ class Player
       fill(playerColor);
       noStroke();
       //draw the idle/run/jump animations
+      rect(position.x - camera.shiftX, position.y - camera.shiftY, playerWidth, playerHeight);
+      fill(255);
+      rect(position.x, position.y+5f, 25, 50);
       playerState.OnDraw();
       translate(position.x, position.y);
       popMatrix();

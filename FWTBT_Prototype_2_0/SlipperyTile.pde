@@ -6,7 +6,7 @@ class SlipperyTile
 
 	SlipperyTile(PVector pos)
 	{
-		position = pos;
+		position = pos.copy();
 		underPlayer = false;
 		size = 40f;
 	}

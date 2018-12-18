@@ -363,9 +363,9 @@ for(int i = 0; i < rows; i++)
       yTile[i] = floor(columns / 100f * yPercentage);
     }
     //get the tiles underneath the player for groundCheck
-    xPercentage = player.playerBottom.x / width * 100;
+    xPercentage = player.playerBottom.x / (width * ((float)rows / 32)) * 100;
     xBottom = floor(rows / 100f * xPercentage);
-    yPercentage = player.playerBottom.y / height * 100;
+    yPercentage = player.playerBottom.y / (height * ((float) columns / 18)) * 100;
     yBottom = floor(columns / 100f * yPercentage);
 
     //get enemy tile position
@@ -475,7 +475,7 @@ for(int i = 0; i < rows; i++)
     else
     {
       //set bottomBox to the boxes below the player
-      bottomBox = boxes[xBottom][yBottom];
+      bottomBox = boxes[xBottom][yBottom+1];
     }
   }
 

@@ -20,7 +20,7 @@ class Magnet
   
   Magnet(int direction, PVector pos)
   {
-    position = pos;
+    position = pos.copy();
     this.direction = direction;
     switch(direction)
     {
