@@ -87,8 +87,9 @@ PImage uiScreenOverlayGreen;
 PImage uiScreen2Green;
 PImage uiScreen2OverlayGreen;
 PImage uiScreen3;
+PImage uiScreen3Overlay;
 PImage uiScreen4;
-
+PImage uiScreen4Overlay;
 
 //------Font stuff------
 PFont font;

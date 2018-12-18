@@ -37,12 +37,12 @@ class BoxManager
   //----------Other----------
   boolean updateGridTrue;
   int currentGrid;
-  int updateTime = 10;
+  int updateTime = 1;
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
     counter = 0;
-    loadingTime = 1;
+    loadingTime = 0.5;
     gameManager.resetValues();
     powerUpManager = new PowerUpManager();
     this.level = level;
@@ -398,7 +398,7 @@ for(int i = 0; i < rows; i++)
         }
       }
       currentGrid++;
-      updateTime = 10;
+      updateTime = 1;
     }
     updateTime--;
 

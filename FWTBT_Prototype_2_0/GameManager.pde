@@ -8,6 +8,7 @@ class GameManager
 
   float seconds;
   float counter;
+  float maxTime;
 
   PVector currencyPos = new PVector(width, 0);
   PVector imagePos = new PVector(0, 0);
@@ -36,6 +37,7 @@ class GameManager
 
   void Update()
   {
+    highS = highscore.getHighscore(currentLevel-1);
     currencyValues[1] = powerUpManager.fuelCount;
     currencyValues[2] += deltaTime;
     currencyValues[5] = round(frameRate);
@@ -50,17 +52,17 @@ class GameManager
 
   void Draw()
   {
-    pushMatrix();
+
     textFont(pixelFont);
     textSize(32);
-    textAlign(RIGHT, BOTTOM);
-    fill(255);
-    translate(currencyPos.x, currencyPos.y);
-    for(int i = 0; i < currencyNames.length; i++)
-    {
-      text(currencyNames[i] + ": " + round(currencyValues[i]), 0, textOffset * i);
-    }
-    popMatrix();
+    //pushMatrix();
+    // fill(255);
+    // translate(currencyPos.x, currencyPos.y);
+    // for(int i = 0; i < currencyNames.length; i++)
+    // {
+    //   text(currencyNames[i] + ": " + round(currencyValues[i]), 0, textOffset * i);
+    // }
+    //popMatrix();
     textAlign(LEFT,CENTER);
 
     //images
@@ -110,20 +112,38 @@ class GameManager
 
     popMatrix();
     pushMatrix();
-    translate(0, height-180);
+    translate(width-372, -120);
+
+    if(counter < 1)
+    counter = currencyValues[3]/highscore.MAX_DEATHS;
+
+    pushStyle();
+    tint(lerp(0,79,counter),lerp(78,0,counter),0);  
+    image(uiScreen3Overlay,220,127.5);  
+    noTint();
+    popStyle();
+
     image(uiScreen3,216,120);
     fill(lerp(0, 79, counter),lerp(79, 0, counter),0);
     text("DEATHS :" + int(currencyValues[3]),226,149);
     fill(lerp(0, 255, counter),lerp(255, 0, counter),0);
+    println(lerp(0,255,counter) + " " + lerp(255,0,counter));
     text("DEATHS :" + int(currencyValues[3]),226,145);
     fill(255);   
 
+    if(maxTime < 1)
+      maxTime = currencyValues[2]/highscore.MAX_TIME;
 
+    pushStyle();
+    tint(lerp(0,79,maxTime),lerp(78,0,maxTime),0);  
+    image(uiScreen4Overlay,6,127.5); 
+    noTint(); 
+    popStyle();
 
     image(uiScreen4,0,120);
-    fill(79,0,0);
+    fill(lerp(0, 79, maxTime),lerp(79, 0, maxTime),0);
     text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
-    fill(255,0,0);
+    fill(lerp(0, 255, maxTime),lerp(255, 0, maxTime),0);
     text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     fill(255);        
 

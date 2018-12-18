@@ -66,7 +66,9 @@ void extraSetup()
   uiScreen2OverlayGreen = loadImage("ui/screen2OverlayGreen.png");
 
   uiScreen3 = loadImage("ui/screen3.png");
+  uiScreen3Overlay = loadImage("ui/screen3Overlay.png");
   uiScreen4 = loadImage("ui/screen4.png");
+  uiScreen4Overlay = loadImage("ui/screen4Overlay.png");
 
   for (int i = 0; i < basicEnemy.length; i++)
   {
