@@ -137,8 +137,6 @@ void setup()
 
   noStroke();
 
-  boss = new Boss();
-
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
   }
@@ -227,9 +225,6 @@ void draw()
         mag.Update();
       }
 
-
-
-
       //----------Draws---------- 
 
       boxManager.DrawBoxes();
@@ -269,6 +264,11 @@ void draw()
 
       player.Draw();
 
+      if(boss!=null)
+      {
+        boss.bossUpdate();
+        boss.bossDraw();
+      }
 
       powerUpManager.DrawIcons();
 
