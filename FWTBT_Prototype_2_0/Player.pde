@@ -82,7 +82,7 @@ class Player
 
     SetupSprites();
 
-    //set values once for the first time SetOldPos() is called
+    //set values once before SetOldPos() is called
     SetNewPos();
 
     this.SetState(new IdleState());
@@ -90,6 +90,7 @@ class Player
 
   void SetupSprites()
   {
+    //load all sprites from data folder    
     idle = new PImage[2];
     String idleName;
 
@@ -138,6 +139,7 @@ class Player
 
   void SetOldPos()
   {
+    //save the old player position before moving the player
     oldTop = top;
     oldBottom = bottom;
     oldRight = right;
@@ -146,6 +148,7 @@ class Player
 
   void SetPlayerCorners()
   {
+    //save the corners of the player sprite to calculate the surrounding tiles    
     corners[0] = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
     corners[1] = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
     corners[2] = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
@@ -153,6 +156,7 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
+    //same the bottom for groundCheck
     playerBottom = new PVector(position.x, position.y + playerHeight/2);
 
     /*
@@ -176,8 +180,11 @@ class Player
     {
       if(oilCD)
       {
+        //if not on oil, but still oil under feet (cooldown not yet passed)        
         acceleration.x = 125;
         deceleration.x = -200f;
+
+        //reduce cooldown
 
         oilCounter += deltaTime;
         if(oilCounter >= oilTimer)
@@ -188,6 +195,8 @@ class Player
       }
       else
       {
+        //no oil under feet, reset acceleration to normal
+
         acceleration.x = 650f;
         deceleration.x = -750f;  
       }
@@ -367,7 +376,7 @@ class Player
   }
 void Climb()
   {
-    //accel movement
+    //linear movement
     velocity.x = 0;
     velocity.y = 0;
     if (input.isRight)
@@ -395,17 +404,20 @@ void Climb()
   {
     if (!grounded)
     {
+      //apply gravity
+
       velocity.y += gravity * deltaTime;
+      //don't let player fall faster than maxGravity      
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
       inAir = true;
     } else
       velocity.y = 0;
-
   }
 
   void SetNewPos()
   {
+    //save position after moving the player    
     top = position.y - playerHeight/2;
     bottom = top + playerHeight;
     right = position.x + playerWidth/2;
@@ -431,7 +443,7 @@ void Climb()
   }
   void Update()
   {
-    println(collidedBottom);
+    println(inAir);
       if(inAir && grounded){
         inAir = false;
         int rand = ceil(random(1,4));
@@ -466,6 +478,7 @@ void Climb()
         velocity.y = 0f;
       }          
     }
+    //update player idle, run or jump state
     
     playerState.OnTick();
     if(!isClimbing)
@@ -488,6 +501,9 @@ void Climb()
 
    void GetCollisionDirection(Rectangle box)
   { 
+    //check which side of the player collided
+    //set that corresponding boolean to true and call ResolveCollision
+
     if (box.getCollides() == 0) return;
     if (oldBottom < box.getTop() && // was not colliding
       bottom >= box.getTop())// now is colliding
@@ -532,6 +548,7 @@ void Climb()
     {
       if(velocity.y > 0)
       {
+      //only collide with moving platform when moving downward        
         if (collidedBottom)
         {
           position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
@@ -550,23 +567,27 @@ void Climb()
     {
       if (collidedTop)
       {
+        //move the player under the box        
         position.y = box.getY() + box.getHeight()/2 + playerHeight/2 + 0.1f;
         velocity.y = 0;
         collidedTop = false;
       }
       if (collidedBottom)
       {
+        //move the player on top of the box        
         position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
         velocity.y = 0;
         grounded = true;
         collidedBottom = false;
       } else
       {
+        //if not collidedBottom, player is in the air        
         grounded = false;
       }
 
       if (collidedRight)
       {
+        //move the player left of the box        
         position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;
         velocity.x = 0;
         collidedRight = false;
@@ -574,12 +595,13 @@ void Climb()
       }
       if (collidedLeft)
       {
+        //move the player right of the box        
         position.x = box.getX() + box.getWidth()/2 + playerWidth/2 + 0.1f;
         velocity.x = 0;
         collidedLeft = false;
       }
     }
-
+    //save new position after changing the player position to outside the colliding box
     SetNewPos();
   }
 
@@ -587,6 +609,7 @@ void Climb()
   {
     if (!isDead)
     {
+      //draw the idle/run/jump animations      
       pushMatrix();
       fill(playerColor);
       noStroke();

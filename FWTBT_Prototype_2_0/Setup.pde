@@ -7,6 +7,9 @@ void extraSetup()
   //player = new Player(50);
 
   basicEnemy = new PImage[4];
+
+  electricOrb = new PImage[4];
+  electricOrbPurple = new PImage[4];
   //------Image stuff------
   tileBox = loadImage("Textures/box.png");
   tileSteelPillar = loadImage("Textures/steel_pillar.png");
@@ -66,6 +69,8 @@ void extraSetup()
   {
     //load enemy run sprites
     basicEnemy[i] = loadImage("Sprites/RobotOvergrownRun (" + i + ").png");
+    electricOrb[i] = loadImage("Sprites/ElectricOrb" + i + ".png");
+    electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");    
   }
 
 

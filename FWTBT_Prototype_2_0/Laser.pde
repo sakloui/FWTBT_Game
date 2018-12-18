@@ -1,9 +1,15 @@
 class Laser
 {
-	PVector spawnPos;
-	PVector endPoint;
+	//----------Properties----------
 	color laserColor;
 	float laserLength;
+
+	//----------Position----------
+	PVector spawnPos;
+	PVector endPoint;
+
+	//----------Other----------
+	//the laser rotates from minAngle to maxAngle and vice versa
 	float minAngle, maxAngle;
 	float direction;
 	float rotationSpeed;
@@ -11,35 +17,27 @@ class Laser
 
 	boolean movingUp;
 
-	/*
-	enum Direction
-	{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT
-	}
-	*/
-
 	final int LEFT = 0, RIGHT = 1, MIXED = 2;
 
 	Laser(PVector pos, float minAngle, float maxAngle, float speed, float length, int dir)
 	{
-		spawnPos = pos;
+		//startPoint of the laser, the laser rotates around the spawnPos
+		spawnPos = pos.copy();
 		this.minAngle = minAngle;
 		this.maxAngle = maxAngle;
 		rotationSpeed = speed;
 		laserLength = length;
 		direction = dir;
-		if(dir == 1)
+		if(dir == RIGHT)
 			movingUp = true;
-		else
+		else if(direction == LEFT)
 			movingUp = false;	
 		laserColor = color(255, 0, 0);
 		endPoint = new PVector(0, 0);
 		
 		angle = minAngle;
 
+		//the tip of the laser 
 		endPoint.x = spawnPos.x + (cos(radians(angle)) * laserLength);
 		endPoint.y = spawnPos.y + (sin(radians(angle)) * laserLength);
 	}

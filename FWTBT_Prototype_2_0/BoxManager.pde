@@ -1,19 +1,22 @@
-
-
 class BoxManager
 {
+  //----------Properties----------
   float boxSize = 40;
   int rows = 32;
   int columns = 18;
   int level;
+
+  //----------Arrays and lists----------
   Box[][] boxes = new Box[rows][columns];
   Box[][] foreground = new Box[rows][columns];
-
+  
+  //----------Surrounding boxes----------
   ArrayList<Box> over = new ArrayList<Box>();
   ArrayList<Box> foreOver = new ArrayList<Box>();
   ArrayList<Box> surrounding = new ArrayList<Box>();
   Box bottomBox;
 
+  //----------Current player location----------
   int[] xTile = new int[6];
   int[] yTile = new int[6];
   int xBottom, yBottom;
@@ -21,9 +24,10 @@ class BoxManager
   int[] yEnemyTile = new int[50];  
 
 
+  //----------Other----------
   boolean updateGridTrue;
   int currentGrid;
-  int updateTime = 1;
+  int updateTime = 10;
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
@@ -64,6 +68,7 @@ class BoxManager
 
     player.velocity = new PVector(0, 0);
 
+    //fill 2 dimensional array with Box-objects
     boxes = new Box[rows][columns];
     foreground = new Box[rows][columns];
     camera.shiftX = 0;
@@ -209,7 +214,7 @@ for(int i = 0; i < rows; i++)
 
           if(map.pixels[p] == color(0,100,0)){
             coll = 33;
-          }    
+          }   
           if(map.pixels[p] == color(0,105,0)){
             coll = 34;
           } 
@@ -278,6 +283,12 @@ for(int i = 0; i < rows; i++)
           //shooting plant enemy
           if(map.pixels[p] == color(252,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,3));
+          }                                                
+          if(map.pixels[p] == color(253,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,4));
+          }                                                
+          if(map.pixels[p] == color(254,0,0)){
+            enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,5));
           }                                                
 
           //Magnet down spawn
@@ -367,7 +378,7 @@ for(int i = 0; i < rows; i++)
         }
       }
       currentGrid++;
-      updateTime = 1;
+      updateTime = 10;
     }
     updateTime--;
 
@@ -390,11 +401,13 @@ for(int i = 0; i < rows; i++)
       yPercentage = player.corners[i].y / (height * ((float) columns / 18)) * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
-    xPercentage = player.playerBottom.x / (width * ((float) rows / 32))  * 100;
+    //get the tiles underneath the player for groundCheck
+    xPercentage = player.playerBottom.x / (width * ((float)rows / 32)) * 100;
     xBottom = floor(rows / 100f * xPercentage);
     yPercentage = player.playerBottom.y / (height * ((float) columns / 18)) * 100;
     yBottom = floor(columns / 100f * yPercentage);
 
+    //get enemy tile position
     for (int i = 0; i < enemies.size(); ++i) {
       float xEnemyPercentage = enemies.get(i).x / (width * ((float) rows / 32)) * 100;
       xEnemyTile[i] = floor(rows / 100f * xEnemyPercentage);
@@ -406,14 +419,18 @@ for(int i = 0; i < rows; i++)
 
   void SetOverCells()
   {
+    //add the boxes the player is currently on top of to the over ArrayList
     for (int i = 0; i < 6; i++)
     {
       if (xTile[i] >= rows || xTile[i] <= 0);
       else if (yTile[i] >= columns || yTile[i] <= 0);
       else
+      //if valid row and column
       {
+        //store box in temporary box variable
         Box box = boxes[xTile[i]][yTile[i]];
 
+        //if the box is not yet in the over ArrayList, add it
         if (!over.contains(box))
         {
           over.add(box);
@@ -438,13 +455,15 @@ for(int i = 0; i < rows; i++)
 
   void SetSurroundingCells()
   {
+    //get the boxes surrounding the player
     for (int i = 0; i < 6; i++)
     {
-      //if cell is within the array of cells
+      //if grid cell is within the array of cells(boxes)
       if (xTile[i] >= rows || xTile[i] + 1 >= rows || xTile[i] <= 0 || xTile[i] - 1 < 0);
       else if (yTile[i] >= columns || yTile[i] + 1 >= columns || yTile[i] <= 0 || yTile[i] - 1 < 0);
       else
       {
+        //set temporary box variables to the box surrounding player
         Box boxTop = boxes[xTile[i]][yTile[i]-1];
         Box boxBottom = boxes[xTile[i]][yTile[i]+1];
         Box boxRight = boxes[xTile[i]-1][yTile[i]];
@@ -454,6 +473,7 @@ for(int i = 0; i < rows; i++)
         Box boxBottomLeft = boxes[xTile[i]-1][yTile[i]+1];
         Box boxBottomRight = boxes[xTile[i]+1][yTile[i]+1];
 
+        //if its not yet in the surrounding boxes ArrayList, add it
         if (!surrounding.contains(boxTop) && !over.contains(boxTop))
         {
           surrounding.add(boxTop);
@@ -492,29 +512,32 @@ for(int i = 0; i < rows; i++)
     if (xBottom + 1 >= rows || xBottom - 1 < 0);
     else if (yBottom + 1 >= columns || yBottom - 1 < 0);
     else
+    {
+      //set bottomBox to the boxes below the player
       bottomBox = boxes[xBottom][yBottom+1];
+    }
   }
 
   void SetGridColor()
   {
-    //background cells
-   //  for (int i = 0; i < rows; i++)
-   //  {
-   //   for (int j = 0; j < columns; j++)
-   //   {
-   //     if(boxes[i][j].collides == 50)
-   //     boxes[i][j].collides = 0;
-   //   }
-   //  }
-
-    // //over cells
-    // for (int i = 0; i < over.size(); i++)
+    // //background cells
+    // for (int i = 0; i < rows; i++)
     // {
-    //  if(over.get(i).collides == 0){
-    //  over.get(i).collides = 50;
-    //  over.get(i).groundColor = color(255);
+    //  for (int j = 0; j < columns; j++)
+    //  {
+    //    if(boxes[i][j].collides == 50)
+    //    boxes[i][j].collides = 0;
+    //  }
     // }
-    // }
+
+    //over cells
+    for (int i = 0; i < surrounding.size(); i++)
+    {
+     if(surrounding.get(i).collides == 0){
+     surrounding.get(i).collides = 50;
+     surrounding.get(i).groundColor = color(255);
+    }
+    }
   }
 
   void CheckCollisions()
@@ -552,6 +575,8 @@ for(int i = 0; i < rows; i++)
 
   void CheckEnemyCollision()
   {
+    //check for collision left and right of the enemy
+    //if there is a tiles that it collides with, it changes direction
     for (int i = 0; i < enemies.size(); ++i) {
       if(enemies.get(i) != null)
       {
@@ -562,12 +587,13 @@ for(int i = 0; i < rows; i++)
           //check left and right tile
         if (!(xEnemyTile[i] <= 0 || xEnemyTile[i] >= rows - 1))
         {
+          //set the boxes to check collision on
           enemies.get(i).boxesToCheck[0] = new PVector(xEnemyTile[i]-1, yEnemyTile[i]);
           enemies.get(i).boxesToCheck[1] = new PVector(xEnemyTile[i]+1, yEnemyTile[i]);           
         }   
       } 
     }
-    
+
   }
 
   void DrawBoxes()
@@ -579,10 +605,15 @@ for(int i = 0; i < rows; i++)
         boxes[i][j].Draw();
       }
     }
-    // for (int i = 0; i < surrounding.size(); i++)
-    // {
-    //   surrounding.get(i).Draw();
-    // }
+    SetGridColor();
+    for (int i = 0; i < over.size(); i++)
+    {
+      surrounding.get(i).Draw();
+    }
+    pushMatrix();
+    fill(0);
+    rect(bottomBox.position.x - camera.shiftX,bottomBox.position.y - camera.shiftY,30,30);
+    popMatrix();
   }
   void DrawForeground()
   {

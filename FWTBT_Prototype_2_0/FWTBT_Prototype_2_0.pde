@@ -62,6 +62,8 @@ PImage wireHeel2Broken;
 PImage wireCompleetBroken;
 
 PImage[] basicEnemy;
+PImage[] electricOrb;
+PImage[] electricOrbPurple;
 
 PImage tutorialA;
 PImage tutorialD;

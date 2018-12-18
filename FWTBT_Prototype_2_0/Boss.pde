@@ -1,19 +1,24 @@
 class Boss
 {
+	//----------Position----------
 	PVector position;
 
+	//----------Aggroo----------
 	float aggroRange;
 	float attackRange;
 
-	//animation
+
+	//----------Animation----------
 	PImage[] idle;
 	PImage[] run;
 	PImage[] attack;
-	
-	int currentDirection;
+
+
 	float currentFrame;
 	float animationSpeed = 0.3f;
-
+	
+	//----------Other----------
+	int currentDirection;
 	final int LEFT = 0, RIGHT = 1;
 
 	State currentState;
@@ -24,7 +29,7 @@ class Boss
 		//set aggro- and attack range
 		//set facing direction
 		
-		//setupSprites();
+		setupSprites();
 		SetState(new IdleState());
 	}
 
@@ -70,11 +75,13 @@ class Boss
 		else
 			currentDirection = 0;	
 
+		//update the current state
 		currentState.OnTick();
 	}
 
 	void bossDraw()
 	{
+		//draw the current state
 		currentState.OnDraw();
 	}
 
@@ -85,6 +92,7 @@ class Boss
 	    currentState.OnStateExit();
 	  }
 
+	  //set currentState to new state
 	  currentState = state;
 
 	  if (currentState != null)
