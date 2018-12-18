@@ -390,9 +390,9 @@ for(int i = 0; i < rows; i++)
       yPercentage = player.corners[i].y / (height * ((float) columns / 18)) * 100;
       yTile[i] = floor(columns / 100f * yPercentage);
     }
-    xPercentage = player.playerBottom.x / width * 100;
+    xPercentage = player.playerBottom.x / (width * ((float) rows / 32))  * 100;
     xBottom = floor(rows / 100f * xPercentage);
-    yPercentage = player.playerBottom.y / height * 100;
+    yPercentage = player.playerBottom.y / (height * ((float) columns / 18)) * 100;
     yBottom = floor(columns / 100f * yPercentage);
 
     for (int i = 0; i < enemies.size(); ++i) {
@@ -492,20 +492,20 @@ for(int i = 0; i < rows; i++)
     if (xBottom + 1 >= rows || xBottom - 1 < 0);
     else if (yBottom + 1 >= columns || yBottom - 1 < 0);
     else
-      bottomBox = boxes[xBottom][yBottom];
+      bottomBox = boxes[xBottom][yBottom+1];
   }
 
   void SetGridColor()
   {
-    // //background cells
-    // for (int i = 0; i < rows; i++)
-    // {
-    //  for (int j = 0; j < columns; j++)
-    //  {
-    //    if(boxes[i][j].collides == 50)
-    //    boxes[i][j].collides = 0;
-    //  }
-    // }
+    //background cells
+   //  for (int i = 0; i < rows; i++)
+   //  {
+   //   for (int j = 0; j < columns; j++)
+   //   {
+   //     if(boxes[i][j].collides == 50)
+   //     boxes[i][j].collides = 0;
+   //   }
+   //  }
 
     // //over cells
     // for (int i = 0; i < over.size(); i++)
@@ -579,7 +579,6 @@ for(int i = 0; i < rows; i++)
         boxes[i][j].Draw();
       }
     }
-
     // for (int i = 0; i < surrounding.size(); i++)
     // {
     //   surrounding.get(i).Draw();
