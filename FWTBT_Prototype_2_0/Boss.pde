@@ -31,7 +31,7 @@ class Boss
     //set facing direction
     bossSize = 120f;
     setupSprites();
-    this.SetState(new BossIdleState());
+    this.SetState(new BossLaserState());
   }
 
   void setupSprites()

@@ -2,20 +2,27 @@ class BossAttackState extends State
 {
   float animationSpeed;
   float currentFrame;
+
   float lockOnTime = 0.5;
   float lockOnProgress;
+  
   float chargeSpeed = 400;
+  
   PVector targetPos;
   PVector beforeChargePosition;
+  
   boolean lockedOnPlayer;
   boolean returnToIdle;
 
   void OnStateEnter()
   {
+  	//animation
     animationSpeed = 0.05f;
     currentFrame = 0;
+
     lockOnProgress = 0;
     lockedOnPlayer = false;
+
     returnToIdle = false;
     beforeChargePosition = boss.position.copy();
   }
