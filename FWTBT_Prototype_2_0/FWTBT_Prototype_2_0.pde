@@ -9,6 +9,7 @@ Boss boss;
 //------Classes------
 Menu menu;
 Player player;
+CheckPointManager checkPointManager;
 BoxManager boxManager;
 Camera camera;
 Input input = new Input();
@@ -206,6 +207,7 @@ void draw()
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
       }
+
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
         bullet.get(i).Update();
@@ -217,6 +219,8 @@ void draw()
         if(particle.get(i) !=null)
           particle.get(i).Update();
       }      
+
+      checkPointManager.updateCheckPointManager();
 
       menu.update();
       highscore.updateScore();      
@@ -255,6 +259,8 @@ void draw()
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
       }  
+
+      checkPointManager.drawCheckPointManager();
 
       powerUpManager.DrawPowerUps();
 

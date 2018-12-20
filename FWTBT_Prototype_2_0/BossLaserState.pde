@@ -1,26 +1,27 @@
 class BossLaserState extends State
 {
+  //superclass reference
   Boss boss;
 
+  //animation
   float animationSpeed;
   float currentFrame;
 
+  //lock on
   float lockOnTime = 2.5f;
   float lockOnProgress;
-
   boolean lockedOnPlayer;
 
+  //laser
   PVector laserPlayerTrackPos;
   PVector laserEndPos;
-
+  float laserFollowSpeed;
   color laserColor = color(175, 175, 175);
 
   //colision
   float intersectionX, intersectionY;
   float laserHitDistance;
-
   PVector closestIntersection;
-
   boolean laserHit;
 
   BossLaserState(Boss currentBoss)
@@ -58,7 +59,7 @@ class BossLaserState extends State
     } 
     else 
     {
-      updateLaserPosition();
+      updateLaserPosition(5f);
       checkLaserCollision();
     }
 
@@ -75,19 +76,14 @@ class BossLaserState extends State
       lockedOnPlayer = true;
     }
 
-    //update laser position
-    laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, 5f * deltaTime);
-    laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, 5f * deltaTime);
-
-    laserEndPos = laserPlayerTrackPos.copy());
-    laserEndPos.normalize();
-    laserEndPos.setMag(1200);
+    updateLaserPosition(4f);
   }
 
-  void updateLaserPosition()
+  void updateLaserPosition(float laserSpeed)
   {
-    laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, 4f * deltaTime);
-    laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, 4f * deltaTime);
+    laserFollowSpeed = laserSpeed;
+    laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, laserFollowSpeed * deltaTime);
+    laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, laserFollowSpeed * deltaTime);
 
     laserEndPos = laserPlayerTrackPos.copy().sub(boss.position.copy());
     laserEndPos.normalize();

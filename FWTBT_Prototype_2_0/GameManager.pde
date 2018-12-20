@@ -3,6 +3,8 @@ class GameManager
   String[] currencyNames;
   float[] currencyValues;
 
+  int lastCheckPoint = 0;
+
   float textOffset = 30f;
   color textColor = color(0);
 

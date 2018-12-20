@@ -260,10 +260,6 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(255,100,35)){
             coll = 42;
           }    
-          if(map.pixels[p] == color(225,0,0)){
-            coll = 43;
-          }  
-
 
           //Powerup Spawns
           else if(map.pixels[p] == color(100,255,255)){
@@ -324,9 +320,24 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(153,153,153)){
             magnet.add(new Magnet(LEFT,new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j)));
           }  
-          if(map.pixels[p] == color(225,0,0)){
+          else if(map.pixels[p] == color(225,0,0)){
             boss = new Boss(new PVector(width/2, height/2));
           }    
+          else if(map.pixels[p] == color(0,200,0)){
+            checkPointManager.checkPoints.add(new CheckPoint(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), 1));
+          }
+          else if(map.pixels[p] == color(0,201,0)){
+            checkPointManager.checkPoints.add(new CheckPoint(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), 2));
+          }
+          else if(map.pixels[p] == color(0,202,0)){
+            checkPointManager.checkPoints.add(new CheckPoint(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), 3));
+          }
+          else if(map.pixels[p] == color(0,203,0)){
+            checkPointManager.checkPoints.add(new CheckPoint(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), 4));
+          }
+          else if(map.pixels[p] == color(0,204,0)){
+            checkPointManager.checkPoints.add(new CheckPoint(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), 5));
+          }
 
           boxes[i][j] = new Box(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), boxSize, false, coll);
 
