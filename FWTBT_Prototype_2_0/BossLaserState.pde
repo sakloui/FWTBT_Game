@@ -17,7 +17,7 @@ class BossLaserState extends State
 
   //colision
   float intersectionX, intersectionY;
-  float distance;
+  float laserHitDistance;
 
   PVector closestIntersection;
 
@@ -54,16 +54,15 @@ class BossLaserState extends State
     if (!lockedOnPlayer)
     {
       lockOnPlayer();
-      checkCollision();
+      checkLaserCollision();
     } 
     else 
     {
-      shootLaser();
-      checkCollision();
+      updateLaserPosition();
+      checkLaserCollision();
     }
 
-    //if player is within attack range
-    //SetState(new BossAttackState());
+    //after laser attack return to idle state
   }
 
   void lockOnPlayer()
@@ -85,7 +84,7 @@ class BossLaserState extends State
     laserEndPos.setMag(1200);
   }
 
-  void shootLaser()
+  void updateLaserPosition()
   {
     laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, 4f * deltaTime);
     laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, 4f * deltaTime);
@@ -96,9 +95,9 @@ class BossLaserState extends State
     laserEndPos.add(boss.position.copy());
   }
 
-  void checkCollision()
+  void checkLaserCollision()
   {
-    distance = MAX_FLOAT;
+    laserHitDistance = MAX_FLOAT;
     checkBoxCollision();
   }
 
@@ -110,7 +109,7 @@ class BossLaserState extends State
       {
         if(boxManager.boxes[i][j].collides == 1)
         {
-          //check if the laser hits a block
+          //check if the laser hits a block that collides
           laserHit = lineRect(laserEndPos.x, laserEndPos.y, boss.position.x, boss.position.y, 
                 boxManager.boxes[i][j].position.x-20f, boxManager.boxes[i][j].position.y-20f, 40f, 40f);
           
@@ -124,18 +123,20 @@ class BossLaserState extends State
   void saveClosestIntersection()
   {
     //check if the block that is hit is closer than the previously hit block(s)
-    if(boss.position.dist(new PVector(intersectionX, intersectionY)) < distance)
+    if(boss.position.dist(new PVector(intersectionX, intersectionY)) < laserHitDistance)
     {
       //save the new closest intersection point
       closestIntersection = new PVector(intersectionX, intersectionY);
-      //save the new closest distance
-      distance = boss.position.dist(closestIntersection);
+      //save the new closest laserHitDistance
+      laserHitDistance = boss.position.dist(closestIntersection);
     }
   }
 
   // LINE/RECTANGLE
   boolean lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) 
   {
+    //when checking collision with a new box reset the intersection 
+    //variables to a very high number
     intersectionX = MAX_FLOAT;
     intersectionY = MAX_FLOAT;
 
@@ -195,6 +196,7 @@ class BossLaserState extends State
     
     strokeWeight(10);
     stroke(laserColor);
+    
     //draw Laser
     line(boss.position.x, boss.position.y, closestIntersection.x, closestIntersection.y);
   }
