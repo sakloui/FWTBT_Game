@@ -95,7 +95,7 @@ class BossAttackState extends State
     //draw attacking boss
     pushMatrix();
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
-    ellipse(0, 0, boss.bossSize, boss.bossSize);
+    image(boss.bossSprite, 0, 0);
     if (boss.currentDirection == boss.RIGHT)
     {
       //image(boss.attack[int(currentFrame)], 0, 0);

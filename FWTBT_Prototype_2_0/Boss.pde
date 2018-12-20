@@ -8,6 +8,7 @@ class Boss
   float bossSize;
 
   //animation
+  PImage bossSprite;
   PImage[] idle;
   PImage[] run;
   //PImage[] attack;
@@ -31,11 +32,14 @@ class Boss
     //set facing direction
     bossSize = 120f;
     setupSprites();
-    this.SetState(new BossLaserState());
+    this.SetState(new BossLaserState(this));
   }
 
   void setupSprites()
   {
+    bossSprite = new PImage();
+    String bossSpriteName;
+
     //load the sprites
     idle = new PImage[2];
     String idleName;
@@ -45,6 +49,9 @@ class Boss
 
     //attack = new PImage[5];
     //String attackName;
+
+    bossSpriteName = "Sprites/BossBegin.png";
+    bossSprite = loadImage(bossSpriteName);
 
     //load idle sprites
     for (int i = 0; i < idle.length; i++)

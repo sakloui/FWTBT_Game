@@ -1,5 +1,7 @@
 class BossLaserState extends State
 {
+  Boss boss;
+
   float animationSpeed;
   float currentFrame;
 
@@ -8,14 +10,23 @@ class BossLaserState extends State
 
   boolean lockedOnPlayer;
 
+  PVector laserPlayerTrackPos;
   PVector laserEndPos;
-  PVector intersection;
 
   color laserColor = color(175, 175, 175);
 
   //colision
-  boolean hit;
   float intersectionX, intersectionY;
+  float distance;
+
+  PVector closestIntersection;
+
+  boolean laserHit;
+
+  BossLaserState(Boss currentBoss)
+  {
+    this.boss = currentBoss;
+  }
 
   void OnStateEnter()
   {
@@ -25,7 +36,14 @@ class BossLaserState extends State
     lockOnProgress = 0f;
     lockedOnPlayer = false;
 
-    laserEndPos = player.position.copy();
+    closestIntersection = new PVector(0, 0);
+
+    laserPlayerTrackPos = player.position.copy();
+
+    laserEndPos = laserPlayerTrackPos.copy().sub(boss.position.copy());
+    laserEndPos.normalize();
+    laserEndPos.setMag(1200);
+    laserEndPos.add(boss.position.copy());
   }
 
   void OnTick()
@@ -36,6 +54,7 @@ class BossLaserState extends State
     if (!lockedOnPlayer)
     {
       lockOnPlayer();
+      checkCollision();
     } 
     else 
     {
@@ -58,22 +77,33 @@ class BossLaserState extends State
     }
 
     //update laser position
-    laserEndPos.x = lerp(laserEndPos.x, player.position.x, 5f * deltaTime);
-    laserEndPos.y = lerp(laserEndPos.y, player.position.y, 5f * deltaTime);
+    laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, 5f * deltaTime);
+    laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, 5f * deltaTime);
+
+    laserEndPos = laserPlayerTrackPos.copy());
+    laserEndPos.normalize();
+    laserEndPos.setMag(1200);
   }
 
   void shootLaser()
   {
-    laserEndPos.x = lerp(laserEndPos.x, player.position.x, 4f * deltaTime);
-    laserEndPos.y = lerp(laserEndPos.y, player.position.y, 4f * deltaTime);
+    laserPlayerTrackPos.x = lerp(laserPlayerTrackPos.x, player.position.x, 4f * deltaTime);
+    laserPlayerTrackPos.y = lerp(laserPlayerTrackPos.y, player.position.y, 4f * deltaTime);
+
+    laserEndPos = laserPlayerTrackPos.copy().sub(boss.position.copy());
+    laserEndPos.normalize();
+    laserEndPos.setMag(1200);
+    laserEndPos.add(boss.position.copy());
   }
 
   void checkCollision()
   {
-    float distance = MAX_FLOAT;
-    boolean laserHit;
-    hit = false;
-    //loop through all blocks
+    distance = MAX_FLOAT;
+    checkBoxCollision();
+  }
+
+  void checkBoxCollision()
+  {
     for(int i = 0; i < boxManager.rows; i++)
     {
       for(int j = 0; j < boxManager.columns; j++)
@@ -83,35 +113,40 @@ class BossLaserState extends State
           //check if the laser hits a block
           laserHit = lineRect(laserEndPos.x, laserEndPos.y, boss.position.x, boss.position.y, 
                 boxManager.boxes[i][j].position.x-20f, boxManager.boxes[i][j].position.y-20f, 40f, 40f);
+          
           if(laserHit)
-          {
-            //the laser has hit atleast one block
-            hit = true;
-            //check if the block that is hit is closer than the previously hit block(s)
-            if(boss.position.dist(new PVector(intersectionX, intersectionY)) < distance)
-            {
-              //save the new closest intersection point
-              intersection = new PVector(intersectionX, intersectionY);
-              //save the new closest distance
-              distance = boss.position.dist(intersection);
-            }
-          }
+            saveClosestIntersection();
         }
       }
+    }
+  }
+
+  void saveClosestIntersection()
+  {
+    //check if the block that is hit is closer than the previously hit block(s)
+    if(boss.position.dist(new PVector(intersectionX, intersectionY)) < distance)
+    {
+      //save the new closest intersection point
+      closestIntersection = new PVector(intersectionX, intersectionY);
+      //save the new closest distance
+      distance = boss.position.dist(closestIntersection);
     }
   }
 
   // LINE/RECTANGLE
   boolean lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) 
   {
+    intersectionX = MAX_FLOAT;
+    intersectionY = MAX_FLOAT;
+
     // check if the line has hit any of the rectangle's sides
     // uses the Line/Line function below
     boolean top =    lineLine(x1,y1,x2,y2, rx,ry, rx+rw,ry);
-    if(top)return true;
     boolean left =   lineLine(x1,y1,x2,y2, rx,ry,rx, ry+rh);
-    if(left)return true;
     boolean right =  lineLine(x1,y1,x2,y2, rx+rw,ry, rx+rw,ry+rh);
-    if(right)return true;
+
+    if(top || left || right)
+      return true;
 
     return false;
   }
@@ -126,9 +161,13 @@ class BossLaserState extends State
     // if uA and uB are between 0-1, lines are colliding
     if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1) 
     {
-      // optionally, draw a circle where the lines meet
-      intersectionX = x1 + (uA * (x2-x1));
-      intersectionY = y1 + (uA * (y2-y1));
+      //if the intersection with the current side of the rect is closer to the laser origin
+      //than the previously saved intersection, store these coordinates as the new closest intersection
+      if(x1 + (uA * (x2-x1)) < intersectionX && y1 + (uA * (y2-y1)) < intersectionY)
+      {
+        intersectionX = x1 + (uA * (x2-x1));
+        intersectionY = y1 + (uA * (y2-y1));  
+      }
 
       return true;
     }
@@ -140,7 +179,8 @@ class BossLaserState extends State
     //draw movement animation
     pushMatrix();
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
-    ellipse(0, 0, boss.bossSize, boss.bossSize);
+    //ellipse(0, 0, boss.bossSize, boss.bossSize);
+    image(boss.bossSprite, 0, 0);
     if (boss.currentDirection == boss.RIGHT)
     {
       //image(boss.run[int(currentFrame)], 0, 0);
@@ -156,14 +196,7 @@ class BossLaserState extends State
     strokeWeight(10);
     stroke(laserColor);
     //draw Laser
-    if(hit)
-    {
-      line(boss.position.x, boss.position.y, intersection.x, intersection.y);
-    }
-    else
-    {
-      line(boss.position.x, boss.position.y, laserEndPos.x, laserEndPos.y);
-    }
+    line(boss.position.x, boss.position.y, closestIntersection.x, closestIntersection.y);
   }
 
   void OnStateExit()
