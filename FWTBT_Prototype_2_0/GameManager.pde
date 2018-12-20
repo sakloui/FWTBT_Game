@@ -127,7 +127,6 @@ class GameManager
     fill(lerp(0, 79, counter),lerp(79, 0, counter),0);
     text("DEATHS :" + int(currencyValues[3]),226,149);
     fill(lerp(0, 255, counter),lerp(255, 0, counter),0);
-    println(lerp(0,255,counter) + " " + lerp(255,0,counter));
     text("DEATHS :" + int(currencyValues[3]),226,145);
     fill(255);   
 

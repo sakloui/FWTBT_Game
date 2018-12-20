@@ -13,6 +13,7 @@ class Player
   float jumpVel;
   float gravity;
   float maxGrav;
+  float lastVelY;
 
   //----------collisions----------
   float top, bottom, right, left;
@@ -46,10 +47,14 @@ class Player
   boolean isDead = false;
   boolean isClimbing = false;
   boolean inAir = false;
+  boolean jumpHold = false;
 
   boolean isFire;
   int fireTime = 50;
   int fireFrame = 0;
+
+  float cameraShake = 0;
+  boolean isShaking = false;
 
   boolean onMovingPlatform = false;
   boolean onOil = false;
@@ -75,7 +80,7 @@ class Player
 
     jumpVel = 640f;
     gravity = 9.81f * 120;
-    maxGrav = 450;
+    maxGrav = 450f;
 
     currentDirection = 1;
     onOil = false;    
@@ -367,6 +372,8 @@ class Player
         velocity.y = -jumpVel/1.5;
         velocity.x = (velocity.x /4 * 3.5);  
       }
+
+
       grounded = false;
       inAir = true;
       int rand = ceil(random(1,6));
@@ -377,6 +384,16 @@ class Player
       onMovingPlatform = false;
       jumpsound.rewind();
       jumpsound.play();      
+    }
+
+    if(input.isSpace)
+      jumpHold=true;
+    else
+      jumpHold = false;
+
+    if(!grounded && velocity.y<-150 && !jumpHold && !powerUpManager.rocketJumpActive)
+    {
+      velocity.y/=1.1;
     }
   }
 void Climb()
@@ -416,7 +433,6 @@ void Climb()
       //don't let player fall faster than maxGravity      
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
-      inAir = true;   
     } else
       velocity.y = 0;
   }
@@ -449,7 +465,21 @@ void Climb()
   }
   void Update()
   {
-  
+      if(!grounded)
+        lastVelY = velocity.y;
+
+      if(inAir && grounded){
+        isShaking = true;
+        cameraShake = 3*(lastVelY/maxGrav);    
+        println(cameraShake + " "+ lastVelY + " " + maxGrav +  " " + lastVelY/maxGrav);    
+        inAir = false;
+        int rand = ceil(random(1,4));
+        for(int i = 0; i < rand; i++)
+        {
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
+        }
+      }   
+
     SetOldPos();
     SetPlayerCorners();
     if(!isClimbing)
@@ -477,7 +507,16 @@ void Climb()
       }          
     }
     //update player idle, run or jump state
-    
+    if(isShaking)
+    {
+      if (cameraShake > -0.1 && cameraShake < 0.1)
+      {
+        isShaking = false;
+        cameraShake = 0;
+      }
+      camera.shiftY += cameraShake;
+      cameraShake *= -0.9;
+    }
     playerState.OnTick();
     if(!isClimbing)
     {
@@ -489,21 +528,35 @@ void Climb()
       position.y += velocity.y * deltaTime;
     }
 
+
+
     SetNewPos();  
+
 
     if(boxManager.bottomBox != null && boxManager.boxBottomRight != null && boxManager.boxBottomLeft != null)
     {
-      if (boxManager.bottomBox.collides != 1 ||
-          boxManager.bottomBox.collides != 5 ||
-          boxManager.bottomBox.collides != 15 ||
-          boxManager.bottomBox.collides != 16 ||
-          boxManager.bottomBox.collides != 17 ||
-          boxManager.bottomBox.collides != 18 ||
-          boxManager.bottomBox.collides != 12 ||
-          boxManager.bottomBox.collides != 10 ||
+      if (boxManager.bottomBox.collides != 1 &&
+          boxManager.bottomBox.collides != 5 &&
+          boxManager.bottomBox.collides != 15 &&
+          boxManager.bottomBox.collides != 16 &&
+          boxManager.bottomBox.collides != 17 &&
+          boxManager.bottomBox.collides != 18 &&
+          boxManager.bottomBox.collides != 12 &&
+          boxManager.bottomBox.collides != 10 &&
           boxManager.bottomBox.collides != 14)
       {
-        grounded = false;
+        if(boxManager.boxBottomLeft.position.x + boxManager.boxBottomLeft.size/2 > position.x - playerWidth/2 &&
+           boxManager.boxBottomLeft.position.x - boxManager.boxBottomLeft.size/2 < position.x + playerWidth/2 &&
+           boxManager.boxBottomLeft.position.y + boxManager.boxBottomLeft.size/2 > position.y - playerHeight/2 &&
+           boxManager.boxBottomLeft.position.y - boxManager.boxBottomLeft.size/2 < position.y + playerHeight/2 &&
+           boxManager.boxBottomRight.position.x + boxManager.boxBottomRight.size/2 > position.x - playerWidth/2 &&
+           boxManager.boxBottomRight.position.x - boxManager.boxBottomRight.size/2 < position.x + playerWidth/2 &&
+           boxManager.boxBottomRight.position.y + boxManager.boxBottomRight.size/2 > position.y - playerHeight/2 &&
+           boxManager.boxBottomRight.position.y - boxManager.boxBottomRight.size/2 < position.y + playerHeight/2)          
+        {
+          grounded = false;
+          inAir = true;
+        }
       }   
 
     }
@@ -511,14 +564,7 @@ void Climb()
     {
       println(boxManager.bottomBox + " " + boxManager.boxBottomRight + " " + boxManager.boxBottomLeft);
     }
-      if(inAir && grounded){
-        inAir = false;
-        int rand = ceil(random(1,4));
-        for(int i = 0; i < rand; i++)
-        {
-          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
-        }
-      }     
+    
   }
 
    void GetCollisionDirection(Rectangle box)
