@@ -13,6 +13,7 @@ class Player
   float jumpVel;
   float gravity;
   float maxGrav;
+  float lastVelY;
 
   //----------collisions----------
   float top, bottom, right, left;
@@ -26,7 +27,6 @@ class Player
   color textColor = color(0);
   boolean grounded = false;
   boolean canJump = false;
-  boolean jumpHold= false;
 
   PImage[] idle;
   PImage[] run;
@@ -37,7 +37,7 @@ class Player
   float currentFrame;
   float currentRunFrame;
   float animationSpeed = 0.3f;
-  
+
   PVector acceleration;
   PVector deceleration;
   float accelRate = 12f * 60;
@@ -46,10 +46,15 @@ class Player
   float turnSpeed = 3f;
   boolean isDead = false;
   boolean isClimbing = false;
+  boolean inAir = false;
+  boolean jumpHold = false;
 
   boolean isFire;
   int fireTime = 50;
   int fireFrame = 0;
+
+  float cameraShake = 0;
+  boolean isShaking = false;
 
   boolean onMovingPlatform = false;
   boolean onOil = false;
@@ -62,8 +67,8 @@ class Player
 
   Player()
   {
-    playerWidth = 39;
-    playerHeight = 60;
+    playerWidth = 25;
+    playerHeight = 55;
     playerColor = color(155, 0, 0);
 
     acceleration = new PVector(0, 0);
@@ -74,15 +79,15 @@ class Player
     position = new PVector(width/2, height/2);
 
     jumpVel = 640f;
-    gravity = 9.81f * 120;
-    maxGrav = 450;
+    gravity = 9.81f * 120 * 1.2;
+    maxGrav = 650f;
 
     currentDirection = 1;
     onOil = false;    
 
     SetupSprites();
 
-    //set values once for the first time SetOldPos() is called
+    //set values once before SetOldPos() is called
     SetNewPos();
 
     this.SetState(new IdleState());
@@ -90,6 +95,7 @@ class Player
 
   void SetupSprites()
   {
+    //load all sprites from data folder    
     idle = new PImage[2];
     String idleName;
 
@@ -138,6 +144,7 @@ class Player
 
   void SetOldPos()
   {
+    //save the old player position before moving the player
     oldTop = top;
     oldBottom = bottom;
     oldRight = right;
@@ -146,6 +153,7 @@ class Player
 
   void SetPlayerCorners()
   {
+    //save the corners of the player sprite to calculate the surrounding tiles    
     corners[0] = new PVector(position.x - (playerWidth/2), position.y - (playerHeight/2));
     corners[1] = new PVector(position.x + (playerWidth/2), position.y - (playerHeight/2));
     corners[2] = new PVector(position.x - (playerWidth/2), position.y + (playerHeight/2));
@@ -153,6 +161,7 @@ class Player
     corners[4] = new PVector(position.x + (playerWidth/2), player.position.y);
     corners[5] = new PVector(position.x - (playerWidth/2), player.position.y);
 
+    //same the bottom for groundCheck
     playerBottom = new PVector(position.x, position.y + playerHeight/2);
 
     /*
@@ -176,8 +185,11 @@ class Player
     {
       if(oilCD)
       {
+        //if not on oil, but still oil under feet (cooldown not yet passed)        
         acceleration.x = 125;
         deceleration.x = -200f;
+
+        //reduce cooldown
 
         oilCounter += deltaTime;
         if(oilCounter >= oilTimer)
@@ -188,6 +200,8 @@ class Player
       }
       else
       {
+        //no oil under feet, reset acceleration to normal
+
         acceleration.x = 650f;
         deceleration.x = -750f;  
       }
@@ -353,29 +367,43 @@ class Player
     {
       if(!oilCD)
         velocity.y = -jumpVel;  
-      else {
-        velocity.y= -jumpVel * 1.5;
-        velocity.x= velocity.x/4 * 3.5;
-      }  
+      else
+      {
+        velocity.y = -jumpVel/1.5;
+        velocity.x = (velocity.x /4 * 3.5);  
+      }
+
+
       grounded = false;
+      inAir = true;
+      int rand = ceil(random(1,6));
+      for(int i = 0; i < rand; i++)
+      {
+        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(255,255,0,100)));
+      }        
       onMovingPlatform = false;
       jumpsound.rewind();
       jumpsound.play();      
     }
-    
-    if (input.isSpace)
+
+    if(input.isSpace){
       jumpHold=true;
+    }
     else
-      jumpHold=false;
-      
-    if(!grounded && velocity.y<-100 && !jumpHold){
-          velocity.y/=1.1;
-        }
-   }
- 
+      jumpHold = false;
+
+    if(!grounded && velocity.y<-300 && !jumpHold && !powerUpManager.rocketJumpUsed)
+    {
+      velocity.y/=1.1;
+    }
+    
+    if(grounded){
+      powerUpManager.rocketJumpUsed=false;
+  }
+ }
 void Climb()
   {
-    //accel movement
+    //linear movement
     velocity.x = 0;
     velocity.y = 0;
     if (input.isRight)
@@ -391,7 +419,7 @@ void Climb()
     if (input.isUp)
     {
       position.y -= climbSpeed * deltaTime;
-      velocity.y = -200f; 
+      velocity.y = -200f;       
     }
     else if (input.isDown)
     {
@@ -401,9 +429,13 @@ void Climb()
 
   void ApplyGravity()
   {
+
     if (!grounded)
     {
+      //apply gravity
+
       velocity.y += gravity * deltaTime;
+      //don't let player fall faster than maxGravity      
       if (velocity.y > maxGrav)
         velocity.y = maxGrav;
     } else
@@ -412,6 +444,7 @@ void Climb()
 
   void SetNewPos()
   {
+    //save position after moving the player    
     top = position.y - playerHeight/2;
     bottom = top + playerHeight;
     right = position.x + playerWidth/2;
@@ -437,6 +470,21 @@ void Climb()
   }
   void Update()
   {
+      if(!grounded)
+        lastVelY = velocity.y;
+
+      if(inAir && grounded){
+        isShaking = true;
+        cameraShake = 3*(lastVelY/maxGrav);    
+        println(cameraShake + " "+ lastVelY + " " + maxGrav +  " " + lastVelY/maxGrav);    
+        inAir = false;
+        int rand = ceil(random(1,4));
+        for(int i = 0; i < rand; i++)
+        {
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
+        }
+      }   
+
     SetOldPos();
     SetPlayerCorners();
     if(!isClimbing)
@@ -463,7 +511,17 @@ void Climb()
         velocity.y = 0f;
       }          
     }
-    
+    //update player idle, run or jump state
+    if(isShaking)
+    {
+      if (cameraShake > -0.1 && cameraShake < 0.1)
+      {
+        isShaking = false;
+        cameraShake = 0;
+      }
+      camera.shiftY += cameraShake;
+      cameraShake *= -0.9;
+    }
     playerState.OnTick();
     if(!isClimbing)
     {
@@ -475,17 +533,56 @@ void Climb()
       position.y += velocity.y * deltaTime;
     }
 
+
+
     SetNewPos();  
-    if (velocity.x != 0 && (bottom != oldBottom || right != oldRight))
+
+
+    if(boxManager.bottomBox != null && boxManager.boxBottomRight != null && boxManager.boxBottomLeft != null)
     {
-        ResolveCollision(boxManager.bottomBox, "Box");
+      if (boxManager.bottomBox.collides != 1 &&
+          boxManager.bottomBox.collides != 5 &&
+          boxManager.bottomBox.collides != 15 &&
+          boxManager.bottomBox.collides != 16 &&
+          boxManager.bottomBox.collides != 17 &&
+          boxManager.bottomBox.collides != 18 &&
+          boxManager.bottomBox.collides != 12 &&
+          boxManager.bottomBox.collides != 10 &&
+          boxManager.bottomBox.collides != 14 &&
+          boxManager.bottomBox.collides != 43 )
+      {
+        if(boxManager.boxBottomLeft.position.x + boxManager.boxBottomLeft.size/2 > position.x - playerWidth/2 &&
+           boxManager.boxBottomLeft.position.x - boxManager.boxBottomLeft.size/2 < position.x + playerWidth/2 &&
+           boxManager.boxBottomLeft.position.y + boxManager.boxBottomLeft.size/2 > position.y - playerHeight/2 &&
+           boxManager.boxBottomLeft.position.y - boxManager.boxBottomLeft.size/2 < position.y + playerHeight/2 &&
+           boxManager.boxBottomRight.position.x + boxManager.boxBottomRight.size/2 > position.x - playerWidth/2 &&
+           boxManager.boxBottomRight.position.x - boxManager.boxBottomRight.size/2 < position.x + playerWidth/2 &&
+           boxManager.boxBottomRight.position.y + boxManager.boxBottomRight.size/2 > position.y - playerHeight/2 &&
+           boxManager.boxBottomRight.position.y - boxManager.boxBottomRight.size/2 < position.y + playerHeight/2)          
+        {
+          grounded = false;
+          inAir = true;
+        }
+      }   
+
     }
-   
+    else
+    {
+      println(boxManager.bottomBox + " " + boxManager.boxBottomRight + " " + boxManager.boxBottomLeft);
+    }
+    
   }
 
    void GetCollisionDirection(Rectangle box)
   { 
-    if (box.getCollides() == 0) return;
+    //check which side of the player collided
+    //set that corresponding boolean to true and call ResolveCollision
+
+    if (box.getCollides() == 0)
+    {
+      grounded = false;
+      return;
+    } 
     if (oldBottom < box.getTop() && // was not colliding
       bottom >= box.getTop())// now is colliding
     {
@@ -529,6 +626,7 @@ void Climb()
     {
       if(velocity.y > 0)
       {
+      //only collide with moving platform when moving downward        
         if (collidedBottom)
         {
           position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
@@ -547,20 +645,23 @@ void Climb()
     {
       if (collidedTop)
       {
+        //move the player under the box        
         position.y = box.getY() + box.getHeight()/2 + playerHeight/2 + 0.1f;
         velocity.y = 0;
         collidedTop = false;
       }
       if (collidedBottom)
       {
+        //move the player on top of the box        
         position.y = box.getY() - box.getHeight()/2 - playerHeight/2 - 0.1f;
         velocity.y = 0;
         grounded = true;
         collidedBottom = false;
-      } else
-        grounded = false;
+      } 
+
       if (collidedRight)
       {
+        //move the player left of the box        
         position.x = box.getX() - box.getWidth()/2 - playerWidth/2 - 0.1f;
         velocity.x = 0;
         collidedRight = false;
@@ -568,12 +669,13 @@ void Climb()
       }
       if (collidedLeft)
       {
+        //move the player right of the box        
         position.x = box.getX() + box.getWidth()/2 + playerWidth/2 + 0.1f;
         velocity.x = 0;
         collidedLeft = false;
       }
     }
-
+    //save new position after changing the player position to outside the colliding box
     SetNewPos();
   }
 
@@ -581,6 +683,7 @@ void Climb()
   {
     if (!isDead)
     {
+      //draw the idle/run/jump animations      
       pushMatrix();
       fill(playerColor);
       noStroke();

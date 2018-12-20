@@ -63,7 +63,17 @@ class Enemy {
     pushMatrix();
     translate(x - camera.shiftX, y - camera.shiftY);
     scale(vx, 1.0);
-    image(basicEnemy[cycle],0,0);
+    if(enemyType != 4 && enemyType != 5)
+      image(basicEnemy[cycle],0,0);
+    else if(enemyType == 4)
+    {
+      image(electricOrb[cycle], 0, 0);  
+    }
+    else if (enemyType == 5) 
+    {
+      image(electricOrbPurple[cycle], 0, 0);
+    }
+    
     popMatrix();
     if(timer == 5)
     {

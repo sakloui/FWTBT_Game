@@ -1,13 +1,17 @@
 public abstract class State
 {
-  public int currentDirection;
+	//direction the player is facing
+	public int currentDirection;
 
-  public void OnStateEnter(){}
-  
-  public abstract void OnTick();
-  
-  public abstract void OnDraw();
-  
-  public void OnStateExit(){}
-  
+	//called once when the new state is assigned
+	public void OnStateEnter(){}
+
+	//update method where all the calculations are done
+	public abstract void OnTick();
+
+	//draw method where everything is drawn
+	public abstract void OnDraw();
+
+	//exit method that gets called once when a state is switching to another state
+	public void OnStateExit(){} 
 }

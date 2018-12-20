@@ -1,95 +1,102 @@
 class Boss
 {
-	PVector position;
+  PVector position;
+  PVector spawnPosition;
 
-	float aggroRange;
-	float attackRange;
+  float aggroRange;
+  float attackRange;
+  float bossSize;
 
-	//animation
-	PImage[] idle;
-	PImage[] run;
-	PImage[] attack;
-	
-	int currentDirection;
-	float currentFrame;
-	float animationSpeed = 0.3f;
+  //animation
+  PImage[] idle;
+  PImage[] run;
+  //PImage[] attack;
 
-	final int LEFT = 0, RIGHT = 1;
+  int currentDirection;
+  float currentFrame;
+  float animationSpeed = 0.3f;
 
-	State currentState;
+  boolean movingRight = false;
 
-	Boss()
-	{
-		//set position
-		//set aggro- and attack range
-		//set facing direction
-		
-		//setupSprites();
-		SetState(new IdleState());
-	}
+  final int LEFT = 0, RIGHT = 1;
 
-	void setupSprites()
-	{
-		//load the sprites
-		idle = new PImage[2];
-	    String idleName;
+  State currentState;
 
-	    run = new PImage[8];
-	    String runName;
+  Boss(PVector pos)
+  {
+    //set position
+    spawnPosition = pos.copy();
+    position = spawnPosition.copy();
+    //set aggro- and attack range
+    //set facing direction
+    bossSize = 120f;
+    setupSprites();
+    this.SetState(new BossIdleState());
+  }
 
-	    attack = new PImage[5];
-	    String attackName;
+  void setupSprites()
+  {
+    //load the sprites
+    idle = new PImage[2];
+    String idleName;
 
-	    //load idle sprites
-	    for (int i = 0; i < idle.length; i++)
-	    {
-	      idleName = "Sprites/Idle (" + i + ").png";
-	      idle[i] = loadImage(idleName);
-	    }
+    run = new PImage[8];
+    String runName;
 
-	    //load attack sprites
-	    for (int i = 0; i < attack.length; i++)
-	    {
-	      attackName = "Sprites/Attack (" + i + ").png";
-	      attack[i] = loadImage(attackName);
-	    }
+    //attack = new PImage[5];
+    //String attackName;
 
-	    //load run sprites
-	    for (int i = 0; i < 8; i++)
-	    {
-	      runName = "Sprites/Run (" + i + ").png";
-	      run[i] = loadImage(runName);
-	    }
-	}
+    //load idle sprites
+    for (int i = 0; i < idle.length; i++)
+    {
+      idleName = "Sprites/Idle (" + i + ").png";
+      idle[i] = loadImage(idleName);
+    }
 
-	void bossUpdate()
-	{
-		//set the direction the boss is facing
-		if(position.x - player.position.x < 0)
-			currentDirection = 1;
-		else
-			currentDirection = 0;	
+    /*
+      //load attack sprites
+     for (int i = 0; i < attack.length; i++)
+     {
+     attackName = "Sprites/Attack (" + i + ").png";
+     attack[i] = loadImage(attackName);
+     }
+     */
 
-		currentState.OnTick();
-	}
+    //load run sprites
+    for (int i = 0; i < 8; i++)
+    {
+      runName = "Sprites/Run (" + i + ").png";
+      run[i] = loadImage(runName);
+    }
+  }
 
-	void bossDraw()
-	{
-		currentState.OnDraw();
-	}
+  void bossUpdate()
+  {
+    //set the direction the boss is facing
+    if (position.x - player.position.x < 0)
+      currentDirection = 1;
+    else
+      currentDirection = 0;
+    this.currentState.OnTick();
+  }
 
-	void SetState(State state)
-	{
-	  if (currentState != null)
-	  {
-	    currentState.OnStateExit();
-	  }
+  void bossDraw()
+  {
+    this.currentState.OnDraw();
+  }
 
-	  currentState = state;
+  void SetState(State state)
+  {
+    if (currentState != null)
+    {
+      currentState.OnStateExit();
+    }
 
-	  if (currentState != null)
-	  {
-	    currentState.OnStateEnter();
-	  }
-	}
+    currentState = state;
+
+    if (currentState != null)
+    {
+      currentState.OnStateEnter();
+    }
+  }
 }

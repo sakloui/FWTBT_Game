@@ -12,6 +12,7 @@ class PowerUpManager
   int maxFuelCount = 500;
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
+  boolean rocketJumpUsed= false;
 
   boolean rocketJumpCD = false;
   boolean rocketArmCD = false;
@@ -119,8 +120,9 @@ class PowerUpManager
 
   void RocketJump()
   {
+    rocketJumpUsed= true;
     fuelCount -= rocketJump.fuelCost;
-    player.velocity.y = player.jumpVel *1.1 * -1.4f;
+    player.velocity.y = player.jumpVel * -1.4f;
     player.grounded = false;
   }
 

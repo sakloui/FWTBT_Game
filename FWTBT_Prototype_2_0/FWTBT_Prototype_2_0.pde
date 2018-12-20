@@ -33,6 +33,10 @@ PImage biskitGames;
 PImage background;
 
 PImage tileBox;
+PImage boxLinks;
+PImage boxOmhoog;
+PImage boxOmlaag;
+PImage boxRechts;
 PImage tileSteelPillar;
 PImage tileSmallPlatformTopRight;
 PImage tileSmallPlatformPillarRight;
@@ -62,6 +66,8 @@ PImage wireHeel2Broken;
 PImage wireCompleetBroken;
 
 PImage[] basicEnemy;
+PImage[] electricOrb;
+PImage[] electricOrbPurple;
 
 PImage tutorialA;
 PImage tutorialD;
@@ -76,12 +82,22 @@ PImage tutorialL;
 PImage tutorialSecret;
 PImage tutorialEnd;
 
-
-
-
+PImage uiScreen;
+PImage uiScreenOverlay;
+PImage uiScreen2;
+PImage uiScreen2Overlay;
+PImage uiScreenGreen;
+PImage uiScreenOverlayGreen;
+PImage uiScreen2Green;
+PImage uiScreen2OverlayGreen;
+PImage uiScreen3;
+PImage uiScreen3Overlay;
+PImage uiScreen4;
+PImage uiScreen4Overlay;
 
 //------Font stuff------
 PFont font;
+PFont pixelFont;
 
 //------Variables------
 State currentState;
@@ -126,8 +142,6 @@ void setup()
 
   noStroke();
 
-  boss = new Boss();
-
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
   }
@@ -144,6 +158,7 @@ void draw()
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
+
   
   //------Background Stuff------
     background(0); 
@@ -201,13 +216,19 @@ void draw()
         bullet.get(i).Update();
       }      
 
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.size() > 100)
+          particle.remove(0);
+        if(particle.get(i) !=null)
+          particle.get(i).Update();
+      }      
+
+      menu.update();
       highscore.updateScore();      
       gameManager.Update();
       for(Magnet mag: magnet){
         mag.Update();
       }
-      
-      menu.update();
 
       //----------Draws---------- 
 
@@ -219,7 +240,11 @@ void draw()
         bullet.get(i).Draw();
       }     
 
-      
+      for (int i = 0; i < particle.size(); ++i) {
+        if(particle.get(i) !=null)
+        particle.get(i).Draw();
+      }      
+
       for(Magnet mag: magnet){
         mag.Draw();
       }
@@ -240,10 +265,19 @@ void draw()
 
       boxManager.DrawForeground();
 
+
+
       player.Draw();
 
+      if(boss!=null)
+      {
+        boss.bossUpdate();
+        boss.bossDraw();
+      }
+
       powerUpManager.DrawIcons();
-      
+
+
       gameManager.Draw();
 
       if(spawnedPlatform)

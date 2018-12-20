@@ -101,7 +101,6 @@ class Levels
       textSize(28);
       popMatrix();
       }
-      
     }
   }
   

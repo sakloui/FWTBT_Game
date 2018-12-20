@@ -18,15 +18,15 @@ class Input
       return isK = b;
     case 'X':
       return isL = b;
-    case 'R':
-      return isR= b;
     case 32:
       return isSpace = b;
     case 'P':
       return isP = b; 
     case 27:
       key = 0;
-      return isP = b;     
+      return isP = b;  
+    case 'R':
+      return isR = b;   
     default:
       return b;
     }
