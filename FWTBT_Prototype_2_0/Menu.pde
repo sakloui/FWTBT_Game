@@ -246,7 +246,7 @@ class Menu
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
         if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu(); gameManager = new GameManager();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
         if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
-        if(button[currentSel].text == "Retry"){gameManager.lastCheckPoint = checkPointManager.getCurrentCheckPoint();boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
+        if(button[currentSel].text == "Retry"){gameManager.furthestCheckPoint = checkPointManager.getCurrentCheckPoint();boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
       }
   }
     

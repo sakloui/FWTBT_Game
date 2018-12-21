@@ -54,6 +54,8 @@ class BoxManager
     magnet.clear();
     bullet.clear();
     particle.clear();
+    checkPointManager.checkPoints.clear();
+    checkPointManager.amountOfCheckPoints = 0;
 
     if(levelmusic != null)
       levelmusic.pause();
@@ -92,6 +94,12 @@ class BoxManager
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  
 
+    checkPointManager.restoreCheckPoints();
+
+    if(gameManager.furthestCheckPoint > 0){
+      player.position.x = checkPointManager.checkPoints.get(gameManager.furthestCheckPoint-1).position.x;
+      player.position.y = checkPointManager.checkPoints.get(gameManager.furthestCheckPoint-1).position.y;
+    }
   }
 
   void PlaceCollisionBoxes()

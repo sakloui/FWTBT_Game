@@ -21,15 +21,18 @@ class CheckPoint
 
 	void updateCheckPoint()
 	{
-		if(position.x + checkPointWidth/2 > player.position.x - player.playerWidth/2 && 
-	       position.x - checkPointWidth/2 < player.position.x + player.playerWidth/2 && 
-	       position.y + checkPointHeight/2 > player.position.y - player.playerHeight/2 &&
-	       position.y - checkPointHeight/2 < player.position.y + player.playerHeight/2)
+		println(checkPointIndex + ": " + reachedCheckPoint);
+		if(this.position.x + checkPointWidth/2 > player.position.x - player.playerWidth/2 && 
+	       this.position.x - checkPointWidth/2 < player.position.x + player.playerWidth/2 && 
+	       this.position.y + checkPointHeight/2 > player.position.y - player.playerHeight/2 &&
+	       this.position.y - checkPointHeight/2 < player.position.y + player.playerHeight/2)
 	    {
-	    	checkPointColor = color(0, 200, 0);
-	    	reachedCheckPoint = true;
+	    	this.reachedCheckPoint = true;
 	    	checkPointManager.checkPointReached(checkPointIndex);
 	    }
+
+	    if(reachedCheckPoint)
+	    	checkPointColor = color(0, 200, 0);
 	}
 
 	void drawCheckPoint()

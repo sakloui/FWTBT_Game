@@ -28,11 +28,7 @@ class Box extends Rectangle
     collides = collide;
     else foreCollides = collide;
     SetPosValues();
-    if(collides == 3 && gameManager.lastCheckPoint == 0){;player.position.x = position.x;player.position.y = position.y-15;}
-    else if(collides == 3 && gameManager.lastCheckPoint > 0){
-      player.position.x = checkPointManager.checkPoints.get(gameManager.lastCheckPoint-1).position.x;
-      player.position.y = checkPointManager.checkPoints.get(gameManager.lastCheckPoint-1).position.y;
-    }
+    if(collides == 3 && gameManager.furthestCheckPoint == 0){;player.position.x = position.x;player.position.y = position.y-15;}
   }
 
 
