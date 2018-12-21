@@ -22,7 +22,7 @@ class Box extends Rectangle
     this.name = "Box";
     this.position = position.copy();
     this.size = size;
-    this.rectWidth = size;
+    this.rectWidth = size; 
     this.rectHeight = size;
     if(!foreground)
     collides = collide;
@@ -345,8 +345,31 @@ class Box extends Rectangle
         case 46:
           image(boxRechts,0,0,size,size);
           break;
-          
+        case 47:
+          image(boxCornerLinksBoven,0,0,size,size);
+          break;
+        case 48:
+          image(boxCornerLinksOnder,0,0,size,size);
+          break;
+        case 49:
+          image(boxCornerRechtsBoven,0,0,size,size);
+          break;
         case 50:
+          image(boxCornerRechtsOnder,0,0,size,size);
+          break;
+        case 51:
+          image(boxCornerPointRechtsBoven,0,0,size,size);
+          break;
+        case 52:
+          image(boxCornerPointRechtsOnder,0,0,size,size);
+          break;
+        case 53:
+          image(boxCornerPointLinksBoven,0,0,size,size);
+          break;
+        case 54:
+          image(boxCornerPointLinksOnder,0,0,size,size);
+          break;
+        case 100:
           fill(groundColor);
           rect(0,0,size,size);
           break;                                                                                                                              

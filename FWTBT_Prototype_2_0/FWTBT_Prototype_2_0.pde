@@ -16,7 +16,6 @@ PowerUpManager powerUpManager;
 GameManager gameManager;
 Highscore highscore;
 
-
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -37,6 +36,14 @@ PImage boxLinks;
 PImage boxOmhoog;
 PImage boxOmlaag;
 PImage boxRechts;
+PImage boxCornerLinksBoven;
+PImage boxCornerLinksOnder;
+PImage boxCornerRechtsBoven;
+PImage boxCornerRechtsOnder;
+PImage boxCornerPointRechtsBoven;
+PImage boxCornerPointRechtsOnder;
+PImage boxCornerPointLinksBoven;
+PImage boxCornerPointLinksOnder;
 PImage tileSteelPillar;
 PImage tileSmallPlatformTopRight;
 PImage tileSmallPlatformPillarRight;

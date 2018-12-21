@@ -549,7 +549,9 @@ void Climb()
           boxManager.bottomBox.collides != 12 &&
           boxManager.bottomBox.collides != 10 &&
           boxManager.bottomBox.collides != 14 &&
-          boxManager.bottomBox.collides != 43 )
+          boxManager.bottomBox.collides != 43 &&
+          boxManager.bottomBox.collides != 47 &&
+          boxManager.bottomBox.collides != 50)
       {
         if(boxManager.boxBottomLeft.position.x + boxManager.boxBottomLeft.size/2 > position.x - playerWidth/2 &&
            boxManager.boxBottomLeft.position.x - boxManager.boxBottomLeft.size/2 < position.x + playerWidth/2 &&

@@ -272,7 +272,30 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(0,0,13)){
             coll = 46;
           }  
-
+          else if(map.pixels[p] == color(0,0,14)){
+            coll = 47;
+          } 
+          else if(map.pixels[p] == color(0,0,15)){
+            coll = 48;
+          } 
+          else if(map.pixels[p] == color(0,0,16)){
+            coll = 49;
+          } 
+          else if(map.pixels[p] == color(0,0,17)){
+            coll = 50;
+          }  
+          else if(map.pixels[p] == color(0,0,18)){
+            coll = 51;
+          } 
+          else if(map.pixels[p] == color(0,0,19)){
+            coll = 52;
+          } 
+          else if(map.pixels[p] == color(0,0,20)){
+            coll = 53;
+          } 
+          else if(map.pixels[p] == color(0,0,21)){
+            coll = 54;
+          } 
 
           //Powerup Spawns
           else if(map.pixels[p] == color(100,255,255)){
@@ -588,7 +611,11 @@ for(int i = 0; i < rows; i++)
           surrounding.get(i).collides == 43 ||
           surrounding.get(i).collides == 44 ||
           surrounding.get(i).collides == 45 ||
-          surrounding.get(i).collides == 46) 
+          surrounding.get(i).collides == 46 ||
+          surrounding.get(i).collides == 47 ||
+          surrounding.get(i).collides == 48 ||
+          surrounding.get(i).collides == 49 ||
+          surrounding.get(i).collides == 50) 
         surrounding.get(i).CheckCollision();
 
       if (surrounding.get(i).collides == 12 ||

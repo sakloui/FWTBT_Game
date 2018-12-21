@@ -16,6 +16,14 @@ void extraSetup()
   boxOmhoog= loadImage("Textures/box_omhoog.png");
   boxOmlaag= loadImage("Textures/box_omlaag.png");
   boxRechts= loadImage("Textures/box_rechts.png");
+  boxCornerLinksBoven= loadImage("Textures/box_corner_linksboven.png");
+  boxCornerLinksOnder= loadImage("Textures/box_corner_linksonder.png");
+  boxCornerRechtsBoven= loadImage("Textures/box_corner_rechtsboven.png");
+  boxCornerRechtsOnder= loadImage("Textures/box_corner_rechtsonder.png");
+  boxCornerPointRechtsBoven= loadImage("Textures/box_corner_pointrechtsboven.png");
+  boxCornerPointRechtsOnder= loadImage("Textures/box_corner_pointrechtsonder.png");
+  boxCornerPointLinksBoven= loadImage("Textures/box_corner_pointlinksboven.png");
+  boxCornerPointLinksOnder= loadImage("Textures/box_corner_pointlinksonder.png");
   tileSteelPillar = loadImage("Textures/steel_pillar.png");
   tileSmallPlatformTopRight = loadImage("Textures/small_platform_top_right.png");
   tileSmallPlatformPillarRight = loadImage("Textures/small_platform_pillar_right.png");
