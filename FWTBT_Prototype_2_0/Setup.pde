@@ -7,6 +7,9 @@ void extraSetup()
   //player = new Player(50);
 
   basicEnemy = new PImage[4];
+
+  electricOrb = new PImage[4];
+  electricOrbPurple = new PImage[4];
   //------Image stuff------
   tileBox = loadImage("Textures/box.png");
   tileSteelPillar = loadImage("Textures/steel_pillar.png");
@@ -62,15 +65,23 @@ void extraSetup()
   uiScreen2Green = loadImage("ui/screen2Green.png");
   uiScreen2OverlayGreen = loadImage("ui/screen2OverlayGreen.png");
 
+  uiScreen3 = loadImage("ui/screen3.png");
+  uiScreen3Overlay = loadImage("ui/screen3Overlay.png");
+  uiScreen4 = loadImage("ui/screen4.png");
+  uiScreen4Overlay = loadImage("ui/screen4Overlay.png");
+
   for (int i = 0; i < basicEnemy.length; i++)
   {
     //load enemy run sprites
     basicEnemy[i] = loadImage("Sprites/RobotOvergrownRun (" + i + ").png");
+    electricOrb[i] = loadImage("Sprites/ElectricOrb" + i + ".png");
+    electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");    
   }
 
 
   //------Font stuff------
-  font = createFont("kenvector_future.ttf", 28);
+  font = createFont("fonts/kenvector_future.ttf", 28);
+  pixelFont = createFont("fonts/pixelated.ttf", 36);  
   textFont(font);
   textMode(SHAPE);
   textAlign(CENTER,CENTER);

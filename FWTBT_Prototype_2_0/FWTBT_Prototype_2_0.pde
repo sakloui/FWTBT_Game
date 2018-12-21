@@ -62,6 +62,8 @@ PImage wireHeel2Broken;
 PImage wireCompleetBroken;
 
 PImage[] basicEnemy;
+PImage[] electricOrb;
+PImage[] electricOrbPurple;
 
 PImage tutorialA;
 PImage tutorialD;
@@ -84,12 +86,14 @@ PImage uiScreenGreen;
 PImage uiScreenOverlayGreen;
 PImage uiScreen2Green;
 PImage uiScreen2OverlayGreen;
-
-
-
+PImage uiScreen3;
+PImage uiScreen3Overlay;
+PImage uiScreen4;
+PImage uiScreen4Overlay;
 
 //------Font stuff------
 PFont font;
+PFont pixelFont;
 
 //------Variables------
 State currentState;
@@ -133,8 +137,6 @@ void setup()
   background(0);
 
   noStroke();
-
-  boss = new Boss();
 
   for(int i = 0; i < volume.length; i++) {
     volume[i] = 23;
@@ -224,9 +226,6 @@ void draw()
         mag.Update();
       }
 
-
-
-
       //----------Draws---------- 
 
       boxManager.DrawBoxes();
@@ -266,6 +265,11 @@ void draw()
 
       player.Draw();
 
+      if(boss!=null)
+      {
+        boss.bossUpdate();
+        boss.bossDraw();
+      }
 
       powerUpManager.DrawIcons();
 
