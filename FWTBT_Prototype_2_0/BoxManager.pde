@@ -421,9 +421,9 @@ for(int i = 0; i < rows; i++)
 
 
     outerloop:
-    for (int i = 0; i < rows; i++)
+    for (int j = 0; j < columns; j++)
     {
-      for (int j = 0; j < columns; j++)
+      for (int i = 0; i < rows; i++)
       {
         if(foreground[i][j].foreCollides == 4)
         {
@@ -453,6 +453,8 @@ for(int i = 0; i < rows; i++)
             println(camera.focusX +" "+ camera.focusY);
             updateCameraFocus = true;
             input.enabled = false;
+            player.velocity.x = 0;
+            player.velocity.y = 0;
             cameraTracking = false;
             break outerloop;
         }
