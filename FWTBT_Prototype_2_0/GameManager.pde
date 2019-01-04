@@ -141,9 +141,9 @@ class GameManager
 
     image(uiScreen4,0,120);
     fill(lerp(0, 79, maxTime),lerp(79, 0, maxTime),0);
-    text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
+    text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
     fill(lerp(0, 255, maxTime),lerp(255, 0, maxTime),0);
-    text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
+    text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     fill(255);        
 
     popMatrix();
