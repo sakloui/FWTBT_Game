@@ -36,6 +36,9 @@ class BoxManager
 
   //----------Other----------
   boolean updateGridTrue;
+  boolean updateCameraFocus;
+  boolean returnCam = false;
+  float prog = 0;
   int currentGrid;
   int updateTime = 1;
 
@@ -381,6 +384,8 @@ for(int i = 0; i < rows; i++)
     CheckCollisions();
     if(updateGridTrue)
       updateGrid();
+    if(updateCameraFocus)
+      updateFocus();
 
   }
 
@@ -408,6 +413,71 @@ for(int i = 0; i < rows; i++)
       updateGridTrue = false;
       currentGrid = 0;
     }
+  }
+
+  void focusWater()
+  {
+    //WIP NOT DONE
+
+
+    outerloop:
+    for (int i = 0; i < rows; i++)
+    {
+      for (int j = 0; j < columns; j++)
+      {
+        if(foreground[i][j].foreCollides == 4)
+        {
+          if ((foreground[i][j].position.x - camera.shiftX) / width > (1 - camera.margin)){
+            if(((foreground[i][j].position.x) / width - (1 - camera.margin)) * width < ((boxes[rows-1][0].position.x+boxSize/2)-width))
+              camera.focusX = ((foreground[i][j].position.x) / width - (1 - camera.margin)) * width;
+            else camera.focusX = ((boxes[rows-1][0].position.x+boxSize/2)-width);   
+          }
+          else
+          {
+            if(((foreground[i][j].position.x) / width - camera.margin) * width > 0)
+              camera.focusX = ((foreground[i][j].position.x) / width -  camera.margin) * width;
+            else camera.focusX = 0;              
+          }
+
+          if ((foreground[i][j].position.y - camera.shiftY) / height > (1 - camera.margin)){
+            if(((foreground[i][j].position.y) / height - (1 - camera.margin)) * height < ((boxes[0][columns-1].position.y+boxSize/2)-height))
+            camera.focusY = ((foreground[i][j].position.y) / height - (1 - camera.margin)) * height;
+            else camera.focusY = ((boxes[0][columns-1].position.y+boxSize/2)-height);
+          }
+          else
+          {
+            if(((foreground[i][j].position.y) / height - camera.margin) * height > 0)
+            camera.focusY = ((foreground[i][j].position.y) / height - camera.margin) * height;
+            else camera.focusY = 0;
+          }
+            println(camera.focusX +" "+ camera.focusY);
+            updateCameraFocus = true;
+            input.enabled = false;
+            cameraTracking = false;
+            break outerloop;
+        }
+      }
+    }
+  }
+
+  void updateFocus()
+  {
+    //WIP NOT DONE
+    camera.shiftX = lerp(camera.shiftX, camera.focusX, prog);
+    camera.shiftY = lerp(camera.shiftY, camera.focusY, prog);
+    if(prog < 1)
+    {
+      prog += 0.005;
+      //println(camera.shiftX +" "+ prog);      
+    }
+    else
+    {
+      updateCameraFocus = false;
+      input.enabled = true;
+      cameraTracking = true;
+    }
+
+
   }
 
   void CalculateCurrentTiles()

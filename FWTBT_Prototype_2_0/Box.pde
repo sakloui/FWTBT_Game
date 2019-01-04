@@ -158,7 +158,8 @@ class Box extends Rectangle
         boxManager.currentGrid = 0;
         boxManager.updateGridTrue = true;
         interactionsound.rewind();
-        interactionsound.play();        
+        interactionsound.play();  
+        boxManager.focusWater();      
       }
     }    
   }

@@ -105,6 +105,7 @@ float counter = 0;
 float loadingTime = 5f;
 
 boolean isMenu;
+boolean cameraTracking = true;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -173,12 +174,14 @@ void draw()
     {
       if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
       
-
-      if (boxManager.rows > 32){
-        camera.UpdateX();
-      }
-      if (boxManager.columns > 18){
-        camera.UpdateY();
+      if(cameraTracking)
+      {
+        if (boxManager.rows > 32){
+          camera.UpdateX();
+        }
+        if (boxManager.columns > 18){
+          camera.UpdateY();
+        }
       }
 
       image(background,width/2,height/2,width, height);

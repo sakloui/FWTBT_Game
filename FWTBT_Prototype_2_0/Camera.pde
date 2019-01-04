@@ -3,10 +3,18 @@ class Camera
   float shiftX;
   float shiftY;
   float margin;
+  float shiftXOrigin;
+  float shiftYOrigin;
+  float focusX;
+  float focusY;
 
   Camera(){
     shiftX = 0;
     shiftY = 0;
+    shiftXOrigin = 0;
+    shiftYOrigin = 0;
+    focusX = 0;
+    focusY = 0;    
     margin = 0.48;
   }
 
