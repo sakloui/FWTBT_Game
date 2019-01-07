@@ -417,8 +417,8 @@ for(int i = 0; i < rows; i++)
 
   void focusWater()
   {
-    //WIP NOT DONE
-
+    //Zoekt voor het eerste water blok die hij tegen komt, en zet vervolgens de coordinaten voor dat blok in een variabele die gebruikt wordt in updateFocus()
+    if (rows <= 32 && columns <= 18) return;
 
     outerloop:
     for (int j = 0; j < columns; j++)
@@ -450,7 +450,6 @@ for(int i = 0; i < rows; i++)
             camera.focusY = ((foreground[i][j].position.y) / height - camera.margin) * height;
             else camera.focusY = 0;
           }
-            println(camera.focusX +" "+ camera.focusY);
             updateCameraFocus = true;
             input.enabled = false;
             player.velocity.x = 0;
@@ -465,6 +464,8 @@ for(int i = 0; i < rows; i++)
   void updateFocus()
   {
     //WIP NOT DONE
+    //Beweegt de camera richting de gegeven coordinaten
+
     camera.shiftX = lerp(camera.shiftX, camera.focusX, prog);
     camera.shiftY = lerp(camera.shiftY, camera.focusY, prog);
     if(prog < 1)
