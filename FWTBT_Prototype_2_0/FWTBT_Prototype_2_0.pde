@@ -51,6 +51,10 @@ PImage hookTop;
 PImage exitDoor;
 PImage enterDoor;
 PImage ladder;
+PImage deathOrb;
+PImage switch0;
+PImage switch1;
+PImage water0;
 
 PImage wireStart;
 PImage wireHeel;

@@ -30,6 +30,11 @@ void extraSetup()
   exitDoor = loadImage("Textures/Door_open.png");
   enterDoor = loadImage("Textures/Door_locked.png");
   ladder = loadImage("Textures/Ladder.png");
+  deathOrb = loadImage("Textures/DeathOrb.png");
+  switch0 = loadImage("Textures/LeverBlock0.png");
+  switch1 = loadImage("Textures/LeverBlock1.png");
+  water0 = loadImage("Textures/WaterNormie(0).png");
+
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
