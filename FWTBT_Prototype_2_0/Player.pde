@@ -379,7 +379,7 @@ class Player
       int rand = ceil(random(1,6));
       for(int i = 0; i < rand; i++)
       {
-        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(255,255,0,100)));
+        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(150,75,0,100)));
       }        
       onMovingPlatform = false;
       jumpsound.rewind();
