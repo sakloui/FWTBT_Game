@@ -32,7 +32,57 @@ PImage biskitGames;
 
 PImage background;
 
+//All types of boxes
 PImage tileBox;
+PImage boxLinks;
+PImage boxOmhoog;
+PImage boxOmlaag;
+PImage boxRechts;
+PImage boxCornerLinksBoven;
+PImage boxCornerLinksOnder;
+PImage boxCornerRechtsBoven;
+PImage boxCornerRechtsOnder;
+PImage boxCornerPointRechtsBoven;
+PImage boxCornerPointRechtsOnder;
+PImage boxCornerPointLinksBoven;
+PImage boxCornerPointLinksOnder;
+
+
+PImage box2CornerBoven;
+PImage box2CornerOnder;
+PImage box2CornerLinks;
+PImage box2CornerRechts;
+PImage box2CornerRechtsBovenLinksOnder;
+PImage box2CornerRechtsOnderLinksBoven;
+
+PImage box2LaagVerticaal;
+PImage box2LaagZijwaards;
+
+PImage box3CornerNietLinksBoven;
+PImage box3CornerNietLinksOnder;
+PImage box3CornerNietRechtsBoven;
+PImage box3CornerNietRechtsOnder;
+PImage box4Corner;
+
+PImage box3PointDown;
+PImage box3PointUp;
+PImage box3PointLeft;
+PImage box3PointRight;
+
+PImage boxCornerRechtsOnderLaagLinks;
+PImage boxCornerRechtsBovenLaagOnder;
+PImage boxCornerRechtsOnderLaagBoven;
+PImage boxCornerLinksOnderLaagBoven;
+PImage boxCornerLinksBovenLaagRechts;
+PImage boxCornerLinksBovenLaagOnder;
+PImage box2CornerLinksOnderRechtsOnderLaagBoven;
+
+PImage boxCornerLinksBovenLaagRechtsLaagOnder;
+PImage boxCornerLinksOnderLaagRechtsLaagBoven;
+PImage boxCornerRechtsBovenLaaglinksLaagOnder;
+PImage boxCornerRechtsOnderLaaglinksLaagBoven;
+// End of boxes
+PImage secret;
 PImage tileSteelPillar;
 PImage tileSmallPlatformTopRight;
 PImage tileSmallPlatformPillarRight;

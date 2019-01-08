@@ -16,6 +16,7 @@ class Box extends Rectangle
   int foreCollides;
   int dist = 20;
   PImage type;
+  PImage subtype = tileBox;
 
   float timer = random(100,1000);
 
@@ -360,7 +361,7 @@ void createForegroundBox()
       switch(foreCollides)
       {
         case 2:
-          type = tileSteelPillar;
+          type = tileBox;
           break;
         case 3:
           type = water0;
@@ -401,7 +402,10 @@ void createForegroundBox()
       noStroke();      
 
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
-      image(type, xOffset, yOffset, size, size);
+      if (type == tileBox)
+        image(subtype, xOffset, yOffset, size, size);
+      else
+        image(type, xOffset, yOffset, size, size);
       noTint();
       popMatrix();
 
