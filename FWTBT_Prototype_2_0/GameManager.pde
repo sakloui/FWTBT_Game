@@ -85,17 +85,17 @@ class GameManager
 
     int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highscore.getHighscore(currentLevel-1)));
 
-    PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
-    PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);
+    //PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
+    //PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);
 
-    int uiScreenOverlayPixels = int((60+8)*(1 + currencyValues[4] / highscore.getHighscore(currentLevel-1)));
+    //int uiScreenOverlayPixels = int((60+8)*(1 + currencyValues[4] / highscore.getHighscore(currentLevel-1)));
 
     if (currencyValues[4] < highscore.getHighscore(currentLevel-1)){
-      image(uiScreen2, 60, 0);
-      image(cropOverlay, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+      //image(uiScreen2, 60, 0);
+      //image(cropOverlay, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
     } else {
-      image(uiScreen2Green, 60, 0);
-      image(cropOverlayGreen, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+      //image(uiScreen2Green, 60, 0);
+      //image(cropOverlayGreen, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
     }
 
 

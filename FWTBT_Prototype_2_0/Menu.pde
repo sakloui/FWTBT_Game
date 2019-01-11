@@ -9,6 +9,7 @@ class Menu
   private Sliders sliders;
   private ArrayList<Background> back = new ArrayList<Background>();
   //------Variables------
+  private int amountOfLevels;
   private int currentSel;
   private int alpha;
   private boolean highscoreShown;
@@ -25,6 +26,7 @@ class Menu
     currentSel = 0;
     alpha = 0; 
     highscoreShown = false;
+    amountOfLevels = 10;
   }
   
   void update()
@@ -95,7 +97,7 @@ class Menu
     level = null;
     sliders = null;
 
-    level = new Levels(9 ,74);
+    level = new Levels(amountOfLevels ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();

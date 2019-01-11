@@ -15,6 +15,8 @@ class Highscore
 		deaths 4
 	*/
 
+	Table highscoreTable;
+	int score;
 
 	float highscore;
 	final float BOLTS_SCORE = 50;
@@ -26,6 +28,21 @@ class Highscore
 	
 	Highscore()
 	{
+		/* To create a new table
+		Table table = new Table();
+
+		table.addColumn("Highscores");
+		
+		for(int i = 0; i < menu.amountOfLevels; i++)
+		{
+			levelString = "Level " + i;
+			table.addColumn(levelString);
+		}
+
+		saveTable(table, "data/Highscores.csv");
+		*/
+		
+		highscoreTable = loadTable("data/highscores.csv", "header");
 
 		//bolts
 		highscore = BOLTS_SCORE * gameManager.currencyValues[0];
@@ -39,43 +56,81 @@ class Highscore
 
 	}
 
-	void saveHighscore()
+	String getLevelString(int level)
 	{
-			
-		highscores[currentLevel - 1] = str(round(gameManager.currencyValues[4]));
-		saveStrings("data/highscores.csv", highscores);
-		printArray(highscores);			
+		String levelString = "Level " + level;
+		return levelString;
 	}
 
 	void checkHighscore()
 	{
-		highscores = loadStrings("data/highscores.csv");
+		score = round(gameManager.currencyValues[4]);
 
-		if(int(highscores[currentLevel - 1]) < gameManager.currencyValues[4])
+		int finishedLevel = currentLevel;
+
+		checkNewHighscore(finishedLevel);
+
+		saveTable(highscoreTable, "data/highscores.csv");
+	}
+
+	void checkNewHighscore(int finishedLevel)
+	{
+		if(score >= highscoreTable.getInt(9, getLevelString(finishedLevel)))
 		{
-			saveHighscore();
 			println("YOU GOT A HIGHSCORE");
+			determineHighscorePlace(finishedLevel);
 		}
 		else
-			println("YOU DIDNT GET THE HIGHSCORE YOU NERD");		
+			println("YOU DIDNT GET THE HIGHSCORE YOU NERD");
+	}
+
+	void determineHighscorePlace(int finishedLevel)
+	{
+		int index = 10;
+
+		while(score >= highscoreTable.getInt(index-1, getLevelString(finishedLevel)))
+		{
+			index--;
+
+			if(index == 0)
+			{
+				saveHighscore(index, finishedLevel);
+				return;	
+			}
+		}
+		
+		saveHighscore(index, finishedLevel);
+	}
+
+	void saveHighscore(int index, int finishedLevel)
+	{
+		moveHighscoresDownTable(index, finishedLevel);
+		highscoreTable.setInt(index, getLevelString(finishedLevel), score);
+	}
+
+	void moveHighscoresDownTable(int row, int finishedLevel)
+	{
+		for(int i = 8; i >= row; i--)
+		{
+			int origionalScore = highscoreTable.getInt(i, getLevelString(finishedLevel));
+			highscoreTable.setInt(i+1, getLevelString(finishedLevel), origionalScore);
+		}
 	}
 
 	int getHighscore(int level)
 	{
-		highscores = loadStrings("data/highscores.csv");
-		return int(highscores[level]);
+		return int(highscoreTable.getInt(0, getLevelString(level+1)));
 	}
 
 	void showHighscore()
 	{
 		pushMatrix();
-			text("Current highscore is: " + highscores[currentLevel - 1] + " points.", width/2, height/2);
+			text("Current highscore is: " + highscoreTable.getInt(0, getLevelString(currentLevel)) + " points.", width/2, height/2);
 			text("Your current score is: " + round(highscore) + " points.", width/2, height/2 + 50);
-			if(int(highscores[currentLevel - 1]) == round(highscore))
+			if(int(highscoreTable.getInt(0, getLevelString(currentLevel))) == round(highscore))
 				text("YOU GOT THE HIGHSCORE ON THIS LEVEL", width/2, height/2-100);
 		popMatrix();
 	}
-
 
 	void updateScore()
 	{

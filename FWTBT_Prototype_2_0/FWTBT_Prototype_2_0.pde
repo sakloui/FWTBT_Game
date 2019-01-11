@@ -125,6 +125,7 @@ AudioPlayer levelmusic;
 AudioPlayer jumpsound;
 AudioPlayer walkingsound;
 AudioPlayer interactionsound;
+AudioPlayer laserFireSound;
 
 //------Keys------
 

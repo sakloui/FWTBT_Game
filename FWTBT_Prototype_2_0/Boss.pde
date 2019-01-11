@@ -10,8 +10,13 @@ class Boss
   //animation
   PImage bossSprite;
   PImage[] idle;
-  PImage[] run;
-  //PImage[] attack;
+  PImage[] charge;
+  PImage[] laserCharge;
+  PImage[] laserFire;
+
+  float health;
+  float maxHealth;
+  float healthOffset;
 
   int currentDirection;
   float currentFrame;
@@ -31,8 +36,10 @@ class Boss
     //set aggro- and attack range
     //set facing direction
     bossSize = 120f;
+    maxHealth = 120f;
+    health = maxHealth;
     setupSprites();
-    this.SetState(new BossLaserState(this));
+    this.SetState(new BossIdleState(this));
   }
 
   void setupSprites()
@@ -41,14 +48,17 @@ class Boss
     String bossSpriteName;
 
     //load the sprites
-    idle = new PImage[2];
+    idle = new PImage[6];
     String idleName;
 
-    run = new PImage[8];
-    String runName;
+    charge = new PImage[4];
+    String chargeName;
 
-    //attack = new PImage[5];
-    //String attackName;
+    laserCharge = new PImage[8];
+    String laserChargeName;
+
+    laserFire = new PImage[3];
+    String laserFireName;
 
     bossSpriteName = "Sprites/BossBegin.png";
     bossSprite = loadImage(bossSpriteName);
@@ -56,24 +66,29 @@ class Boss
     //load idle sprites
     for (int i = 0; i < idle.length; i++)
     {
-      idleName = "Sprites/Idle (" + i + ").png";
+      idleName = "Sprites/BossIdle"+(i+1)+".png";
       idle[i] = loadImage(idleName);
     }
 
-    /*
-      //load attack sprites
-     for (int i = 0; i < attack.length; i++)
-     {
-     attackName = "Sprites/Attack (" + i + ").png";
-     attack[i] = loadImage(attackName);
-     }
-     */
-
-    //load run sprites
-    for (int i = 0; i < 8; i++)
+    //load charge sprites
+    for (int i = 0; i < charge.length; i++)
     {
-      runName = "Sprites/Run (" + i + ").png";
-      run[i] = loadImage(runName);
+      chargeName = "Sprites/BossCharge"+(i+1)+".png";
+      charge[i] = loadImage(chargeName);
+    }
+
+    //load laserCharge sprites
+    for (int i = 0; i < laserCharge.length; i++)
+    {
+      laserChargeName = "Sprites/BossLaserCharge"+(i+1)+".png";
+      laserCharge[i] = loadImage(laserChargeName);
+    }
+
+    //load laserFire sprites
+    for (int i = 0; i < laserFire.length; i++)
+    {
+      laserFireName = "Sprites/BossLaserFire"+(i+1)+".png";
+      laserFire[i] = loadImage(laserFireName);
     }
   }
 
@@ -84,12 +99,59 @@ class Boss
       currentDirection = 1;
     else
       currentDirection = 0;
+
     this.currentState.OnTick();
+
+    checkPlayerCollision();
+
+    healthOffset = -(maxHealth - health) / 2;
   }
 
   void bossDraw()
   {
     this.currentState.OnDraw();
+
+    drawHealth();
+  }
+
+  void takeDamage(float damage)
+  {
+    health -= damage;
+    if(health < 0)
+    {
+      health = 0;
+      death();
+    }
+  }
+
+  void checkPlayerCollision()
+  {
+    if((boss.position.x-player.position.x) * (boss.position.x-player.position.x) + 
+      (player.position.y-boss.position.y) * (player.position.y-boss.position.y)
+      <= (60+30) * (60+30))
+    {
+      menu.currentSel = 0;
+      menu.createDied();
+      menu.menuState = 0;
+      isMenu = true;
+    }
+  }
+
+  void death()
+  {
+
+  }
+
+  void drawHealth()
+  {
+    pushMatrix();
+    translate(boss.position.x, boss.position.y - 100);
+    noStroke();
+    fill(255, 0, 0);
+    rect(0, 0, bossSize, 30);
+    fill(0, 255, 0);
+    rect(healthOffset, 0, health, 30);
+    popMatrix();
   }
 
   void SetState(State state)

@@ -1,5 +1,7 @@
 class BossIdleState extends State
 {
+  Boss boss;
+
   float animationSpeed;
   float currentFrame;
   float bossMoveSpeed = 200;
@@ -7,10 +9,20 @@ class BossIdleState extends State
   boolean movingRight;
   float moveLimit = 480;
 
+  float laserCooldown = 5f;
+  float laserCooldownCounter;
+
+  BossIdleState(Boss boss)
+  {
+    this.boss = boss;
+  }
+
   void OnStateEnter()
   {
-    animationSpeed = 0.05f;
+    animationSpeed = 0.25f;
     currentFrame = 0;
+
+    laserCooldownCounter = 0f;
 
     if (boss != null)
       movingRight = boss.movingRight;
@@ -18,8 +30,9 @@ class BossIdleState extends State
 
   void OnTick()
   {
-    currentFrame = (currentFrame + animationSpeed) % 2;
+    currentFrame = (currentFrame + animationSpeed) % 6;
 
+    laserCooldown();
 
     if (movingRight)
     {
@@ -39,7 +52,17 @@ class BossIdleState extends State
 
     //if player is within boss aggro range
     if (abs(player.position.x - boss.position.x) <= playerAggroRange) {
-      boss.SetState(new BossAttackState());
+      boss.SetState(new BossAttackState(this.boss));
+    }
+  }
+
+  void laserCooldown()
+  {
+    laserCooldownCounter += deltaTime;
+    if (laserCooldownCounter >= laserCooldown)
+    {
+      laserCooldownCounter = 0f;
+      boss.SetState(new BossLaserState(this.boss));
     }
   }
 
@@ -47,18 +70,11 @@ class BossIdleState extends State
   {
     //draw idle animation
     pushMatrix();
+    
     translate(boss.position.x - camera.shiftX, boss.position.y - camera.shiftY);
-    image(boss.bossSprite, 0, 0);
-    if (boss.currentDirection == boss.RIGHT)
-    {
-      //image(boss.idle[int(currentFrame)], 0, 0);
-    } else if (boss.currentDirection == boss.LEFT)
-    {
-      pushMatrix();
-      scale(-1.0, 1.0);
-      //image(boss.idle[int(currentFrame)], 0, 0);
-      popMatrix();
-    }
+    
+    image(boss.idle[int(currentFrame)], 0, 0);
+    
     popMatrix();
   }
 

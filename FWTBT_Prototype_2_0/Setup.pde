@@ -100,7 +100,8 @@ void extraSetup()
   interactionsound = minim.loadFile("Soundeffects/interaction_switch.wav");
   //jumpsound = minim.loadFile("Soundeffects/Jump_sound_3.wav");
   //Enemy sounds
-
+  //Boss sounds
+  laserFireSound = minim.loadFile("Soundeffects/Laser_Fire.mp3");
 
   //Condition sounds
 

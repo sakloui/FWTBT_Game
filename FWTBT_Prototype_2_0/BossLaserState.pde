@@ -7,8 +7,11 @@ class BossLaserState extends State
   float animationSpeed;
   float currentFrame;
 
+  float timeShootingLaser;
+  float laserShootDuration = 6f;
+
   //lock on
-  float lockOnTime = 2.5f;
+  float lockOnTime = 1.5f;
   float lockOnProgress;
   boolean lockedOnPlayer;
 
@@ -17,6 +20,9 @@ class BossLaserState extends State
   PVector laserEndPos;
   float laserFollowSpeed;
   color laserColor = color(175, 175, 175);
+  float laserSize;
+  float backLaserSize;
+  boolean expanding;
 
   //colision
   float intersectionX, intersectionY;
@@ -24,20 +30,25 @@ class BossLaserState extends State
   PVector closestIntersection;
   boolean laserHit;
 
-  BossLaserState(Boss currentBoss)
+  BossLaserState(Boss boss)
   {
-    this.boss = currentBoss;
+    this.boss = boss;
   }
 
   void OnStateEnter()
   {
-    animationSpeed = 0.05f;
+    animationSpeed = 0.2f;
     currentFrame = 0f;
 
     lockOnProgress = 0f;
     lockedOnPlayer = false;
 
-    closestIntersection = new PVector(0, 0);
+    expanding = false;
+
+    laserSize = 10f;
+    backLaserSize = 15f;
+
+    closestIntersection = new PVector(player.position.x, player.position.y);
 
     laserPlayerTrackPos = player.position.copy();
 
@@ -49,7 +60,14 @@ class BossLaserState extends State
 
   void OnTick()
   {
-    currentFrame = (currentFrame + animationSpeed) % 2;
+    if(!lockedOnPlayer)
+      currentFrame = (currentFrame + animationSpeed) % 8;
+    else
+      currentFrame = (currentFrame + animationSpeed) % 3;
+
+    laserTimer();
+
+    changeLaserSize();
 
     //shoot laser
     if (!lockedOnPlayer)
@@ -66,6 +84,37 @@ class BossLaserState extends State
     //after laser attack return to idle state
   }
 
+  void changeLaserSize()
+  {
+    float laserGrowthSpeed = 1.5f;
+    float backLaserGrowthSpeed = 3f;
+
+    if(expanding)
+    {
+      laserSize += laserGrowthSpeed;
+      backLaserSize += backLaserGrowthSpeed;
+    }
+    else
+    {
+      laserSize -= laserGrowthSpeed;
+      backLaserSize -= backLaserGrowthSpeed;
+    }
+    
+    if(laserSize > 12.5f)
+      expanding = false;
+    else if(laserSize < 7.5f)
+      expanding = true;
+  }
+
+  void laserTimer()
+  {
+    timeShootingLaser += deltaTime;
+    if (timeShootingLaser >= laserShootDuration)
+    {
+      boss.SetState(new BossIdleState(this.boss));
+    }
+  }
+
   void lockOnPlayer()
   {
     //handle timer for locking on the player
@@ -74,6 +123,9 @@ class BossLaserState extends State
     {
       laserColor = color(255, 0, 0);
       lockedOnPlayer = true;
+      currentFrame = 0;
+      laserFireSound.rewind();
+      laserFireSound.play();
     }
 
     updateLaserPosition(4f);
@@ -95,6 +147,8 @@ class BossLaserState extends State
   {
     laserHitDistance = MAX_FLOAT;
     checkBoxCollision();
+    if(lockedOnPlayer)
+      checkPlayerCollision();
   }
 
   void checkBoxCollision()
@@ -116,6 +170,18 @@ class BossLaserState extends State
     }
   }
 
+  void checkPlayerCollision()
+  {
+    if(lineRect(closestIntersection.x, closestIntersection.y, boss.position.x, boss.position.y, 
+                player.position.x-15f, player.position.y-15f, 30f, 50f))
+    {
+      menu.currentSel = 0;
+      menu.createDied();
+      menu.menuState = 0;
+      isMenu = true;
+    }
+  }
+
   void saveClosestIntersection()
   {
     //check if the block that is hit is closer than the previously hit block(s)
@@ -131,6 +197,12 @@ class BossLaserState extends State
   // LINE/RECTANGLE
   boolean lineRect(float x1, float y1, float x2, float y2, float rx, float ry, float rw, float rh) 
   {
+    boolean checkingBoxCollision;
+    if(rh == 40)
+      checkingBoxCollision = true;
+    else
+      checkingBoxCollision = false;
+
     //when checking collision with a new box reset the intersection 
     //variables to a very high number
     intersectionX = MAX_FLOAT;
@@ -139,7 +211,11 @@ class BossLaserState extends State
     // check if the line has hit any of the rectangle's sides
     // uses the Line/Line function below
     boolean top =    lineLine(x1,y1,x2,y2, rx,ry, rx+rw,ry);
+    if(checkingBoxCollision)
+      saveClosestIntersection();
     boolean left =   lineLine(x1,y1,x2,y2, rx,ry,rx, ry+rh);
+    if(checkingBoxCollision)
+      saveClosestIntersection();
     boolean right =  lineLine(x1,y1,x2,y2, rx+rw,ry, rx+rw,ry+rh);
 
     if(top || left || right)
@@ -162,8 +238,11 @@ class BossLaserState extends State
       //than the previously saved intersection, store these coordinates as the new closest intersection
       if(x1 + (uA * (x2-x1)) < intersectionX && y1 + (uA * (y2-y1)) < intersectionY)
       {
-        intersectionX = x1 + (uA * (x2-x1));
-        intersectionY = y1 + (uA * (y2-y1));  
+        if(boss.position.dist(new PVector(x1 + (uA * (x2-x1)), y1 + (uA * (y2-y1)))) < laserHitDistance)
+        {
+          intersectionX = x1 + (uA * (x2-x1));
+          intersectionY = y1 + (uA * (y2-y1));    
+        }
       }
 
       return true;
@@ -175,25 +254,24 @@ class BossLaserState extends State
   {
     //draw movement animation
     pushMatrix();
+
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
-    //ellipse(0, 0, boss.bossSize, boss.bossSize);
-    image(boss.bossSprite, 0, 0);
-    if (boss.currentDirection == boss.RIGHT)
-    {
-      //image(boss.run[int(currentFrame)], 0, 0);
-    } else if (boss.currentDirection == boss.LEFT)
-    {
-      pushMatrix();
-      scale(-1.0, 1.0);
-      //image(boss.run[int(currentFrame)], 0, 0);
-      popMatrix();
-    }
+
+    if(!lockedOnPlayer)
+      image(boss.laserCharge[int(currentFrame)], 0, 0);
+    else
+      image(boss.laserFire[int(currentFrame)], 0, 0);
+
     popMatrix();
     
-    strokeWeight(10);
     stroke(laserColor);
     
     //draw Laser
+    strokeWeight(laserSize);
+    line(boss.position.x, boss.position.y, closestIntersection.x, closestIntersection.y);
+    
+    stroke(laserColor, 100);
+    strokeWeight(backLaserSize);
     line(boss.position.x, boss.position.y, closestIntersection.x, closestIntersection.y);
   }
 
