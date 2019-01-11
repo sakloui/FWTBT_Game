@@ -7,8 +7,6 @@ class Highscore
 		tijd: 2 minuten max | 2 minuten - tijd / 100 + 1
 		deaths: 9 deaths = 10 % van totale score | 8 = 20% etc.
 
-
-
 		bolts = 30
 		fuel = 75
 		tijd = 60 sec
@@ -16,6 +14,8 @@ class Highscore
 	*/
 
 	Table highscoreTable;
+	String names[];
+
 	int score;
 
 	float highscore;
@@ -23,26 +23,11 @@ class Highscore
 	final float FUEL_SCORE = 10;
 	final float MAX_TIME = 120;
 	final float MAX_DEATHS = 10;
-
-	String[] highscores = loadStrings("data/highscores.csv");
 	
 	Highscore()
 	{
-		/* To create a new table
-		Table table = new Table();
-
-		table.addColumn("Highscores");
-		
-		for(int i = 0; i < menu.amountOfLevels; i++)
-		{
-			levelString = "Level " + i;
-			table.addColumn(levelString);
-		}
-
-		saveTable(table, "data/Highscores.csv");
-		*/
-		
-		highscoreTable = loadTable("data/highscores.csv", "header");
+		highscoreTable = loadTable("data/Highscores.csv", "header");
+		names  = loadStrings("data/HighscoreNames.csv");
 
 		//bolts
 		highscore = BOLTS_SCORE * gameManager.currencyValues[0];
@@ -106,6 +91,7 @@ class Highscore
 	{
 		moveHighscoresDownTable(index, finishedLevel);
 		highscoreTable.setInt(index, getLevelString(finishedLevel), score);
+		enterPlayerName();
 	}
 
 	void moveHighscoresDownTable(int row, int finishedLevel)
@@ -117,6 +103,11 @@ class Highscore
 		}
 	}
 
+	void enterPlayerName()
+	{
+		
+	}
+
 	int getHighscore(int level)
 	{
 		return int(highscoreTable.getInt(0, getLevelString(level+1)));
@@ -125,10 +116,23 @@ class Highscore
 	void showHighscore()
 	{
 		pushMatrix();
-			text("Current highscore is: " + highscoreTable.getInt(0, getLevelString(currentLevel)) + " points.", width/2, height/2);
-			text("Your current score is: " + round(highscore) + " points.", width/2, height/2 + 50);
-			if(int(highscoreTable.getInt(0, getLevelString(currentLevel))) == round(highscore))
-				text("YOU GOT THE HIGHSCORE ON THIS LEVEL", width/2, height/2-100);
+		translate(300, 150);
+		textAlign(LEFT);
+		for(int i = 0; i < 10; i++)
+		{
+			//textString = ("This %s is %i years old, and weighs %.1f pounds." % (animal, age, weight));
+			//String nameText = String.format("%i: %s", (i, names[i]));
+			if(i == 0)
+				text((i+1) + " :   " + names[i], 0, i * 30);
+			else if(i == 9)
+				text((i+1) + ": " + names[i], 0, i * 30);
+			else
+				text(i+1 + ":   " + names[i], 0, i * 30);
+			text("Score:  " + highscoreTable.getInt(i, getLevelString(currentLevel)), 400, i * 30);
+		}
+
+		textAlign(CENTER);
+		
 		popMatrix();
 	}
 

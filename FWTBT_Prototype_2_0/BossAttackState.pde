@@ -44,7 +44,7 @@ class BossAttackState extends State
 
   void OnTick()
   {
-    currentFrame = (currentFrame + animationSpeed) % 4;
+    currentFrame = (currentFrame + animationSpeed) % 6;
     if (!lockedOnPlayer)
     {
       lockOnPlayer();

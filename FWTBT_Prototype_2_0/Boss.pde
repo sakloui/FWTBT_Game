@@ -51,7 +51,7 @@ class Boss
     idle = new PImage[6];
     String idleName;
 
-    charge = new PImage[4];
+    charge = new PImage[6];
     String chargeName;
 
     laserCharge = new PImage[8];
@@ -73,7 +73,7 @@ class Boss
     //load charge sprites
     for (int i = 0; i < charge.length; i++)
     {
-      chargeName = "Sprites/BossCharge"+(i+1)+".png";
+      chargeName = "Sprites/BossChargeBlue"+(i+1)+".png";
       charge[i] = loadImage(chargeName);
     }
 
