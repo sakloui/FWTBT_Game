@@ -20,8 +20,8 @@ class Menu
   {
     menuState = 0;
     button = new Buttons[10];
-    createMainMenu();
-    button[0].selected = true;
+    //createMainMenu();
+    displayIntro = true; 
     currentSel = 0;
     alpha = 0; 
     highscoreShown = false;
@@ -63,6 +63,9 @@ class Menu
     //button[2].createButton();    
     button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","rotatingText",255);
     //button[4].createButton();
+    
+    button[0].selected = true;
+
   }
   void createOptions()
   {

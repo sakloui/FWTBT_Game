@@ -67,6 +67,24 @@ void extraSetup()
 
   uiScreen3 = loadImage("ui/screen3.png");
   uiScreen4 = loadImage("ui/screen4.png");
+  
+   introIdleScreen = new PImage[14];
+    String introScreen;
+
+    for (int i = 0; i < 14; i++)
+    {
+      introScreen = "Introscherm/Menubackground" + (i+1)+  ".png";
+      introIdleScreen[i] = loadImage(introScreen);
+    }
+    
+     intro = new PImage[27];
+    String introFileName; 
+
+    for (int i = 0; i < 27; i++)
+    {
+      introFileName = "Introscherm/Menubackground" + (i+15) + ".png";
+      intro[i] = loadImage(introFileName);
+    }
 
   for (int i = 0; i < basicEnemy.length; i++)
   {

@@ -15,6 +15,7 @@ Input input = new Input();
 PowerUpManager powerUpManager;
 GameManager gameManager;
 Highscore highscore;
+Introscherm introScherm = new Introscherm(); 
 
 
 //------ArrayList stuff------
@@ -51,6 +52,9 @@ PImage hookTop;
 PImage exitDoor;
 PImage enterDoor;
 PImage ladder;
+
+PImage[] introIdleScreen; 
+PImage[] intro; 
 
 PImage wireStart;
 PImage wireHeel;
@@ -104,6 +108,7 @@ float counter = 0;
 float loadingTime = 5f;
 
 boolean isMenu;
+boolean displayIntro; 
 int currentLevel;
 
 float[] volume = new float[5];
@@ -150,6 +155,8 @@ void setup()
 
 void draw()
 {
+  
+   
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
@@ -166,7 +173,15 @@ void draw()
      
     if(isMenu)
     {
-      menu.draw();
+      if(displayIntro)
+      {
+        introScherm.updateIntro(); 
+        introScherm.DrawIntro();
+        
+      }
+      else
+        menu.draw();
+        
     }
     else
     {
@@ -260,9 +275,7 @@ void draw()
 
       boxManager.DrawForeground();
 
-
-
-      player.Draw();
+      player.Draw();     
 
       if(boss!=null)
       {
