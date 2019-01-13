@@ -104,7 +104,10 @@ float deltaTime;
 float counter = 0;
 float loadingTime = 5f;
 
+String playerName = "";
+
 boolean isMenu;
+boolean isTypingName;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -168,6 +171,11 @@ void draw()
      
     if(isMenu)
     {
+      image(background,width/2,height/2,width, height);
+      if(isTypingName)
+      {
+        menu.showPlayerName();
+      }
       menu.draw();
     }
     else
@@ -311,6 +319,9 @@ void draw()
 void keyPressed()
 {
   input.KeyDown(keyCode, true);
+
+  if(isTypingName)
+    menu.registerName();
 }
 
 void keyReleased()

@@ -4,6 +4,13 @@ class BossAttackState extends State
 
   float animationSpeed;
   float currentFrame;
+  int maxImage;
+  final int chargeLength;
+  final int blueChargeLength;
+  final int chargeImpactLength;
+
+  PVector lookRotation;
+  float rotation;
 
   float lockOnTime = 0.5;
   float lockOnProgress;
@@ -25,6 +32,9 @@ class BossAttackState extends State
   BossAttackState(Boss boss)
   {
     this.boss = boss;
+    chargeLength = boss.charge.length;
+    blueChargeLength = boss.blueCharge.length;
+    chargeImpactLength = boss.chargeImpact.length;
   }
 
   void OnStateEnter()
@@ -36,6 +46,8 @@ class BossAttackState extends State
     lockOnProgress = 0;
     lockedOnPlayer = false;
 
+    lookRotation = new PVector(0, -1);
+
     returnToIdle = false;
     beforeChargePosition = boss.position.copy();
 
@@ -44,7 +56,18 @@ class BossAttackState extends State
 
   void OnTick()
   {
-    currentFrame = (currentFrame + animationSpeed) % 6;
+    /*
+    if(!lockedOnPlayer)
+      maxImage = chargeLength;
+    else if(!hasCharged)
+      maxImage = blueChargeLength;
+    else
+      maxImage = chargeImpactLength;
+
+    currentFrame = (currentFrame + animationSpeed) % maxImage;
+    */
+    currentFrame = (currentFrame + animationSpeed);
+
     if (!lockedOnPlayer)
     {
       lockOnPlayer();
@@ -72,6 +95,10 @@ class BossAttackState extends State
   void lockOnPlayer()
   {
     lockOnProgress += deltaTime;
+    targetPos = player.position.copy().sub(boss.position.copy());
+    targetPos.normalize();
+    rotation = PI + (atan2(targetPos.y,targetPos.x) - atan2(lookRotation.y,lookRotation.x));
+
     if ( lockOnProgress >= lockOnTime)
     {
       targetPos = player.position.copy().sub(boss.position.copy());
@@ -80,6 +107,9 @@ class BossAttackState extends State
       else if(player.velocity.x < 0)
         targetPos.x -= random(350);
       targetPos.normalize();
+      
+      rotation = PI + (atan2(targetPos.y,targetPos.x) - atan2(lookRotation.y,lookRotation.x));
+
       lockedOnPlayer = true;
     }
   }
@@ -135,8 +165,9 @@ class BossAttackState extends State
   {
     boss.position.x -= targetPos.x * chargeSpeed * deltaTime;
     boss.position.y -= targetPos.y * chargeSpeed * deltaTime;
-    if (boss.position.dist(beforeChargePosition) <= 5)
+    if (boss.position.y >= boss.spawnPosition.y)
     {
+      boss.position.y = boss.spawnPosition.y;
       boss.SetState(new BossIdleState(this.boss));
     }
   }
@@ -145,17 +176,24 @@ class BossAttackState extends State
   {
     //draw attacking boss
     pushMatrix();
-
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
 
-    image(boss.charge[int(currentFrame)], 0, 0);
+    rotate(rotation);
 
+    if(!lockedOnPlayer)
+      image(boss.charge[int(currentFrame % chargeLength)], 0, 0);
+    else if(!hasCharged)
+      image(boss.blueCharge[int(currentFrame % blueChargeLength)], 0, 0);
+    else
+    {
+      image(boss.blueCharge[int(currentFrame % blueChargeLength)], 0, 0);
+      image(boss.chargeImpact[int(currentFrame % chargeImpactLength)], 0, targetPos.y * boss.bossSize/4);
+    }
     popMatrix();
-
   }
 
   void OnStateExit()
   {
-    boss.position.y = boss.spawnPosition.y;
+
   }
 }

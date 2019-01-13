@@ -11,6 +11,8 @@ class Boss
   PImage bossSprite;
   PImage[] idle;
   PImage[] charge;
+  PImage[] blueCharge;
+  PImage[] chargeImpact;
   PImage[] laserCharge;
   PImage[] laserFire;
 
@@ -51,8 +53,14 @@ class Boss
     idle = new PImage[6];
     String idleName;
 
-    charge = new PImage[6];
+    charge = new PImage[4];
     String chargeName;
+
+    blueCharge = new PImage[6];
+    String blueChargeName;
+
+    chargeImpact = new PImage[8];
+    String chargeImpactName;
 
     laserCharge = new PImage[8];
     String laserChargeName;
@@ -73,8 +81,22 @@ class Boss
     //load charge sprites
     for (int i = 0; i < charge.length; i++)
     {
-      chargeName = "Sprites/BossChargeBlue"+(i+1)+".png";
+      chargeName = "Sprites/BossCharge"+(i+1)+".png";
       charge[i] = loadImage(chargeName);
+    }
+
+    //load charge sprites
+    for (int i = 0; i < blueCharge.length; i++)
+    {
+      blueChargeName = "Sprites/BossChargeBlue"+(i+1)+".png";
+      blueCharge[i] = loadImage(blueChargeName);
+    }
+
+    //load chargeImpact sprites
+    for (int i = 0; i < chargeImpact.length; i++)
+    {
+      chargeImpactName = "Sprites/FireImpact"+(i+1)+".png";
+      chargeImpact[i] = loadImage(chargeImpactName);
     }
 
     //load laserCharge sprites

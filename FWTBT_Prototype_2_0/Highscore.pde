@@ -14,9 +14,14 @@ class Highscore
 	*/
 
 	Table highscoreTable;
-	String names[];
+	Table nameTable;
 
 	int score;
+	int highscoreRow;
+	float highscoreTableLineSpacing = 30f;
+	color blinkingTextColor = /*color(255, 99, 71)*/color(225, 131, 26);
+	String topString = "Enter your name below";
+	int maxPlayerNameLength = 12;
 
 	float highscore;
 	final float BOLTS_SCORE = 50;
@@ -27,7 +32,7 @@ class Highscore
 	Highscore()
 	{
 		highscoreTable = loadTable("data/Highscores.csv", "header");
-		names  = loadStrings("data/HighscoreNames.csv");
+		nameTable = loadTable("data/PlayerNames.csv", "header");
 
 		//bolts
 		highscore = BOLTS_SCORE * gameManager.currencyValues[0];
@@ -51,22 +56,16 @@ class Highscore
 	{
 		score = round(gameManager.currencyValues[4]);
 
-		int finishedLevel = currentLevel;
-
-		checkNewHighscore(finishedLevel);
-
-		saveTable(highscoreTable, "data/highscores.csv");
-	}
-
-	void checkNewHighscore(int finishedLevel)
-	{
-		if(score >= highscoreTable.getInt(9, getLevelString(finishedLevel)))
+		if(score >= highscoreTable.getInt(9, getLevelString(currentLevel)))
 		{
 			println("YOU GOT A HIGHSCORE");
-			determineHighscorePlace(finishedLevel);
+			determineHighscorePlace(currentLevel);
+			saveTable(highscoreTable, "data/Highscores.csv");
+			saveTable(nameTable, "data/PlayerNames.csv");
 		}
 		else
 			println("YOU DIDNT GET THE HIGHSCORE YOU NERD");
+		
 	}
 
 	void determineHighscorePlace(int finishedLevel)
@@ -89,23 +88,30 @@ class Highscore
 
 	void saveHighscore(int index, int finishedLevel)
 	{
-		moveHighscoresDownTable(index, finishedLevel);
+		moveValuesDownTables(index, finishedLevel);
 		highscoreTable.setInt(index, getLevelString(finishedLevel), score);
-		enterPlayerName();
+		enterPlayerName(index);
 	}
 
-	void moveHighscoresDownTable(int row, int finishedLevel)
+	void moveValuesDownTables(int row, int finishedLevel)
 	{
 		for(int i = 8; i >= row; i--)
 		{
-			int origionalScore = highscoreTable.getInt(i, getLevelString(finishedLevel));
-			highscoreTable.setInt(i+1, getLevelString(finishedLevel), origionalScore);
+			//move the highscores down the highscore table
+			int originalScore = highscoreTable.getInt(i, getLevelString(finishedLevel));
+			highscoreTable.setInt(i+1, getLevelString(finishedLevel), originalScore);
+
+			//move the names down the name table
+			String originalname = nameTable.getString(i, getLevelString(finishedLevel));
+			nameTable.setString(i+1, getLevelString(finishedLevel), originalname);
 		}
+		nameTable.setString(row, getLevelString(finishedLevel), "");
 	}
 
-	void enterPlayerName()
+	void enterPlayerName(int index)
 	{
-		
+		highscoreRow = index;
+		isTypingName = true;
 	}
 
 	int getHighscore(int level)
@@ -120,20 +126,30 @@ class Highscore
 		textAlign(LEFT);
 		for(int i = 0; i < 10; i++)
 		{
+			fill(0);
+			if(isTypingName)
+			{
+				if(i == highscoreRow)
+					fill(blinkingTextColor, menu.textAlpha);
+			}
 			//textString = ("This %s is %i years old, and weighs %.1f pounds." % (animal, age, weight));
-			//String nameText = String.format("%i: %s", (i, names[i]));
 			if(i == 0)
-				text((i+1) + " :   " + names[i], 0, i * 30);
+				text((i+1) + " :   " + nameTable.getString(i, getLevelString(currentLevel)), 4, i * highscoreTableLineSpacing);
 			else if(i == 9)
-				text((i+1) + ": " + names[i], 0, i * 30);
+				text((i+1) + ": " + nameTable.getString(i, getLevelString(currentLevel)), 0, i * highscoreTableLineSpacing);
 			else
-				text(i+1 + ":   " + names[i], 0, i * 30);
-			text("Score:  " + highscoreTable.getInt(i, getLevelString(currentLevel)), 400, i * 30);
+				text(i+1 + ":   " + nameTable.getString(i, getLevelString(currentLevel)), 0, i * highscoreTableLineSpacing);
+			text("Score:  " + highscoreTable.getInt(i, getLevelString(currentLevel)), 400, i * highscoreTableLineSpacing);
 		}
 
 		textAlign(CENTER);
-		
 		popMatrix();
+
+		if(isTypingName)
+		{
+			text(topString, width/2, 100);
+			text("Press enter to confirm your name", width/2, 500);
+		}
 	}
 
 	void updateScore()

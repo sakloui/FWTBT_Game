@@ -3,7 +3,7 @@ class RocketArm
   color rocketArmColor = color(213, 123, 50);
   int size = 10;
   PVector position;
-  PVector oldPos;
+  PVector oldPos = new PVector(0, 0);
   PVector normPos;
   PVector anchorPos;
   ArrayList<PVector> savedPositions = new ArrayList<PVector>();
@@ -47,8 +47,15 @@ class RocketArm
   {
     position.x += player.velocity.x * deltaTime;
     position.y = player.position.y ;
-    oldPos.x = player.position.x;
-    oldPos.y = player.position.y;
+    if(player.position != null)
+    {
+      if(oldPos == null)
+        println("oldPos null");
+      oldPos.x = player.position.x;
+      oldPos.y = player.position.y;
+    }
+    else
+      println("player.position == null");
     
     for(int i = 0; i < savedPositions.size(); i++)
     {
