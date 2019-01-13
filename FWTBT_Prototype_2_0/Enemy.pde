@@ -39,19 +39,22 @@ class Enemy {
   }
   void Update() 
   {
-    CheckCollision();
-    if(enemyType == 1)
-      CheckFire();
-
-    top = y - radius; 
-    bottom = y + radius;
-    left = x - radius;
-    right = x + radius;
-    if(enemyType != 3 && enemyType != 4)
+    if(!pauseWorld)
     {
-      x = x + vx * 3f;
+      CheckCollision();
+      if(enemyType == 1)
+        CheckFire();
+
+      top = y - radius; 
+      bottom = y + radius;
+      left = x - radius;
+      right = x + radius;
+      if(enemyType != 3 && enemyType != 4)
+      {
+        x = x + vx * 3f;
+      }
+      CheckKillCollision();
     }
-    CheckKillCollision();
   }
 
   void Draw() 

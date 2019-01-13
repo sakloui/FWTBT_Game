@@ -364,8 +364,7 @@ void createForegroundBox()
           type = tileBox;
           break;
         case 3:
-          type = water0;
-          println(foreCollides);  
+          type = water0; 
           break;  
         case 4:
           type = water0;

@@ -160,6 +160,7 @@ float loadingTime = 5f;
 
 boolean isMenu;
 boolean cameraTracking = true;
+boolean pauseWorld = false;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -230,12 +231,8 @@ void draw()
       
       if(cameraTracking)
       {
-        if (boxManager.rows > 32){
-          camera.UpdateX();
-        }
-        if (boxManager.columns > 18){
-          camera.UpdateY();
-        }
+        camera.UpdateX();
+        camera.UpdateY();
       }
 
       image(background,width/2,height/2,width, height);
