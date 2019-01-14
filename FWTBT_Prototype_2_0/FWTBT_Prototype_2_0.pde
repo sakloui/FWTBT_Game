@@ -227,6 +227,7 @@ AudioPlayer interactionsound;
 AudioPlayer laserFireSound;
 AudioPlayer bossImpact;
 AudioPlayer bossExplotions;
+AudioPlayer[] bolt;
 //------Keys------
 
 void setup()

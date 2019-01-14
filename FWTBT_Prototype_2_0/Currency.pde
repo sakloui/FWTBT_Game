@@ -32,6 +32,9 @@ class Currency
 	        	gameManager.currencyValues[0]++;
 	        else if(type == "gold")
 	        	gameManager.currencyValues[0] += 10;
+	        int r = round(random(0,2));
+	        bolt[r].rewind();
+	        bolt[r].play();
 	    	coins.remove(this);
 	    }
 	}

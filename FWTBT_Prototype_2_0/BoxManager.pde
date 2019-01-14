@@ -90,7 +90,7 @@ class BoxManager
     camera.shiftX = 0;
     camera.shiftY = 0;
     if(levelmusic != null && currentLevel != 9)
-    levelmusic.play();
+    levelmusic.loop();
         
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  

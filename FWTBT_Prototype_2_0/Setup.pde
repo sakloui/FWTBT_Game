@@ -15,6 +15,7 @@ void extraSetup()
 
   electricOrb = new PImage[4];
   electricOrbPurple = new PImage[4];
+  bolt = new AudioPlayer[3];
   //------Image stuff------
 
   tileBox = loadImage("Textures/box.png");
@@ -325,6 +326,13 @@ bossSprite = new PImage();
   interactionsound = minim.loadFile("Soundeffects/interaction_switch.wav");
   //jumpsound = minim.loadFile("Soundeffects/Jump_sound_3.wav");
   //Enemy sounds
+
+  //Bolts sounds
+  for (int i = 0; i < bolt.length; i++)
+  {
+    bolt[i] = minim.loadFile("Soundeffects/Bolt"+ (i+1) +".wav");
+    bolt[i].setGain(-50 + volume[1]);
+  }
 
 
   //Condition sounds
