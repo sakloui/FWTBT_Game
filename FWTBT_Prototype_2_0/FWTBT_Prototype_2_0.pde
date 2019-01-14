@@ -32,7 +32,57 @@ PImage biskitGames;
 
 PImage background;
 
+//All types of boxes
 PImage tileBox;
+PImage boxLinks;
+PImage boxOmhoog;
+PImage boxOmlaag;
+PImage boxRechts;
+PImage boxCornerLinksBoven;
+PImage boxCornerLinksOnder;
+PImage boxCornerRechtsBoven;
+PImage boxCornerRechtsOnder;
+PImage boxCornerPointRechtsBoven;
+PImage boxCornerPointRechtsOnder;
+PImage boxCornerPointLinksBoven;
+PImage boxCornerPointLinksOnder;
+
+
+PImage box2CornerBoven;
+PImage box2CornerOnder;
+PImage box2CornerLinks;
+PImage box2CornerRechts;
+PImage box2CornerRechtsBovenLinksOnder;
+PImage box2CornerRechtsOnderLinksBoven;
+
+PImage box2LaagVerticaal;
+PImage box2LaagZijwaards;
+
+PImage box3CornerNietLinksBoven;
+PImage box3CornerNietLinksOnder;
+PImage box3CornerNietRechtsBoven;
+PImage box3CornerNietRechtsOnder;
+PImage box4Corner;
+
+PImage box3PointDown;
+PImage box3PointUp;
+PImage box3PointLeft;
+PImage box3PointRight;
+
+PImage boxCornerRechtsOnderLaagLinks;
+PImage boxCornerRechtsBovenLaagOnder;
+PImage boxCornerRechtsOnderLaagBoven;
+PImage boxCornerLinksOnderLaagBoven;
+PImage boxCornerLinksBovenLaagRechts;
+PImage boxCornerLinksBovenLaagOnder;
+PImage box2CornerLinksOnderRechtsOnderLaagBoven;
+
+PImage boxCornerLinksBovenLaagRechtsLaagOnder;
+PImage boxCornerLinksOnderLaagRechtsLaagBoven;
+PImage boxCornerRechtsBovenLaaglinksLaagOnder;
+PImage boxCornerRechtsOnderLaaglinksLaagBoven;
+// End of boxes
+PImage secret;
 PImage tileSteelPillar;
 PImage tileSmallPlatformTopRight;
 PImage tileSmallPlatformPillarRight;
@@ -51,6 +101,10 @@ PImage hookTop;
 PImage exitDoor;
 PImage enterDoor;
 PImage ladder;
+PImage deathOrb;
+PImage switch0;
+PImage switch1;
+PImage water0;
 
 PImage wireStart;
 PImage wireHeel;
@@ -105,6 +159,8 @@ float counter = 0;
 float loadingTime = 5f;
 
 boolean isMenu;
+boolean cameraTracking = true;
+boolean pauseWorld = false;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -173,11 +229,9 @@ void draw()
     {
       if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
       
-
-      if (boxManager.rows > 32){
+      if(cameraTracking)
+      {
         camera.UpdateX();
-      }
-      if (boxManager.columns > 18){
         camera.UpdateY();
       }
 

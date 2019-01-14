@@ -79,8 +79,8 @@ class Player
     position = new PVector(width/2, height/2);
 
     jumpVel = 640f;
-    gravity = 9.81f * 120;
-    maxGrav = 450f;
+    gravity = 9.81f * 144;
+    maxGrav = 650f;
 
     currentDirection = 1;
     onOil = false;    
@@ -379,7 +379,7 @@ class Player
       int rand = ceil(random(1,6));
       for(int i = 0; i < rand; i++)
       {
-        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(255,255,0,100)));
+        particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(3,4),0.1, color(150,75,0,100)));
       }        
       onMovingPlatform = false;
       jumpsound.rewind();
@@ -465,18 +465,18 @@ void Climb()
   }
   void Update()
   {
+
       if(!grounded)
         lastVelY = velocity.y;
 
       if(inAir && grounded){
         isShaking = true;
-        cameraShake = 3*(lastVelY/maxGrav);    
-        println(cameraShake + " "+ lastVelY + " " + maxGrav +  " " + lastVelY/maxGrav);    
+        cameraShake = 3*(lastVelY/maxGrav);      
         inAir = false;
         int rand = ceil(random(1,4));
         for(int i = 0; i < rand; i++)
         {
-          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(255,255,0,100)));
+          particle.add(new Particles(new PVector(position.x,position.y+playerHeight/2-1),random(-4,4), random(2,4),0.1, color(150,75,0,100)));
         }
       }   
 
@@ -533,37 +533,22 @@ void Climb()
     SetNewPos();  
 
 
+
     if(boxManager.bottomBox != null && boxManager.boxBottomRight != null && boxManager.boxBottomLeft != null)
     {
-      if (boxManager.bottomBox.collides != 1 &&
-          boxManager.bottomBox.collides != 5 &&
-          boxManager.bottomBox.collides != 15 &&
-          boxManager.bottomBox.collides != 16 &&
-          boxManager.bottomBox.collides != 17 &&
-          boxManager.bottomBox.collides != 18 &&
-          boxManager.bottomBox.collides != 12 &&
-          boxManager.bottomBox.collides != 10 &&
+      if (boxManager.bottomBox.collides != 1 ||
+          boxManager.bottomBox.collides != 5 ||
+          boxManager.bottomBox.collides != 15 ||
+          boxManager.bottomBox.collides != 16 ||
+          boxManager.bottomBox.collides != 17 ||
+          boxManager.bottomBox.collides != 18 ||
+          boxManager.bottomBox.collides != 12 ||
+          boxManager.bottomBox.collides != 10 ||
           boxManager.bottomBox.collides != 14)
-      {
-        if(boxManager.boxBottomLeft.position.x + boxManager.boxBottomLeft.size/2 > position.x - playerWidth/2 &&
-           boxManager.boxBottomLeft.position.x - boxManager.boxBottomLeft.size/2 < position.x + playerWidth/2 &&
-           boxManager.boxBottomLeft.position.y + boxManager.boxBottomLeft.size/2 > position.y - playerHeight/2 &&
-           boxManager.boxBottomLeft.position.y - boxManager.boxBottomLeft.size/2 < position.y + playerHeight/2 &&
-           boxManager.boxBottomRight.position.x + boxManager.boxBottomRight.size/2 > position.x - playerWidth/2 &&
-           boxManager.boxBottomRight.position.x - boxManager.boxBottomRight.size/2 < position.x + playerWidth/2 &&
-           boxManager.boxBottomRight.position.y + boxManager.boxBottomRight.size/2 > position.y - playerHeight/2 &&
-           boxManager.boxBottomRight.position.y - boxManager.boxBottomRight.size/2 < position.y + playerHeight/2)          
-        {
-          grounded = false;
-          inAir = true;
-        }
-      }   
-
-    }
-    else
-    {
-      println(boxManager.bottomBox + " " + boxManager.boxBottomRight + " " + boxManager.boxBottomLeft);
-    }
+      {    
+        grounded = false;
+      }
+    }   
     
   }
 

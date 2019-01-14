@@ -25,12 +25,15 @@ class Bullets
 
 	void Update()
 	{
-		position.x += cos(rotation)*(speed*deltaTime);
-		position.y += sin(rotation)*(speed*deltaTime);
-		checkOOB();
-		CheckCollision();
-		CheckKill();
-		despawn();
+		if(!pauseWorld)
+		{
+			position.x += cos(rotation)*(speed*deltaTime);
+			position.y += sin(rotation)*(speed*deltaTime);
+			checkOOB();
+			CheckCollision();
+			CheckKill();
+			despawn();
+		}
 	}
 
 	void checkOOB()

@@ -8,11 +8,16 @@ class Box extends Rectangle
   //----------Position----------
   PVector position;
   float top, bottom, right, left;
+  float yOffset = 0;
+  float xOffset = 0;
 
   //----------Other----------
   int collides;
   int foreCollides;
   int dist = 20;
+  PImage type;
+  PImage subtype = tileBox;
+
   float timer = random(100,1000);
 
   boolean switched = false;
@@ -29,6 +34,10 @@ class Box extends Rectangle
     else foreCollides = collide;
     SetPosValues();
     if(collides == 3){player.position.x = position.x;player.position.y = position.y-15;}
+    if(!foreground)
+      createBox();
+    else
+      createForegroundBox();
   }
 
 
@@ -158,7 +167,8 @@ class Box extends Rectangle
         boxManager.currentGrid = 0;
         boxManager.updateGridTrue = true;
         interactionsound.rewind();
-        interactionsound.play();        
+        interactionsound.play();  
+        boxManager.focusWater();      
       }
     }    
   }
@@ -196,198 +206,216 @@ class Box extends Rectangle
     }        
   }
 
-  void Draw()
+  void createBox()
   {
-    //if (collides != 0)
+    if (collides != 0)
     {
-      pushMatrix();
-      stroke(0);
-      strokeWeight(2);
-      noStroke();      
-
-      translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
       switch(collides)
       {
         case 1:
-          image(tileBox,0,0, size, size);
+          type = tileBox;
           break;
         case 2:
-          fill(255, 0, 0);
-          rect(0, 0, size, size);
-          killPlayer();
+          type = deathOrb;
           break;
         case 3:
-          fill(0, 255, 0);
-          image(enterDoor,0, -20,80,80);
+          type =enterDoor;
+          yOffset = -20;
+          size = 80;          
           break;
         case 4:
-          image(exitDoor,0, -20,80,80);
-          CheckCollisionNext();
+          type = exitDoor;
+          yOffset = -20;
+          size = 80;
           break;
         case 5:
-          image(tileSteelPillar,0,0,size,size);
+          type = tileSteelPillar;
           break;            
-        case 7:
-          fill(150,150,150);
-          rect(0, 0, size, size);
-          break;
+        // case 7:
+        //   fill(150,150,150);
+        //   rect(0, 0, size, size);
+        //   break;
         case 8:
-          fill(255,255,100);
-          rect(0, 0, size, size);
-          CheckCollisionSwitch();
+          type = switch1;
           break;
 
         case 10:
-          image(tileSmallPlatformTopRight,0,0, size, size); 
+          type =tileSmallPlatformTopRight; 
           break;
         case 11:
-          image(tileSmallPlatformPillarRight,0,0, size, size); 
+          type =tileSmallPlatformPillarRight; 
           break;
         case 12:
-          image(tileSmallPlatformTopLeft,0,0, size, size); 
+          type = tileSmallPlatformTopLeft; 
           break;
         case 13:
-          image(tileSmallPlatformPillarLeft,0,0, size, size); 
+          type = tileSmallPlatformPillarLeft; 
           break;
         case 14:
-          image(tileMiniPlatformTop,0,0, size, size); 
+          type = tileMiniPlatformTop; 
           break;
         case 15:
-          image(steelPlatformLeft,0,0,size,size);
+          type = steelPlatformLeft;
           break;
         case 16:
-          image(steelPlatformMiddle,0,0,size,size);
+          type = steelPlatformMiddle;
           break;
         case 17:
-          image(steelPlatformRight,0,0,size,size);
+          type = steelPlatformRight;
           break;          
         case 18:
-          image(steelPlatformMiddle2,0,0,size,size);
+          type = steelPlatformMiddle2;
           break; 
         case 19:
-          image(tileSteelPillar,0,0,size,size);
+          type = tileSteelPillar;
           break;    
         case 20:
-          image(hookMiddle,0,0,size,size);
+          type = hookMiddle;
           break;    
         case 21:
-          image(hookTop,0,0,size,size);
+          type = hookTop;
           break;  
         case 24:
-          image(tutorialA,0,0,80,80);
+          type = tutorialA;
+          size = 80;
           break;
         case 25:
-          image(tutorialD,0,0,80,80);
+          type = tutorialD;
+          size = 80;
           break;
         case 26:
-          image(tutorialLadderW,0,0,80,80);
+          type = tutorialLadderW;
+          size = 80;
           break;
         case 27:
-          image(tutorialW,0,0,80,80);
+          type = tutorialW;
+          size = 80;
           break;
         case 28:
-          image(tutorialK,0,0,80,80);
+          type = tutorialK;
+          size = 80;
           break;
         case 29:
-          image(tutorialL,0,0,80,80);
+          type = tutorialL;
+          size = 80;
           break;
         case 30:
-          image(tutorialX,0,0,80,80);
+          type = tutorialX;
+          size = 80;
           break;
         case 31:
-          image(tutorialZ,0,0,80,80);
+          type = tutorialZ;
+          size = 80;
           break;
         case 32:
-          image(tutorialLadderS,0,0,80,80);
+          type = tutorialLadderS;
+          size = 80;
           break;                                                  
         case 33:
-          image(tutorialDeath,0,0,80,80);
+          type = tutorialDeath;
+          size = 80;
           break;
         case 34:
-          image(tutorialSecret,0,0,80,80);
+          type = tutorialSecret;
+          size = 80;
           break;
         case 35:
-          image(tutorialEnd,0,0,80,80);
+          type = tutorialEnd;
+          size = 80;
           break;                      
         // case 34:
-        //   image(wireStart,0,0,size,size);
+        //   image(wireStart;
         //   break;  
         case 36:
-          image(wireHeel,0,0,size,size);
+          type = wireHeel;
           break;  
         case 37:
-          image(wireHeel2,0,0,size,size);
+          type = wireHeel2;
           break;
         case 38:
-          image(wireCompleet,0,0,size,size);
+          type = wireCompleet;
           break;  
         case 39:
-          image(wireStartBroken,0,0,size,size);
+          type = wireStartBroken;
           break;  
         case 40:
-          image(wireHeelBroken,0,0,size,size);
+          type = wireHeelBroken;
           break;
         case 41:
-          image(wireHeel2Broken,0,0,size,size);
+          type = wireHeel2Broken;
           break;          
         case 42:
-          image(wireCompleetBroken,0,0,size,size);
+          type = wireCompleetBroken;
           break;
         case 50:
           fill(groundColor);
           rect(0,0,size,size);
           break;                                                                                                                              
         }        
-      popMatrix();
     } 
   }
-void Drawforeground()
+void createForegroundBox()
   {
     if (foreCollides != 0)
     {
+      switch(foreCollides)
+      {
+        case 2:
+          type = tileBox;
+          break;
+        case 3:
+          type = water0; 
+          break;  
+        case 4:
+          type = water0;
+          break; 
+        case 5:
+          type = overgrownLeft;
+          break;
+        case 6:
+          type = overgrownMiddle;
+          break;
+        case 7:
+          type = overgrownRight;
+          break; 
+        case 8:
+          type = ladder;
+          //CheckLadderCollision();
+          break;    
+
+
+      }               
+    } 
+  } 
+
+  void Draw()
+  {
+    if (type != null)
+    {
+      if (foreCollides == 2)
+        CheckCollisionInvis();  
+
       pushMatrix();
       stroke(0);
       strokeWeight(2);
       noStroke();      
 
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
-      switch(foreCollides)
-      {
-        case 1:
-          fill(100,100,0,200);
-          rect(0,0,size,size);
-          break; 
-        case 2:
-          CheckCollisionInvis();        
-          image(tileSteelPillar, 0, 0, size, size); 
-          noTint();
-          break;
-        case 3:
-          fill(0, 0,255,100);
-          rect(0, 0, size, size);
-          killPlayer();
-          break;  
-        case 4:
-          fill(0,0,255,100);
-          rect(0, 0, size, size);
-          killPlayer();
-          break; 
-        case 5:
-          image(overgrownLeft, 0, 0, size, size);
-          break;
-        case 6:
-          image(overgrownMiddle, 0, 0, size, size);
-          break;
-        case 7:
-          image(overgrownRight, 0, 0, size, size);
-          break; 
-        case 8:
-          fill(0,255,255);
-          image(ladder,0,0,size,size);
-          //CheckLadderCollision();
-          break;                   
-      }               
+      if (type == tileBox)
+        image(subtype, xOffset, yOffset, size, size);
+      else
+        image(type, xOffset, yOffset, size, size);
+      noTint();
       popMatrix();
-    } 
-  }  
+
+
+      if (type == deathOrb || type == water0)
+          killPlayer();
+      if (type == exitDoor)
+          CheckCollisionNext();
+      if (type == switch1)
+          CheckCollisionSwitch();
+    }
+  }
+
 }
