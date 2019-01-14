@@ -67,6 +67,25 @@ PImage[] basicEnemy;
 PImage[] electricOrb;
 PImage[] electricOrbPurple;
 
+//player animation
+PImage[] grappleGrounded;
+PImage[] grappleMidAir;
+
+//boss animation
+PImage bossSprite;
+PImage[] idle;
+PImage[] charge;
+PImage[] blueCharge;
+PImage[] chargeImpact;
+PImage[] stunned;
+PImage[] death;
+PImage[] laserCharge;
+PImage[] laserFire;
+
+//fire animation
+PImage[] fireAnimation;
+PImage[] teslaCoil;
+
 PImage tutorialA;
 PImage tutorialD;
 PImage tutorialW;
@@ -156,7 +175,7 @@ void setup()
 
 void draw()
 {
-  debug.log("player is typing: ", isTypingName);
+  //debug.log("player is typing: ", isTypingName);
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();

@@ -78,9 +78,9 @@ class GameManager
 
     image(uiScreen4,0,120);
     fill(79,0,0);
-    text("Time : " + int(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
+    text("Time : " + floor(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
     fill(255,0,0);
-    text("Time : " + int(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
+    text("Time : " + floor(currencyValues[2]/60) + ":" + int(currencyValues[2]) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     fill(255);        
 
     int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highscore.getHighscore(currentLevel-1)));

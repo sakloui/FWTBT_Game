@@ -24,7 +24,7 @@ class BossMoveState extends State
     //draw movement animation
     pushMatrix();
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
-    image(boss.bossSprite, 0, 0);
+    image(bossSprite, 0, 0);
     if (boss.currentDirection == boss.RIGHT)
     {
       //image(boss.run[int(currentFrame)], 0, 0);

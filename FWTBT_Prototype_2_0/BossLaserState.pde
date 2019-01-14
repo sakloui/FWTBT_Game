@@ -258,9 +258,9 @@ class BossLaserState extends State
     translate(boss.position.x/* - camera.shiftX*/, boss.position.y/* - camera.shiftY*/);
 
     if(!lockedOnPlayer)
-      image(boss.laserCharge[int(currentFrame)], 0, 0);
+      image(laserCharge[int(currentFrame)], 0, 0);
     else
-      image(boss.laserFire[int(currentFrame)], 0, 0);
+      image(laserFire[int(currentFrame)], 0, 0);
 
     popMatrix();
     

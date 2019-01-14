@@ -78,6 +78,132 @@ void extraSetup()
     electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");    
   }
 
+  bossSprite = new PImage();
+  String bossSpriteName;
+
+  //load the sprites
+  idle = new PImage[6];
+  String idleName;
+
+  charge = new PImage[4];
+  String chargeName;
+
+  blueCharge = new PImage[6];
+  String blueChargeName;
+
+  chargeImpact = new PImage[8];
+  String chargeImpactName;
+
+  stunned = new PImage[5];
+  String stunnedName;
+
+  death = new PImage[4];
+  String deathName;
+
+  laserCharge = new PImage[8];
+  String laserChargeName;
+
+  laserFire = new PImage[3];
+  String laserFireName;
+
+  bossSpriteName = "Sprites/BossBegin.png";
+  bossSprite = loadImage(bossSpriteName);
+
+  //load idle sprites
+  for (int i = 0; i < idle.length; i++)
+  {
+    idleName = "Sprites/BossIdle"+(i+1)+".png";
+    idle[i] = loadImage(idleName);
+  }
+
+  //load charge sprites
+  for (int i = 0; i < charge.length; i++)
+  {
+    chargeName = "Sprites/BossCharge"+(i+1)+".png";
+    charge[i] = loadImage(chargeName);
+  }
+
+  //load charge sprites
+  for (int i = 0; i < blueCharge.length; i++)
+  {
+    blueChargeName = "Sprites/BossChargeBlue"+(i+1)+".png";
+    blueCharge[i] = loadImage(blueChargeName);
+  }
+
+  //load chargeImpact sprites
+  for (int i = 0; i < chargeImpact.length; i++)
+  {
+    chargeImpactName = "Sprites/FireImpact"+(i+1)+".png";
+    chargeImpact[i] = loadImage(chargeImpactName);
+  }
+
+  //load stunned sprites
+  for (int i = 0; i < stunned.length; i++)
+  {
+    stunnedName = "Sprites/BossStunned"+(i+1)+".png";
+    stunned[i] = loadImage(stunnedName);
+  }
+
+  //load death sprites
+  for (int i = 0; i < death.length; i++)
+  {
+    deathName = "Sprites/BossDeath"+(i+1)+".png";
+    death[i] = loadImage(deathName);
+  }
+
+  //load laserCharge sprites
+  for (int i = 0; i < laserCharge.length; i++)
+  {
+    laserChargeName = "Sprites/BossLaserCharge"+(i+1)+".png";
+    laserCharge[i] = loadImage(laserChargeName);
+  }
+
+  //load laserFire sprites
+  for (int i = 0; i < laserFire.length; i++)
+  {
+    laserFireName = "Sprites/BossLaserFire"+(i+1)+".png";
+    laserFire[i] = loadImage(laserFireName);
+  }
+
+  fireAnimation = new PImage[10];
+  String fireName;
+
+  teslaCoil = new PImage[5];
+  String teslaCoilName;
+
+  //load fire sprites
+  for (int i = 0; i < fireAnimation.length; i++)
+  {
+    fireName = "Sprites/BossLaserFire"+(i+1)+".png";
+    fireAnimation[i] = loadImage(fireName);
+  }
+
+  //load teslaCoil sprites
+  for (int i = 0; i < teslaCoil.length; i++)
+  {
+    teslaCoilName = "Sprites/TeslaCoilOn"+(i+1)+".png";
+    teslaCoil[i] = loadImage(teslaCoilName);
+  }
+
+  grappleGrounded = new PImage[3];
+  String grappleGroundedName;
+
+  //load grounded grapple sprites
+  for (int i = 0; i < grappleGrounded.length; i++)
+  {
+    grappleGroundedName = "Sprites/RobotSpriteGrapple("+i+").png";
+    grappleGrounded[i] = loadImage(grappleGroundedName);
+  }
+
+  grappleMidAir = new PImage[3];
+  String grappleMidAirName;
+
+  //load mid-air grapple sprites
+  for (int i = 0; i < grappleMidAir.length; i++)
+  {
+    grappleMidAirName = "Sprites/RobotSpriteMidairGrapple("+i+").png";
+    grappleMidAir[i] = loadImage(grappleMidAirName);
+  }
 
   //------Font stuff------
   font = createFont("fonts/kenvector_future.ttf", 28);

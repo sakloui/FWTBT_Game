@@ -73,7 +73,7 @@ class BossIdleState extends State
     
     translate(boss.position.x - camera.shiftX, boss.position.y - camera.shiftY);
     
-    image(boss.idle[int(currentFrame)], 0, 0);
+    image(idle[int(currentFrame)], 0, 0);
     
     popMatrix();
   }
