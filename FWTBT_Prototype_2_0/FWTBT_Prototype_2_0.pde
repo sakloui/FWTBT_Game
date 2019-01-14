@@ -25,6 +25,7 @@ ArrayList<Currency> coins = new ArrayList<Currency>();
 ArrayList<Magnet> magnet = new ArrayList<Magnet>();
 ArrayList<Bullets> bullet = new ArrayList<Bullets>();
 ArrayList<Particles> particle = new ArrayList<Particles>();
+ArrayList<Laser> lasers = new ArrayList<Laser>();
 //------Image stuff------
 PImage map;
 PImage foregroundImage;
@@ -296,6 +297,11 @@ void draw()
       }      
       boxManager.Update();
       powerUpManager.Update();  
+      for (int i = 0; i < lasers.size(); ++i) {
+        if(lasers.get(i) !=null)
+        lasers.get(i).updateLaser();
+      }
+
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
@@ -372,6 +378,11 @@ void draw()
 
       powerUpManager.DrawIcons();
 
+
+      for (int i = 0; i < lasers.size(); ++i) {
+         if(lasers.get(i) !=null)
+        lasers.get(i).drawLaser();
+      }
 
       gameManager.Draw();
 

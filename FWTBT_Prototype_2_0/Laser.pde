@@ -15,8 +15,6 @@ class Laser
 	float rotationSpeed;
 	float angle;
 
-	boolean hit;
-	float intersectionX, intersectionY;
 
 	boolean movingUp;
 
@@ -77,11 +75,11 @@ class Laser
 	{
 		if(isIntersecting(spawnPos.x, spawnPos.y, endPoint.x, endPoint.y, player.position.x, player.top + 10, player.position.x, player.bottom))
 		{
-			hit = true;
-			println("Intersecting " + deltaTime);
+			isMenu=true;
+      		menu.menuState=0;
+			menu.createDied();
 		}
-		else
-			hit = false;
+
 	}
 
 	boolean isIntersecting(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) 
@@ -96,9 +94,8 @@ class Laser
 		float r = numerator1 / denominator;
 		float s = numerator2 / denominator;
 
-		intersectionX = x1 + (numerator2 * (x2-x1));
-		intersectionY = y1 + (numerator2 * (y2-y1));
-		
+
+
 		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
 	}
 
@@ -107,24 +104,21 @@ class Laser
 		pushMatrix();
 		strokeWeight(10);
 		stroke(laserColor);
-		line(endPoint.x, endPoint.y, spawnPos.x, spawnPos.y);
+		line(endPoint.x - camera.shiftX, endPoint.y - camera.shiftY, spawnPos.x - camera.shiftX, spawnPos.y - camera.shiftY);
 
 		//strokeWeight(4);
 		//stroke(255);
-		//line(player.position.x, player.top + 10, player.position.x, player.bottom);
+		// //line(player.position.x, player.top + 10, player.position.x, player.bottom);
 
-		text("angle: " + angle, width/2, 100);
-		text("minAngle: " + minAngle, width/2, 200);
-		text("maxAngle: " + maxAngle, width/2, 300);
+		// text("angle: " + angle, width/2, 100);
+		// text("minAngle: " + minAngle, width/2, 200);
+		// text("maxAngle: " + maxAngle, width/2, 300);
 
 		fill(255, 255, 0);
 		noStroke();
 		ellipse(spawnPos.x, spawnPos.y, 10, 10);
 		fill(255);
 		ellipse(endPoint.x, endPoint.y, 10, 10);
-
-		if(hit)
-			ellipse(intersectionX, intersectionY, 5, 5);
 
 
 		popMatrix();

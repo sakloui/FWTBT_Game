@@ -57,6 +57,7 @@ class BoxManager
     magnet.clear();
     bullet.clear();
     particle.clear();
+    lasers.clear();
     checkPointManager.checkPoints.clear();
     checkPointManager.amountOfCheckPoints = 0;
 
@@ -134,9 +135,6 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(0,0,1)){
             coll = 5;
           }          
-          else if(map.pixels[p] == color(150,150,150)){
-            coll = 7;
-          }
           else if(map.pixels[p] == color(255,255,100)){
             coll = 8;
           }
@@ -316,6 +314,10 @@ for(int i = 0; i < rows; i++)
           else if(map.pixels[p] == color(254,0,0)){
             enemies.add(new Enemy(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j,5));
           }                                                
+          else if(map.pixels[p] == color(240,230,0)){
+            //Laser(PVector pos, float minAngle, float maxAngle, float speed, float length, int dir)
+            lasers.add(new Laser(new PVector(boxSize/2 + boxSize*i, boxSize/2 + boxSize*j), -180, 0, 75f, 200f, 1));
+          }
 
           //Magnet down spawn
           else if(map.pixels[p] == color(152,152,152)){

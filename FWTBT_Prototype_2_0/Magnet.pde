@@ -105,6 +105,7 @@ class Magnet
           }
           break;
         case UP:
+
           if(player.velocity.y > player.maxGrav)
           {
             slowingDownPlayer = true;
@@ -142,6 +143,7 @@ class Magnet
           slowingDownPlayer = false;
         break;
       case UP:
+
         if(player.velocity.y > player.maxGrav)
         {
           player.velocity.y -= slowingDownSpeed;
@@ -190,6 +192,8 @@ class Magnet
       case DOWN:
         rotate(radians(180));
         break;
+      default:
+        rotate(radians(0));
     }
     image(magnetTex, 0, 0, magnetWidth, magnetHeight);
     popMatrix();
