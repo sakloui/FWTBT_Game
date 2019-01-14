@@ -8,7 +8,7 @@ class BossLaserState extends State
   float currentFrame;
 
   float timeShootingLaser;
-  float laserShootDuration = 6f;
+  float laserShootDuration = 4f;
 
   //lock on
   float lockOnTime = 1.5f;

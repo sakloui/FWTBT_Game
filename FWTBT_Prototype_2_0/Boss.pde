@@ -38,8 +38,8 @@ class Boss
     //set aggro- and attack range
     //set facing direction
     bossSize = 120f;
-    maxHealth = 1f;
-    health = maxHealth;
+    maxHealth = 100f;
+    health = 50;
     this.SetState(new BossIdleState(this));
   }
 
@@ -68,6 +68,7 @@ class Boss
 
   void bossDraw()
   {
+    debug.log("health: ", health);
     if(deleted)
       return;
 
@@ -83,7 +84,8 @@ class Boss
   void takeDamage(float damage)
   {
     health -= damage;
-    if(health < 0)
+
+    if(health <= 0)
     {
       health = 0;
       hasDied = true;
@@ -130,7 +132,7 @@ class Boss
     translate(boss.position.x, boss.position.y - 100);
     noStroke();
     fill(255, 0, 0);
-    rect(0, 0, bossSize, 30);
+    rect(0, 0, maxHealth, 30);
     fill(0, 255, 0);
     rect(healthOffset, 0, health, 30);
     popMatrix();

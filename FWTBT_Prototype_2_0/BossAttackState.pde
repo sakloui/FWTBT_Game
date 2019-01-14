@@ -104,7 +104,11 @@ class BossAttackState extends State
 
   void stunned()
   {
+    stunDuration = ceil(boss.health/30);
+    if(stunDuration <= 0)
+      stunDuration = 1;
     timeStunned += deltaTime;
+    
     if ( timeStunned >= stunDuration)
     {
       hasCharged = false;
@@ -142,10 +146,12 @@ class BossAttackState extends State
     if (boss.position.x + boss.bossSize/2 >= width - 40||boss.position.x - boss.bossSize/2 <= 0 + 40 )
     {
       hasCharged = true;
+      currentFrame = 0f;
     }
     if (boss.position.y + boss.bossSize/2 >= height - 40||boss.position.y - boss.bossSize/2 <= 0f + 40 )
     {
       hasCharged = true;
+      currentFrame = 0f;
     }
   }
 
@@ -181,7 +187,7 @@ class BossAttackState extends State
     {
       image(stunned[int(currentFrame % stunnedLength)], 0, 0);
       rotate(0);
-      if(!boss.hasDied)
+      if(!boss.hasDied && currentFrame < stunnedLength)
         image(chargeImpact[int(currentFrame % chargeImpactLength)], 0, boss.bossSize/4/*targetPos.y * boss.bossSize/4*/);
     }
     popMatrix();

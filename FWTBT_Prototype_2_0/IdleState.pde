@@ -50,7 +50,24 @@ public class IdleState extends State
     pushMatrix();
     translate(player.position.x - camera.shiftX, player.position.y - camera.shiftY);
     //draw the currect sprite from the array, flip the sprite if it needs to face left
-    
+    if(powerUpManager.rocketArm == null)
+    {
+      if(currentDirection == RIGHT)
+      {
+        //println("5");
+        image(player.idle[int(currentFrame)], 0, 0);
+      }
+      else if(currentDirection == LEFT)
+      {
+        //println("6");
+        pushMatrix();
+        scale(-1.0, 1.0);
+        image(player.idle[int(currentFrame)],0 ,0);
+        popMatrix();
+      }
+      popMatrix();
+      return;
+    }
     if(powerUpManager.rocketArm.grapple && !startedGrapple)
     {
       startedGrapple = true; 
