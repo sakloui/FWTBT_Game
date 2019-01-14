@@ -46,6 +46,7 @@ class Buttons
   {
     if(type == "button")
     {
+      textAlign(CENTER, CENTER);
       if(selected)
       {
         pushMatrix();

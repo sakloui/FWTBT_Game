@@ -15,6 +15,9 @@ class Laser
 	float rotationSpeed;
 	float angle;
 
+	boolean hit;
+	float intersectionX, intersectionY;
+
 	boolean movingUp;
 
 	final int LEFT = 0, RIGHT = 1, MIXED = 2;
@@ -74,8 +77,11 @@ class Laser
 	{
 		if(isIntersecting(spawnPos.x, spawnPos.y, endPoint.x, endPoint.y, player.position.x, player.top + 10, player.position.x, player.bottom))
 		{
+			hit = true;
 			println("Intersecting " + deltaTime);
 		}
+		else
+			hit = false;
 	}
 
 	boolean isIntersecting(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) 
@@ -90,6 +96,9 @@ class Laser
 		float r = numerator1 / denominator;
 		float s = numerator2 / denominator;
 
+		intersectionX = x1 + (numerator2 * (x2-x1));
+		intersectionY = y1 + (numerator2 * (y2-y1));
+		
 		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
 	}
 
@@ -113,6 +122,10 @@ class Laser
 		ellipse(spawnPos.x, spawnPos.y, 10, 10);
 		fill(255);
 		ellipse(endPoint.x, endPoint.y, 10, 10);
+
+		if(hit)
+			ellipse(intersectionX, intersectionY, 5, 5);
+
 
 		popMatrix();
 	}

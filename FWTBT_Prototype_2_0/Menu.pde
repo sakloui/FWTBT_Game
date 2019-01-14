@@ -9,11 +9,15 @@ class Menu
   private Sliders sliders;
   private ArrayList<Background> back = new ArrayList<Background>();
   //------Variables------
+  private int amountOfLevels;
   private int currentSel;
   private int alpha;
   private boolean highscoreShown;
   private boolean mainmenuShown;
   private int timer = 40;
+  private float textAlpha = 0f;
+  private float textBlinkingSpeed = 7f;
+  private boolean increaseAlpha;
   //------Sound------
   
   Menu()
@@ -25,6 +29,7 @@ class Menu
     currentSel = 0;
     alpha = 0; 
     highscoreShown = false;
+    amountOfLevels = 10;
   }
   
   void update()
@@ -35,15 +40,14 @@ class Menu
       gameManager.currencyValues[2] = 0;
       input.isR = false;
     }
-    
   }
   
   void draw()
   {
-
     updateMenu();
     if(menuState == 1)level.updateLevel();
   }
+
   void createMainMenu()
   {
     highscoreShown = false;
@@ -95,7 +99,7 @@ class Menu
     level = null;
     sliders = null;
 
-    level = new Levels(9 ,74);
+    level = new Levels(amountOfLevels ,74);
     level.createLevel();
     button[0] = new Buttons(width/2,height-125,"Select","button",74);
     button[0].createButton();
@@ -104,6 +108,7 @@ class Menu
   }
   void createEndLevel()
   {
+    println("create end level");
     mainmenuShown = false;
     for(int i = 0; i < button.length;i++)
     {
@@ -118,7 +123,7 @@ class Menu
     {
       button[0] = new Buttons(width/2,height-125,"Continue","button",74);
       button[0].createButton();
-      button[0].selected = true;  
+      //button[0].selected = true;  
       button[1] = new Buttons(width/2,height-50,"Main Menu","button",74);
       button[1].createButton();
       highscoreShown = true;
@@ -128,7 +133,7 @@ class Menu
     {
       button[0] = new Buttons(width/2,height-50,"Main Menu","button",74);
       button[0].createButton();
-      button[0].selected = true;
+      //button[0].selected = true;
       highscoreShown = true;
       highscore.showHighscore();        
     }
@@ -156,6 +161,87 @@ class Menu
     button[3] = new Buttons(width/2, height/2-50, "The highscore is: " + str(highscore.getHighscore(currentLevel-1)), "text", 255);           
 
   }  
+
+  void registerName()
+  {
+    if (key==CODED)
+    {
+      if (keyCode==LEFT)
+        println ("left");
+      else if (keyCode==RIGHT)
+        println ("right");
+      else if (keyCode==UP)
+        println ("up");
+      else if (keyCode==DOWN)
+        println ("down");
+    }
+    else
+    {
+      if (key==BACKSPACE)
+      {
+        if (playerName.length()>0)
+          playerName=playerName.substring(0, playerName.length()-1);
+      }
+      else if(key== ' ')
+      {
+        //prompt message can't use space in name
+        highscore.topString = "You can't use spaces in your name";
+      }
+      else if (key==RETURN || key==ENTER)
+      {
+        if(playerName.length()>0)
+        {
+          highscore.nameTable.setString(highscore.highscoreRow, highscore.getLevelString(currentLevel), playerName);
+          saveTable(highscore.nameTable, "data/PlayerNames.csv");
+          isTypingName = false;
+          button[0].selected = true;
+          playerName = "";
+        }
+        else
+        {
+          highscore.topString = "Please enter your name before you continue";
+          return;
+        }
+      }
+      else
+      {
+        if(playerName.length() < highscore.maxPlayerNameLength)
+          playerName+=key;
+        else
+          highscore.topString = "Max name length reached";
+      }
+    }
+  }
+
+  void showPlayerName()
+  {
+    pushMatrix();
+    translate(353, 138);
+    textAlign(LEFT, CENTER);
+
+    if(increaseAlpha)
+      textAlpha += textBlinkingSpeed;
+    else if(!increaseAlpha)
+      textAlpha -= textBlinkingSpeed;
+
+    if(textAlpha >= 255f && increaseAlpha)
+    {
+      textAlpha = 255f;
+      increaseAlpha = false;
+    }
+    else if(textAlpha <= 75f && !increaseAlpha)
+    {
+      textAlpha = 75f;
+      increaseAlpha = true;
+    }
+
+    fill(highscore.blinkingTextColor);
+    text(playerName, 0, highscore.highscoreTableLineSpacing * (highscore.highscoreRow));
+    
+    textAlign(CENTER);
+    popMatrix();
+  }
+
   void updateMenu()
   { 
       if(mainmenuShown)
@@ -233,7 +319,7 @@ class Menu
         }
         
       }
-      if(input.isSpace || input.isK)
+      if((input.isSpace || input.isK) && !isTypingName)
       {
         click2.rewind();
         click2.play();
@@ -246,7 +332,7 @@ class Menu
         if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
         if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu(); gameManager = new GameManager();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
         if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
-        if(button[currentSel].text == "Retry"){boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
+        if(button[currentSel].text == "Retry"){gameManager.furthestCheckPoint = checkPointManager.getCurrentCheckPoint();boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
       }
   }
     

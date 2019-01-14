@@ -194,7 +194,7 @@ class Box extends Rectangle
        position.y + 80/2 > player.position.y - player.playerHeight/2 &&
        position.y - 80/2 < player.position.y + player.playerHeight/2)
        {
-          if(collides == 4)
+          if(type == exitDoor)
           {
             menu.currentSel = 0;
             menu.createEndLevel();

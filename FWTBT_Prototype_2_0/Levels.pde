@@ -95,8 +95,11 @@ class Levels
       textSize(16);
       text("level " + (i+1),width/4,height/2-50);
 
+      if(selectedLevel != menu.amountOfLevels)
+      {
       int score = highscore.getHighscore(selectedLevel - 1);
       text("score: " + score,width/4,height/2+50); 
+      }
 
       textSize(28);
       popMatrix();

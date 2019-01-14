@@ -3,15 +3,17 @@ class GameManager
   String[] currencyNames;
   float[] currencyValues;
 
+  int furthestCheckPoint = 0;
+
   float textOffset = 30f;
   color textColor = color(0);
+
+  PVector currencyPos = new PVector(width, 0);
+  PVector imagePos = new PVector(20, 20);
 
   float seconds;
   float counter;
   float maxTime;
-
-  PVector currencyPos = new PVector(width, 0);
-  PVector imagePos = new PVector(0, 0);
 
   float highS;
 

@@ -9,13 +9,14 @@ Boss boss;
 //------Classes------
 Menu menu;
 Player player;
+Debug debug;
+CheckPointManager checkPointManager;
 BoxManager boxManager;
 Camera camera;
 Input input = new Input();
 PowerUpManager powerUpManager;
 GameManager gameManager;
 Highscore highscore;
-
 
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
@@ -150,6 +151,25 @@ PImage uiScreen3Overlay;
 PImage uiScreen4;
 PImage uiScreen4Overlay;
 
+//player animation
+PImage[] grappleGrounded;
+PImage[] grappleMidAir;
+
+//boss animation
+PImage bossSprite;
+PImage[] idle;
+PImage[] charge;
+PImage[] blueCharge;
+PImage[] chargeImpact;
+PImage[] stunned;
+PImage[] death;
+PImage[] laserCharge;
+PImage[] laserFire;
+
+//fire animation
+PImage[] fireAnimation;
+PImage[] teslaCoil;
+
 //------Font stuff------
 PFont font;
 PFont pixelFont;
@@ -170,6 +190,9 @@ int currentLevel;
 
 float[] volume = new float[5];
 
+String playerName = "";
+
+boolean isTypingName;
 
 float boxSize = 40;
 
@@ -183,10 +206,15 @@ AudioPlayer click;
 AudioPlayer click2;
 AudioPlayer mainMusic;
 AudioPlayer levelmusic;
+AudioPlayer levelmusic1;
+AudioPlayer levelmusic2;
+AudioPlayer bossLevelMusic;
 AudioPlayer jumpsound;
 AudioPlayer walkingsound;
 AudioPlayer interactionsound;
-
+AudioPlayer laserFireSound;
+AudioPlayer bossImpact;
+AudioPlayer bossExplotions;
 //------Keys------
 
 void setup()
@@ -228,7 +256,13 @@ void draw()
      
     if(isMenu)
     {
+      image(background,width/2,height/2,width, height);
+      if(isTypingName)
+      {
+        menu.showPlayerName();
+      }
       menu.draw();
+      debug.drawDebug();      
     }
     else
     {
@@ -278,6 +312,8 @@ void draw()
           particle.get(i).Update();
       }      
 
+      checkPointManager.updateCheckPointManager();
+
       menu.update();
       highscore.updateScore();      
       gameManager.Update();
@@ -316,6 +352,8 @@ void draw()
         enemies.get(i).Draw();
       }  
 
+      checkPointManager.drawCheckPointManager();
+
       powerUpManager.DrawPowerUps();
 
       boxManager.DrawForeground();
@@ -323,6 +361,8 @@ void draw()
 
 
       player.Draw();
+
+      debug.drawDebug();
 
       if(boss!=null)
       {
@@ -364,6 +404,9 @@ void draw()
 void keyPressed()
 {
   input.KeyDown(keyCode, true);
+
+  if(isTypingName)
+    menu.registerName();  
 }
 
 void keyReleased()
