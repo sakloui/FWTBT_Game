@@ -46,6 +46,7 @@ class GameManager
     if(seconds >= 60)
       seconds = 0;
 
+
     updateCurrency();
 
   }
@@ -94,7 +95,7 @@ class GameManager
     // text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     // fill(255);        
 
-    int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highS));
+    int uiScreenOverlayCropPixels = constrain(int(140 * (currencyValues[4] / highS)), 0, 140);
 
     PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
     PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);
@@ -141,9 +142,9 @@ class GameManager
 
     image(uiScreen4,0,120);
     fill(lerp(0, 79, maxTime),lerp(79, 0, maxTime),0);
-    text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
+    text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
     fill(lerp(0, 255, maxTime),lerp(255, 0, maxTime),0);
-    text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
+    text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     fill(255);        
 
     popMatrix();

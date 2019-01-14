@@ -75,7 +75,7 @@ class Magnet
     dotProduct = lookDirection.x * offset.x + lookDirection.y * offset.y;
     
     xDiff = position.x - player.position.x;
-    yDiff = position.y - player.position.y+10f;
+    yDiff = position.y - player.position.y;
     //xDiff = Math.abs(position.x - player.position.x);
     //yDiff = Math.abs(position.y - player.position.y);
     diff = new PVector(xDiff, yDiff);

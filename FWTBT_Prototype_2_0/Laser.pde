@@ -74,7 +74,9 @@ class Laser
 	{
 		if(isIntersecting(spawnPos.x, spawnPos.y, endPoint.x, endPoint.y, player.position.x, player.top + 10, player.position.x, player.bottom))
 		{
-			println("Intersecting " + deltaTime);
+      isMenu=true;
+      menu.menuState=0;
+			menu.createDied();
 		}
 	}
 
@@ -98,15 +100,15 @@ class Laser
 		pushMatrix();
 		strokeWeight(10);
 		stroke(laserColor);
-		line(endPoint.x, endPoint.y, spawnPos.x, spawnPos.y);
+		line(endPoint.x - camera.shiftX, endPoint.y - camera.shiftY, spawnPos.x - camera.shiftX, spawnPos.y - camera.shiftY);
 
 		//strokeWeight(4);
 		//stroke(255);
 		//line(player.position.x, player.top + 10, player.position.x, player.bottom);
 
-		text("angle: " + angle, width/2, 100);
-		text("minAngle: " + minAngle, width/2, 200);
-		text("maxAngle: " + maxAngle, width/2, 300);
+		//text("angle: " + angle, width/2, 100);
+		//text("minAngle: " + minAngle, width/2, 200);
+		//text("maxAngle: " + maxAngle, width/2, 300);
 
 		fill(255, 255, 0);
 		noStroke();

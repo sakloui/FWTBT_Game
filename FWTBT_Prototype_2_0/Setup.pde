@@ -11,7 +11,9 @@ void extraSetup()
   electricOrb = new PImage[4];
   electricOrbPurple = new PImage[4];
   //------Image stuff------
+
   tileBox = loadImage("Textures/box.png");
+
   boxLinks= loadImage("Textures/box_links.png");
   boxOmhoog= loadImage("Textures/box_omhoog.png");
   boxOmlaag= loadImage("Textures/box_omlaag.png");
@@ -20,10 +22,45 @@ void extraSetup()
   boxCornerLinksOnder= loadImage("Textures/box_corner_linksonder.png");
   boxCornerRechtsBoven= loadImage("Textures/box_corner_rechtsboven.png");
   boxCornerRechtsOnder= loadImage("Textures/box_corner_rechtsonder.png");
+
   boxCornerPointRechtsBoven= loadImage("Textures/box_corner_pointrechtsboven.png");
   boxCornerPointRechtsOnder= loadImage("Textures/box_corner_pointrechtsonder.png");
   boxCornerPointLinksBoven= loadImage("Textures/box_corner_pointlinksboven.png");
   boxCornerPointLinksOnder= loadImage("Textures/box_corner_pointlinksonder.png");
+
+  box2CornerLinks= loadImage("Textures/box_2corner_links.png");
+  box2CornerRechts= loadImage("Textures/box_2corner_rechts.png");
+  box2CornerBoven= loadImage("Textures/box_2corner_boven.png");
+  box2CornerOnder= loadImage("Textures/box_2corner_onder.png");
+  box2CornerRechtsBovenLinksOnder= loadImage("Textures/box_2corner_rechtsboven_linksonder.png");
+  box2CornerRechtsOnderLinksBoven= loadImage("Textures/box_2corner_rechtsonder_linksboven.png");
+  box2LaagVerticaal= loadImage("Textures/box_2laag_vertical.png");
+  box2LaagZijwaards= loadImage("Textures/box_2laag_zijwaards.png");
+  
+  box3CornerNietLinksBoven= loadImage("Textures/box_3corner_nietlinksboven.png");
+  box3CornerNietLinksOnder= loadImage("Textures/box_3corner_nietlinksonder.png");
+  box3CornerNietRechtsBoven= loadImage("Textures/box_3corner_nietrechtsboven.png");
+  box3CornerNietRechtsOnder= loadImage("Textures/box_3corner_nietrechtsonder.png");
+  box4Corner= loadImage("Textures/box_4corner.png");
+  
+  box3PointDown= loadImage("Textures/box_3point_down.png");
+  box3PointLeft= loadImage("Textures/box_3point_left.png");
+  box3PointRight= loadImage("Textures/box_3point_right.png");
+  box3PointUp= loadImage("Textures/box_3point_up.png");
+  boxCornerRechtsOnderLaagLinks= loadImage("Textures/box_corner_rechtsonder_laaglinks.png");
+  boxCornerRechtsOnderLaagBoven= loadImage("Textures/box_corner_rechtsonder_laagboven.png");
+  boxCornerRechtsBovenLaagOnder= loadImage("Textures/box_corner_rechtsboven_laagonder.png");
+  boxCornerLinksBovenLaagOnder= loadImage("Textures/box_corner_linksboven_laagonder.png");
+  boxCornerLinksOnderLaagBoven= loadImage("Textures/box_corner_linksonder_laagboven.png");
+  boxCornerLinksBovenLaagRechts= loadImage("Textures/box_corner_linksboven_laagrechts.png");
+  box2CornerLinksOnderRechtsOnderLaagBoven = loadImage("Textures/box_2corner_linksonder_rechtsonder_laagboven.png");
+  
+  boxCornerLinksBovenLaagRechtsLaagOnder= loadImage("Textures/box_corner_linksboven_laagrechts_laagonder.png");
+  boxCornerLinksOnderLaagRechtsLaagBoven= loadImage("Textures/box_corner_linksonder_laagrechts_laagboven.png");
+  boxCornerRechtsBovenLaaglinksLaagOnder= loadImage("Textures/box_corner_rechtsboven_laaglinks_laagonder.png");
+  boxCornerRechtsOnderLaaglinksLaagBoven= loadImage("Textures/box_corner_rechtsonder_laaglinks_laagboven.png");
+
+  secret = loadImage("Textures/box.png");
   tileSteelPillar = loadImage("Textures/steel_pillar.png");
   tileSmallPlatformTopRight = loadImage("Textures/small_platform_top_right.png");
   tileSmallPlatformPillarRight = loadImage("Textures/small_platform_pillar_right.png");
@@ -42,6 +79,11 @@ void extraSetup()
   exitDoor = loadImage("Textures/Door_open.png");
   enterDoor = loadImage("Textures/Door_locked.png");
   ladder = loadImage("Textures/Ladder.png");
+  deathOrb = loadImage("Textures/DeathOrb.png");
+  switch0 = loadImage("Textures/LeverBlock0.png");
+  switch1 = loadImage("Textures/LeverBlock1.png");
+  water0 = loadImage("Textures/WaterNormie(0).png");
+
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
