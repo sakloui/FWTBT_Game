@@ -111,6 +111,7 @@ class Menu
   }
   void createEndLevel()
   {
+    input.isSpace = false;
     bossLevelMusic.pause();
     if(levelmusic != null)
     levelmusic.pause();
@@ -147,6 +148,7 @@ class Menu
   }  
   void createDied()
   {
+    input.isSpace = false;
     bossLevelMusic.pause();
     mainmenuShown = false;
     highscoreShown = false;
