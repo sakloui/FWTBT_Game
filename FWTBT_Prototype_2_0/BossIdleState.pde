@@ -9,7 +9,7 @@ class BossIdleState extends State
   boolean movingRight;
   float moveLimit = 480;
 
-  float laserCooldown = 5f;
+  float laserCooldown = 3f;
   float laserCooldownCounter;
 
   BossIdleState(Boss boss)
@@ -21,8 +21,6 @@ class BossIdleState extends State
   {
     animationSpeed = 0.25f;
     currentFrame = 0;
-
-    laserCooldownCounter = 0f;
 
     if (boss != null)
       movingRight = boss.movingRight;

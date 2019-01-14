@@ -140,6 +140,7 @@ PImage tutorialSecret;
 PImage tutorialEnd;
 
 PImage uiScreen;
+PImage uiScreenEmpty;
 PImage uiScreenOverlay;
 PImage uiScreen2;
 PImage uiScreen2Overlay;
@@ -151,6 +152,16 @@ PImage uiScreen3;
 PImage uiScreen3Overlay;
 PImage uiScreen4;
 PImage uiScreen4Overlay;
+
+PImage rocketArmCooldown;
+PImage rocketArmCooldownOverlay;
+PImage rocketArmNotEquiped;
+PImage rocketArmReady;
+
+PImage rocketJumpCooldown;
+PImage rocketJumpCooldownOverlay;
+PImage rocketJumpNotEquiped;
+PImage rocketJumpReady;
 
 //player animation
 PImage[] grappleGrounded;
@@ -257,9 +268,10 @@ void draw()
      
     if(isMenu)
     {
-      //image(background,width/2,height/2,width, height);
+      image(background,width/2,height/2,width, height);
       if(isTypingName)
       {
+
         menu.showPlayerName();
       }
       menu.draw();

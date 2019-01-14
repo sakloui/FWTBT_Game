@@ -23,6 +23,7 @@ void extraSetup()
   ladder = loadImage("Textures/Ladder.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
+  deaththingy = loadImage("Textures/DeathOrb.png");
 
   wireStart = loadImage("Textures/Wires_start_point.png");
   wireHeel = loadImage("Textures/Wires_heel.png");

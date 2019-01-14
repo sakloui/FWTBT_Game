@@ -15,6 +15,10 @@ class Laser
 	float rotationSpeed;
 	float angle;
 
+	float laserSize;
+	float backLaserSize;
+	boolean expanding = false;
+
 
 	boolean movingUp;
 
@@ -47,6 +51,7 @@ class Laser
 	{
 		moveLaser();
 		checkCollision();
+		changeLaserSize();
 	}
 
 	void moveLaser()
@@ -99,12 +104,40 @@ class Laser
 		return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
 	}
 
+	  void changeLaserSize()
+	  {
+	    float laserGrowthSpeed = 1.5f;
+	    float backLaserGrowthSpeed = 3f;
+
+	    if(expanding)
+	    {
+	      laserSize += laserGrowthSpeed;
+	      backLaserSize += backLaserGrowthSpeed;
+	    }
+	    else
+	    {
+	      laserSize -= laserGrowthSpeed;
+	      backLaserSize -= backLaserGrowthSpeed;
+	    }
+	    
+	    if(laserSize > 12.5f)
+	      expanding = false;
+	    else if(laserSize < 7.5f)
+	      expanding = true;
+	  }	
+
 	void drawLaser()
 	{
 		pushMatrix();
-		strokeWeight(10);
+
+		strokeWeight(backLaserSize);
+		stroke(laserColor, 100);
+		line(endPoint.x - camera.shiftX, endPoint.y - camera.shiftY, spawnPos.x - camera.shiftX, spawnPos.y - camera.shiftY);
+
+		strokeWeight(laserSize);
 		stroke(laserColor);
 		line(endPoint.x - camera.shiftX, endPoint.y - camera.shiftY, spawnPos.x - camera.shiftX, spawnPos.y - camera.shiftY);
+
 
 		//strokeWeight(4);
 		//stroke(255);

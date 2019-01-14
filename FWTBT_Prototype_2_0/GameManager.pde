@@ -9,7 +9,7 @@ class GameManager
   color textColor = color(0);
 
   PVector currencyPos = new PVector(width, 0);
-  PVector imagePos = new PVector(20, 20);
+  PVector imagePos = new PVector(0, 0);
 
   float seconds;
   float counter;
@@ -75,7 +75,9 @@ class GameManager
     imageMode(CORNERS);
     translate(imagePos.x, imagePos.y);
 
-    if (currencyValues[1] < (powerUpManager.maxFuelCount/2.5)){
+    if (currencyValues[1] < 10){
+      image(uiScreenEmpty, 0 ,0);
+    } else if (currencyValues[1] < (powerUpManager.maxFuelCount/2.5)){
       image(uiScreen, 0, 0);
       image(uiScreenOverlay, 16, 40, 16+36, 40 + (69*(1 - currencyValues[1] / powerUpManager.maxFuelCount)));
     } else {
@@ -101,17 +103,59 @@ class GameManager
 
     int uiScreenOverlayCropPixels = constrain(int(140 * (currencyValues[4] / highS)),0,140);
 
-    PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
+    PImage cropOverlayHighscore = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
     PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);
 
-    int uiScreenOverlayPixels = int((60+8)*(1 + currencyValues[4] / highS));
+    int uiScreenOverlayPixels = int((56+8)*(1 + currencyValues[4] / highS));
 
     if (currencyValues[4] < highS){
-      image(uiScreen2, 60, 0);
-      image(cropOverlay, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);
+      image(uiScreen2, 56, 0);
+      image(cropOverlayHighscore, 56+8, 16, uiScreenOverlayCropPixels + 56+8, 16+32);
     } else {
-      image(uiScreen2Green, 60, 0);
-      image(cropOverlayGreen, 60+8, 16, uiScreenOverlayCropPixels + 60+8, 16+32);      
+      image(uiScreen2Green, 56, 0);
+      image(cropOverlayGreen, 56+8, 16, uiScreenOverlayCropPixels + 56+8, 16+32);
+    }
+
+    //PowerUps
+    //rocketArm
+
+    //equiped?
+    if(powerUpManager.rocketArmActive){
+
+      //on cooldown?
+      if (powerUpManager.rocketArmCD){
+        image(rocketArmCooldown, 56, 52);
+
+        int rocketArmCooldownOverlayCropPixels = int(56 * (powerUpManager.rocketArmCounter / powerUpManager.rocketArmDelay));
+        PImage cropOverlayRocketArm = rocketArmCooldownOverlay.get(0, 0, rocketArmCooldownOverlayCropPixels, 48);
+
+        image(cropOverlayRocketArm, 56 + 8, 52 + 16);
+      } else {
+        image(rocketArmReady, 56, 52);
+      }
+    } else {
+      image(rocketArmNotEquiped, 56, 52);
+    }
+
+    //rocketJump
+
+    //equiped?
+    if(powerUpManager.rocketJumpActive){
+
+      //on cooldown?
+      if(powerUpManager.rocketJumpCD){
+        image(rocketJumpCooldown, 56 + 72, 52);
+
+        int rocketJumpCooldownOverlayCropPixels = int(34 * (powerUpManager.rocketJumpCounter / powerUpManager.rocketJumpDelay));
+        PImage cropOverlayRocketJump = rocketJumpCooldownOverlay.get(0, 0, rocketJumpCooldownOverlayCropPixels, 48);
+
+        image(cropOverlayRocketJump, 56 + 72 + 8, 56 + 12);
+      } else {
+        image(rocketJumpReady, 56 + 72, 52);
+      }
+
+    } else {
+      image(rocketJumpNotEquiped, 56 + 72 , 52);
     }
 
 

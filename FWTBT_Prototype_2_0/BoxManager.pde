@@ -58,6 +58,7 @@ class BoxManager
     bullet.clear();
     particle.clear();
     lasers.clear();
+    boss = null;
     checkPointManager.checkPoints.clear();
     checkPointManager.amountOfCheckPoints = 0;
 
@@ -67,10 +68,6 @@ class BoxManager
     map = loadImage("level"+level+".png");
     foregroundImage = loadImage("foreground"+level+".png");
 
-    levelmusic = minim.loadFile("Music/Levelmusic" +level+ ".wav");
-
-    if(levelmusic != null)
-    levelmusic.setGain(-40 + volume[0]);
     if(map == null)
     {
       menu.level.selectedLevel--;
@@ -92,8 +89,8 @@ class BoxManager
     foreground = new Box[rows][columns];
     camera.shiftX = 0;
     camera.shiftY = 0;
-    if(levelmusic != null)
-    levelmusic.loop();
+    if(levelmusic != null && currentLevel != 9)
+    levelmusic.play();
         
     //select the boxes that the tileBox collides with
     PlaceCollisionBoxes();  
@@ -452,7 +449,7 @@ for(int i = 0; i < rows; i++)
           {
             boxes[i][j].subtype = boxOmhoog;
             continue;
-          }  
+          }            
           if(i-1 < 0 && j+1 < columns && j-1 >= 0 &&
             (boxes[i+1][j+1].type != tileBox && foreground[i+1][j+1].type != tileBox) &&
             (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
@@ -463,24 +460,84 @@ for(int i = 0; i < rows; i++)
             boxes[i][j].subtype = box2CornerRechts;
             continue;
           } 
+
+          if(i-1 < 0 && j+1 >= columns &&
+            (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
+            (boxes[i+1][j].type == tileBox || foreground[i+1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerPointRechtsBoven;
+            continue;
+          }     
+          if(i-1 < 0 && j+1 < columns && j-1 >= 0 &&
+            (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
+            (boxes[i+1][j].type == tileBox || foreground[i+1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerPointRechtsBoven;
+            continue;
+          }               
+          if(i+1 >= rows && j+1 >= columns &&
+            (boxes[i-1][j-1].type != tileBox && foreground[i-1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
+            (boxes[i-1][j].type == tileBox || foreground[i-1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerPointLinksBoven;
+            continue;
+          }     
           if(i-1 < 0 && j+1 < columns && j-1 >= 0 &&
             (boxes[i+1][j+1].type != tileBox && foreground[i+1][j+1].type != tileBox) &&
-            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
             (boxes[i][j+1].type == tileBox || foreground[i][j+1].type == tileBox) &&
             (boxes[i+1][j].type == tileBox || foreground[i+1][j].type == tileBox))
           {
             boxes[i][j].subtype = boxCornerPointRechtsOnder;
             continue;
-          }               
-          if(i-1 < 0 && j+1 < columns && j-1 >= 0 &&
+          }     
+
+          if(i+1 < rows && i-1 >= 0 && j+1 >= columns &&
+            (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type != tileBox && foreground[i][j-1].type != tileBox) &&
+            (boxes[i+1][j].type != tileBox && foreground[i+1][j].type != tileBox) &&
+            (boxes[i-1][j].type == tileBox || foreground[i-1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerRechtsBoven;
+            continue;
+          }     
+          if(i+1 < rows && i-1 >= 0 && j+1 >= columns &&
             (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
             (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
-            (boxes[i][j+1].type == tileBox || foreground[i][j+1].type == tileBox) &&
-            (boxes[i+1][j].type == tileBox || foreground[i+1][j].type == tileBox))
+            (boxes[i+1][j].type == tileBox || foreground[i+1][j].type == tileBox) &&
+            (boxes[i-1][j].type == tileBox || foreground[i-1][j].type == tileBox))
           {
             boxes[i][j].subtype = boxCornerPointRechtsBoven;
             continue;
-          }                         
+          }      
+          if(i+1 < rows && i-1 >= 0 && j+1 >= columns &&
+            (boxes[i-1][j-1].type != tileBox && foreground[i-1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
+            (boxes[i+1][j].type == tileBox || foreground[i-1][j].type == tileBox) &&
+            (boxes[i-1][j].type == tileBox || foreground[i+1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerPointLinksBoven;
+            continue;
+          }                      
+          if(i+1 < rows && i-1 >= 0 && j+1 >= columns &&
+            (boxes[i-1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type != tileBox && foreground[i][j-1].type != tileBox) &&
+            (boxes[i-1][j].type != tileBox && foreground[i+1][j].type != tileBox) &&
+            (boxes[i+1][j].type == tileBox || foreground[i-1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerLinksBoven;
+            continue;
+          }              
+          if(i+1 >= rows && j+1 >= columns &&
+            (boxes[i-1][j-1].type != tileBox && foreground[i-1][j-1].type != tileBox) &&
+            (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
+            (boxes[i-1][j].type == tileBox || foreground[i-1][j].type == tileBox))
+          {
+            boxes[i][j].subtype = boxCornerPointLinksBoven;
+            continue;
+          }                                              
           if(i+1 >= rows && j+1 < columns && j-1 >= 0 &&
             (boxes[i-1][j+1].type != tileBox && foreground[i-1][j+1].type != tileBox) &&
             (boxes[i-1][j-1].type != tileBox && foreground[i-1][j-1].type != tileBox) &&

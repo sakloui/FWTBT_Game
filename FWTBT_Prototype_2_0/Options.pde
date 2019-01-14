@@ -70,7 +70,7 @@ class Sliders
         image(pointer,width/2-190+(380*volume[i]/46),height/2-150+y);
       else
         image(pointerUp,width/2-190+(380*volume[i]/46),height/2-150+y);
-      text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-125+y);
+      text(floor((volume[i]/46)*100),width/2-185+(380*volume[i]/46),height/2-112+y);
       popMatrix();
       y+=125;
     }

@@ -36,7 +36,7 @@ class RocketJump
     fill(rocketJumpColor);
     translate(position.x - camera.shiftX, position.y - camera.shiftY);
     if(!pickedUp)
-      rect(0, 0, size, size);
+      image(powerUpManager.rocketJumpIcon,0, 0, size, size);
     popMatrix();
   }
   

@@ -27,6 +27,7 @@ class Boss
   boolean movingRight = false;
   boolean hasDied = false;
   boolean deleted;
+  boolean first = true;
 
   PVector explosionPosition = new PVector(0, 0);
   float bossTimeDeath;
@@ -47,9 +48,12 @@ class Boss
     //set aggro- and attack range
     //set facing direction
     bossSize = 120f;
-    maxHealth = 1f;
+    maxHealth = 120f;
     health = maxHealth;
 
+    bossLevelMusic.setGain(-40 + volume[0]);
+    bossLevelMusic.rewind();
+    bossLevelMusic.play();
     this.SetState(new BossIdleState(this));
   }
 
@@ -62,74 +66,16 @@ class Boss
       return;
 
     if(hasDied)
+    {
       death();
+      if(first)
+      {
+        first = false;
+        bossExplotions.rewind();
+        bossExplotions.play();
+      }
+    }
     else 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {
       //set the direction the boss is facing
       if (position.x - player.position.x < 0)
@@ -162,7 +108,9 @@ class Boss
   void takeDamage(float damage)
   {
     health -= damage;
-    if(health < 0)
+    bossImpact.rewind();
+    bossImpact.play();    
+    if(health <= 0)
     {
       health = 0;
 
@@ -177,12 +125,10 @@ class Boss
       (player.position.y-boss.position.y) * (player.position.y-boss.position.y)
       <= (60+30) * (60+30))
     {
-      /*
       menu.currentSel = 0;
       menu.createDied();
       menu.menuState = 0;
       isMenu = true;
-      */
     }
   }
 
@@ -211,7 +157,7 @@ class Boss
     translate(boss.position.x, boss.position.y - 100);
     noStroke();
     fill(255, 0, 0);
-    rect(0, 0, bossSize, 30);
+    rect(0, 0, maxHealth, 30);
     fill(0, 255, 0);
     rect(healthOffset, 0, health, 30);
     popMatrix();

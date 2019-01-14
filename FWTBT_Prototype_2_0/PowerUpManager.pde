@@ -166,19 +166,19 @@ class PowerUpManager
 
   void DrawIcons()
   {
-    pushMatrix();
-    translate(width, height - 20);
-    if (rocketJumpActive)
-    {
-      image(rocketJumpIcon, -20, -10, 60, 60);
-    }
-    if (rocketArmActive)
-    {
-      image(rocketArmIcon, -60, -10, 60, 60);
-    }
-    textSize(24);
-    fill(255);
-    text("Fuel: " + fuelCount, -200, 10);
-    popMatrix();
+    // pushMatrix();
+    // translate(width, height - 20);
+    // if (rocketJumpActive)
+    // {
+    //   image(rocketJumpIcon, -20, -10, 60, 60);
+    // }
+    // if (rocketArmActive)
+    // {
+    //   image(rocketArmIcon, -60, -10, 60, 60);
+    // }
+    // textSize(24);
+    // fill(255);
+    // text("Fuel: " + fuelCount, -200, 10);
+    // popMatrix();
   }
 }

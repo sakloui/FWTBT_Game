@@ -89,6 +89,9 @@ class Menu
   }
   void createLevelSelect()
   {
+    bossLevelMusic.pause();
+    if(levelmusic != null)
+    levelmusic.pause();
     mainmenuShown = false;
     highscoreShown = false;
     for(int i = 0; i < button.length;i++)
@@ -108,6 +111,9 @@ class Menu
   }
   void createEndLevel()
   {
+    bossLevelMusic.pause();
+    if(levelmusic != null)
+    levelmusic.pause();
     println("create end level");
     mainmenuShown = false;
     for(int i = 0; i < button.length;i++)
@@ -141,6 +147,7 @@ class Menu
   }  
   void createDied()
   {
+    bossLevelMusic.pause();
     mainmenuShown = false;
     highscoreShown = false;
     for(int i = 0; i < button.length;i++)
@@ -156,9 +163,9 @@ class Menu
     button[0].selected = true;  
     button[1] = new Buttons(width/2,height-50,"Main Menu","button",74);
     button[1].createButton();
-    button[2] = new Buttons(width/2,height/2,"You died, continue?","text",255);
+    button[2] = new Buttons(width/2,height/2,"You died, continue?","text",50);
     button[2].createButton();   
-    button[3] = new Buttons(width/2, height/2-50, "The highscore is: " + str(highscore.getHighscore(currentLevel-1)), "text", 255);           
+    button[3] = new Buttons(width/2, height/2-50, "The highscore is: " + str(highscore.getHighscore(currentLevel-1)), "text", 50);           
 
   }  
 
@@ -325,14 +332,104 @@ class Menu
         click2.play();
         input.isSpace = false;
         input.isK = false;
-        if(button[currentSel].text == "Play"){button[currentSel].selected = false;currentSel = 0;createLevelSelect();button[currentSel].selected = true;menuState = 1;return;}
-        if(button[currentSel].text == "Exit")exit();
-        if(button[currentSel].text == "Select"){mainmenuShown = false; back.clear();currentLevel = level.selectedLevel+1;boxManager = new BoxManager(currentLevel);isMenu = false;mainMusic.pause();player.velocity.y = 0;}
-        if(button[currentSel].text == "Options"){button[currentSel].selected = false;currentSel = 0;createOptions();button[currentSel].selected = true;return;}
-        if(button[currentSel].text == "Back"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu();button[currentSel].selected = true;menuState = 0;return;}
-        if(button[currentSel].text == "Main Menu"){button[currentSel].selected = false;button[currentSel].selected = false;currentSel = 0;createMainMenu(); gameManager = new GameManager();button[currentSel].selected = true;menuState = 0;mainMusic.rewind();mainMusic.play();return;}
-        if(button[currentSel].text == "Continue"){currentLevel++; boxManager = new BoxManager(currentLevel); gameManager = new GameManager();isMenu = false;}
-        if(button[currentSel].text == "Retry"){gameManager.furthestCheckPoint = checkPointManager.getCurrentCheckPoint();boxManager = new BoxManager(currentLevel);gameManager.currencyValues[2] = 0;isMenu = false;}
+        if(button[currentSel].text == "Play")
+          {
+            button[currentSel].selected = false;
+            currentSel = 0;
+            createLevelSelect();
+            button[currentSel].selected = true;
+            menuState = 1;return;
+          }
+        if(button[currentSel].text == "Exit")
+          exit();
+        if(button[currentSel].text == "Select")
+          {
+            if(levelmusic != null)
+            levelmusic.pause();
+            int r = round(random(0,1));
+            if(r == 0)
+            {
+              if(levelmusic == levelmusic1)
+                levelmusic.rewind();
+              else levelmusic = levelmusic1;
+            }
+            else 
+            {
+              if(levelmusic == levelmusic2)
+                levelmusic.rewind();
+              else levelmusic = levelmusic2;
+            };
+            levelmusic.setGain(-40 + volume[0]);              
+            mainmenuShown = false;
+            back.clear();
+            currentLevel = level.selectedLevel+1;
+            boxManager = new BoxManager(currentLevel);
+            isMenu = false;mainMusic.pause();
+            player.velocity.y = 0;
+
+          }
+        if(button[currentSel].text == "Options")
+          {
+            button[currentSel].selected = false;
+            currentSel = 0;
+            createOptions();
+            button[currentSel].selected = true;
+            return;
+          }
+        if(button[currentSel].text == "Back")
+          {
+            button[currentSel].selected = false;
+            currentSel = 0;
+            createMainMenu();
+            button[currentSel].selected = true;
+            menuState = 0;
+            return;
+          }
+        if(button[currentSel].text == "Main Menu")
+          {
+            if(levelmusic != null)
+            levelmusic.pause();            
+            button[currentSel].selected = false;
+            currentSel = 0;
+            createMainMenu();
+            gameManager = new GameManager();
+            button[currentSel].selected = true;
+            menuState = 0;
+            mainMusic.rewind();
+            mainMusic.play();
+            return;
+          }
+        if(button[currentSel].text == "Continue")
+          {
+            if(levelmusic != null)
+            levelmusic.pause();
+            int r = round(random(0,1));
+            if(r == 0)
+            {
+              if(levelmusic == levelmusic1)
+                levelmusic.rewind();
+              else levelmusic = levelmusic1;
+            }
+            else 
+            {
+              if(levelmusic == levelmusic2)
+                levelmusic.rewind();
+              else levelmusic = levelmusic2;
+            }
+            levelmusic.setGain(-40 + volume[0]);              
+            currentLevel++; 
+            boxManager = new BoxManager(currentLevel); 
+            gameManager = new GameManager();
+            isMenu = false;
+
+          }
+        if(button[currentSel].text == "Retry")
+          {
+            gameManager.furthestCheckPoint = checkPointManager.getCurrentCheckPoint();
+            boxManager = new BoxManager(currentLevel);
+            gameManager.currencyValues[2] = 0;
+            isMenu = false;
+          }
       }
   }
     

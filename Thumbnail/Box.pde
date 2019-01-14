@@ -153,8 +153,7 @@ void Draw()
           image(tileBox,0,0, size, size);
           break;
         case 2:
-          fill(255, 0, 0);
-          rect(0, 0, size, size);
+          image(deaththingy, 0,0,size,size);
           break;
         case 3:
           fill(0, 255, 0);
@@ -286,7 +285,7 @@ void Drawforeground()
           rect(0,0,size,size);
           break; 
         case 2:        
-          image(tileSteelPillar, 0, 0, size, size); 
+          image(tileBox, 0, 0, size, size); 
           noTint();
           break;
         case 3:

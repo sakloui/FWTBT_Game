@@ -118,6 +118,7 @@ void extraSetup()
   tutorialEnd = loadImage("Textures/Tutorial/Tutorial_Victory.png");
 
   uiScreen = loadImage("ui/screen.png");
+  uiScreenEmpty = loadImage("ui/screenEmpty.png");
   uiScreenOverlay = loadImage("ui/screenOverlay.png");
   uiScreen2 = loadImage("ui/screen2.png");
   uiScreen2Overlay = loadImage("ui/screen2Overlay.png");
@@ -131,6 +132,16 @@ void extraSetup()
   uiScreen3Overlay = loadImage("ui/screen3Overlay.png");
   uiScreen4 = loadImage("ui/screen4.png");
   uiScreen4Overlay = loadImage("ui/screen4Overlay.png");
+
+  rocketArmCooldown = loadImage("ui/rocketArmCooldown.png");
+  rocketArmCooldownOverlay = loadImage("ui/rocketArmCooldownOverlay.png");
+  rocketArmNotEquiped = loadImage("ui/rocketArmNotEquiped.png");
+  rocketArmReady = loadImage("ui/rocketArmReady.png");
+
+  rocketJumpCooldown = loadImage("ui/rocketJumpCooldown.png");
+  rocketJumpCooldownOverlay = loadImage("ui/rocketJumpCooldownOverlay.png");
+  rocketJumpNotEquiped = loadImage("ui/rocketJumpNotEquiped.png");
+  rocketJumpReady = loadImage("ui/rocketJumpReady.png");
 
   for (int i = 0; i < basicEnemy.length; i++)
   {
@@ -330,6 +341,10 @@ bossSprite = new PImage();
   mainMusic.setGain(-40 + volume[0]);
 
   //Sound effects
+
+  laserFireSound.setGain(-40 + volume[1]);
+  bossImpact.setGain(-40 + volume[1]);
+  bossExplotions.setGain(-40 + volume[1]);
   click.setGain(-40 + volume[1]);
   click2.setGain(-40 + volume[1]);
   jumpsound.setGain(-40 + volume[1]);

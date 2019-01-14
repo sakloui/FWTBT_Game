@@ -203,7 +203,7 @@ class RocketArm
     {
       pushMatrix();
       translate(position.x - camera.shiftX, position.y - camera.shiftY);
-      rect(0, 0, size, size);
+      image(powerUpManager.rocketArmIcon,0, 0, size*3, size*3);
       popMatrix();
     }
 

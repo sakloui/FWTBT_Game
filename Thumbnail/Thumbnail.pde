@@ -26,6 +26,7 @@ PImage hookTop;
 PImage exitDoor;
 PImage enterDoor;
 PImage ladder;
+PImage deaththingy;
 
 PImage wireStart;
 PImage wireHeel;
@@ -50,7 +51,7 @@ PImage tutorialK;
 PImage tutorialL;
 
 int currentLevel = 1;
-int maxLevels = 8;
+int maxLevels = 10;
 
 void setup()
 {
