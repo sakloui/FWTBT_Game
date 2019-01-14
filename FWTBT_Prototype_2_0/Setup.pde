@@ -221,6 +221,11 @@ void extraSetup()
   click.setGain(10);
   click2 = minim.loadFile("Soundeffects/click2.mp3");
 
+  //level music
+  levelmusic1 = minim.loadFile("Music/levelMusic1.mp3");;
+  levelmusic2 = minim.loadFile("Music/levelMusic2.mp3");;
+  bossLevelMusic = minim.loadFile("Music/bossFightMusic.mp3");;
+
   //Player sounds
   jumpsound = minim.loadFile("Soundeffects/Jump_sound_3.wav");
   walkingsound = minim.loadFile("Soundeffects/walking_metal.wav");
@@ -229,6 +234,8 @@ void extraSetup()
   //Enemy sounds
   //Boss sounds
   laserFireSound = minim.loadFile("Soundeffects/Laser_Fire.mp3");
+  bossImpact = minim.loadFile("Soundeffects/Boss_Impact.mp3");
+  bossExplotions = minim.loadFile("Soundeffects/Boss_Explotions.mp3");
 
   //Condition sounds
 

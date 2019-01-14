@@ -145,10 +145,15 @@ AudioPlayer click;
 AudioPlayer click2;
 AudioPlayer mainMusic;
 AudioPlayer levelmusic;
+AudioPlayer levelmusic1;
+AudioPlayer levelmusic2;
+AudioPlayer bossLevelMusic;
 AudioPlayer jumpsound;
 AudioPlayer walkingsound;
 AudioPlayer interactionsound;
 AudioPlayer laserFireSound;
+AudioPlayer bossImpact;
+AudioPlayer bossExplotions;
 
 //------Keys------
 
