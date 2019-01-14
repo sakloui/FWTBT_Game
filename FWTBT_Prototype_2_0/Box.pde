@@ -164,7 +164,21 @@ class Box extends Rectangle
     {    
       if(collides == 8 && !switched){
         switched = true;
-        boxManager.currentGrid = 0;
+        type = switch1;
+        loop:
+        for (int j = 0; j < boxManager.columns; j++)
+        {
+          for (int i = 0; i < boxManager.rows; i++)
+          { 
+            if(boxManager.foreground[i][j].foreCollides == 4)
+            {  
+              boxManager.currentGrid = j;
+              println(boxManager.currentGrid);
+              break loop;
+            }   
+          }
+        }    
+        
         boxManager.updateGridTrue = true;
         interactionsound.rewind();
         interactionsound.play();  
@@ -236,7 +250,7 @@ class Box extends Rectangle
         //   rect(0, 0, size, size);
         //   break;
         case 8:
-          type = switch1;
+          type = switch0;
           break;
 
         case 10:
@@ -401,7 +415,7 @@ void createForegroundBox()
       noStroke();      
 
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
-      if (type == tileBox)
+      if (type == tileBox || type == water0)
         image(subtype, xOffset, yOffset, size, size);
       else
         image(type, xOffset, yOffset, size, size);
@@ -413,7 +427,7 @@ void createForegroundBox()
           killPlayer();
       if (type == exitDoor)
           CheckCollisionNext();
-      if (type == switch1)
+      if (type == switch0)
           CheckCollisionSwitch();
     }
   }

@@ -391,8 +391,8 @@ class Player
     else
       jumpHold = false;
 
-    if(!grounded && velocity.y<-150 && !jumpHold && !powerUpManager.rocketJumpActive)
-    {
+    if(!grounded && velocity.y<-150 && !jumpHold && !powerUpManager.rocketJumpUsing)
+    { 
       velocity.y/=1.1;
     }
   }
@@ -636,6 +636,7 @@ void Climb()
         velocity.y = 0;
         grounded = true;
         collidedBottom = false;
+        powerUpManager.rocketJumpUsing = false;         
       } 
 
       if (collidedRight)

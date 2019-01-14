@@ -5,7 +5,7 @@ class Bullets
 	float speed = 400;
 	float size = 10;
 	float rotation;
-	int despawnTime = 1000;
+	int despawnTime = 700;
 	Bullets(PVector pos,int dir,float rot)
 	{
 		direction = dir;
@@ -38,8 +38,10 @@ class Bullets
 
 	void checkOOB()
 	{
-		if(position.x > width || position.x < 0 || position.y > height || position.y < 0)
+		if(position.x > (width*(boxManager.rows/32.0)) || position.x < 0 || position.y > height*(boxManager.columns/18.0) || position.y < 0)
+		{
 			bullet.remove(this);
+		}
 	}
 
 	void CheckCollision()

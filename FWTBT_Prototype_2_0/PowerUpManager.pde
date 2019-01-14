@@ -12,6 +12,8 @@ class PowerUpManager
   int maxFuelCount = 500;
   boolean rocketJumpActive = false;
   boolean rocketArmActive = false;
+  boolean rocketJumpUsing = false;
+
 
   boolean rocketJumpCD = false;
   boolean rocketArmCD = false;
@@ -71,7 +73,8 @@ class PowerUpManager
       {
         RocketJump();
         rocketJumpCD = true;
-        player.isFire = true;        
+        player.isFire = true;
+        rocketJumpUsing = true;        
         input.isK = false;
       }
     }

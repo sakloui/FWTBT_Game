@@ -40,7 +40,7 @@ class BoxManager
   boolean returnCam = false;
   float prog = 0;
   int currentGrid;
-  int updateTime = 1;
+  int updateTime = 4;
 
   BoxManager(int level)
   {    //enemy = new Enemy(width/2, height-60);
@@ -379,6 +379,20 @@ for(int i = 0; i < rows; i++)
     {
       for(int j = 0; j < columns; j++)
       {
+        if (foreground[i][j].type == water0)
+        {
+          if ((foreground[i][j-1].type == water0 || boxes[i][j-1].type == tileBox))
+              { 
+                int r = round(random(0,4));
+                if(r == 0)
+                  foreground[i][j].subtype = underwater0;
+                else
+                  foreground[i][j].subtype = underwater1;
+              }
+          else
+              foreground[i][j].subtype = water0;          
+        }
+
         if (boxes[i][j].type == tileBox)
         {
 
@@ -472,6 +486,15 @@ for(int i = 0; i < rows; i++)
               (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&
               (boxes[i-1][j-1].type == tileBox || foreground[i-1][j-1].type == tileBox))
                 boxes[i][j].subtype = tileBox;
+          if ((boxes[i+1][j+1].type != tileBox && foreground[i+1][j+1].type != tileBox) &&
+              (boxes[i][j+1].type != tileBox && foreground[i][j+1].type != tileBox) &&
+              (boxes[i-1][j+1].type != tileBox && foreground[i-1][j+1].type != tileBox) &&
+              (boxes[i+1][j].type != tileBox && foreground[i+1][j].type != tileBox) &&
+              (boxes[i-1][j].type != tileBox && foreground[i-1][j].type != tileBox) &&
+              (boxes[i+1][j-1].type != tileBox && foreground[i+1][j-1].type != tileBox) &&
+              (boxes[i][j-1].type != tileBox && foreground[i][j-1].type != tileBox) &&
+              (boxes[i-1][j-1].type != tileBox && foreground[i-1][j-1].type != tileBox))
+                boxes[i][j].subtype = tileBox;              
               //----------------------------------
           else if ((boxes[i+1][j-1].type == tileBox || foreground[i+1][j-1].type == tileBox) &&
               (boxes[i][j-1].type == tileBox || foreground[i][j-1].type == tileBox) &&

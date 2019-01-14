@@ -1,21 +1,24 @@
 class Currency
 {
 	PVector position;
-	PImage currency;
+	PImage[] currency;
 
 	int currentCoins;
 	int size;
 	String type;
 
+	int timer;
+	int currentCoin;
+
 	Currency(PVector pos, String type)
 	{
 		  this.type = type;
 		  if(type == "norm")
-		  	currency = loadImage("Textures/currency.png");
+		  	currency = bolts;
 		  else if(type == "gold")
-		  	currency = loadImage("Textures/currency_golden.png");
+		  	currency = goldenBolts;
 		  position = pos.copy();
-		  size = currency.width;
+		  size = currency[0].width;
 	}
 
 	void checkCollision()
@@ -39,7 +42,15 @@ class Currency
 	}
 
 	void Draw()
-	{
-		image(currency, position.x - camera.shiftX, position.y - camera.shiftY);
+	{	
+		if(timer == 10)
+		{
+			timer = 0;
+			currentCoin++;
+			if(currentCoin > 6) currentCoin = 0;
+		}
+		else
+			timer++;
+		image(currency[currentCoin], position.x - camera.shiftX, position.y - camera.shiftY);
 	}
 }

@@ -17,7 +17,7 @@ class Anchor
     pushMatrix();
     translate(position.x  - camera.shiftX, position.y - camera.shiftY);
     fill(anchorColor);
-    rect(0, 0, size, size);
+    image(grappleTex,0,0, size, size);
     popMatrix();
   }
 }

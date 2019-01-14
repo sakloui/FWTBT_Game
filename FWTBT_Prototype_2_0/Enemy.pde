@@ -78,7 +78,7 @@ class Enemy {
     }
     
     popMatrix();
-    if(timer == 5)
+    if(timer >= 5 && !pauseWorld)
     {
       cycle++;
       timer = 0;

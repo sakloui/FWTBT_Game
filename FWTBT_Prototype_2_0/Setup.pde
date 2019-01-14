@@ -7,6 +7,8 @@ void extraSetup()
   //player = new Player(50);
 
   basicEnemy = new PImage[4];
+  bolts = new PImage[7];
+  goldenBolts = new PImage[7];
 
   electricOrb = new PImage[4];
   electricOrbPurple = new PImage[4];
@@ -83,7 +85,10 @@ void extraSetup()
   switch0 = loadImage("Textures/LeverBlock0.png");
   switch1 = loadImage("Textures/LeverBlock1.png");
   water0 = loadImage("Textures/WaterNormie(0).png");
-
+  underwater0 = loadImage("Textures/Underwater1.png");
+  underwater1 = loadImage("Textures/Underwater2.png");
+  magnetTex = loadImage("Textures/MagnetSprite.png");
+  grappleTex = loadImage("Textures/GrapplePlatform.png");
   background = loadImage("background.png");
   biskitGames = loadImage("BiskitGames.png");
 
@@ -131,6 +136,13 @@ void extraSetup()
     electricOrb[i] = loadImage("Sprites/ElectricOrb" + i + ".png");
     electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");    
   }
+
+  for (int i = 0; i < 7; ++i) {
+    bolts[i] = loadImage("Textures/CurrencyBolt(" + i + ").png");
+  }
+  for (int i = 0; i < 7; ++i) {
+    goldenBolts[i] = loadImage("Textures/CurrencyGoldBolt(" + i + ").png");
+  }  
 
 
   //------Font stuff------

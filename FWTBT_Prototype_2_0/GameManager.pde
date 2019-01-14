@@ -37,18 +37,20 @@ class GameManager
 
   void Update()
   {
-    highS = highscore.getHighscore(currentLevel-1);
-    currencyValues[1] = powerUpManager.fuelCount;
-    currencyValues[2] += deltaTime;
-    currencyValues[5] = round(frameRate);
-    seconds += deltaTime;    
+    if(!pauseWorld)
+    {
+      highS = highscore.getHighscore(currentLevel-1);
+      currencyValues[1] = powerUpManager.fuelCount;
+      currencyValues[2] += deltaTime;
+      currencyValues[5] = round(frameRate);
+      seconds += deltaTime;    
 
-    if(seconds >= 60)
-      seconds = 0;
+      if(seconds >= 60)
+        seconds = 0;
 
 
-    updateCurrency();
-
+      updateCurrency();
+    }
   }
 
   void Draw()
@@ -95,7 +97,7 @@ class GameManager
     // text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
     // fill(255);        
 
-    int uiScreenOverlayCropPixels = int(140 * (currencyValues[4] / highS));
+    int uiScreenOverlayCropPixels = constrain(int(140 * (currencyValues[4] / highS)),0,140);
 
     PImage cropOverlay = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
     PImage cropOverlayGreen = uiScreen2OverlayGreen.get(0, 0, uiScreenOverlayCropPixels, 32);

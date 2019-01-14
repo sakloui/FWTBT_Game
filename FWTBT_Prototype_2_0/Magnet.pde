@@ -12,7 +12,7 @@ class Magnet
   float xDiff;
   float yDiff;
   PVector diff;
-  float attractionPower = 50f;
+  float attractionPower = 40f;
   boolean isAttracting;
   boolean wasAttracting;
   boolean slowingDownPlayer;
@@ -176,7 +176,22 @@ class Magnet
     pushMatrix();
     fill(magnetColor);
     translate(position.x - camera.shiftX, position.y - camera.shiftY);
-    rect(0, 0, magnetWidth, magnetHeight);
+    switch(direction)
+    {
+      case LEFT:
+        rotate(radians(270));
+        break;
+      case RIGHT:
+        rotate(radians(90));
+        break;
+      case UP:
+        rotate(radians(0));
+        break;  
+      case DOWN:
+        rotate(radians(180));
+        break;
+    }
+    image(magnetTex, 0, 0, magnetWidth, magnetHeight);
     popMatrix();
     
   }

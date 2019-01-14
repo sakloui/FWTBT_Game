@@ -105,7 +105,10 @@ PImage deathOrb;
 PImage switch0;
 PImage switch1;
 PImage water0;
-
+PImage underwater0;
+PImage underwater1;
+PImage magnetTex;
+PImage grappleTex;
 PImage wireStart;
 PImage wireHeel;
 PImage wireHeel2;
@@ -115,6 +118,8 @@ PImage wireHeelBroken;
 PImage wireHeel2Broken;
 PImage wireCompleetBroken;
 
+PImage[] bolts;
+PImage[] goldenBolts;
 PImage[] basicEnemy;
 PImage[] electricOrb;
 PImage[] electricOrbPurple;
