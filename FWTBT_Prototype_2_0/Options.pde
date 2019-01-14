@@ -10,13 +10,15 @@ class Sliders
   private int sliders;
   private int[] level;
   private String[] texts;
+  private color c;
   //------Images------
   private PImage slider;
   private PImage pointer;
   private PImage pointerUp;
   
-  Sliders(int sliders, String[] text)
+  Sliders(int sliders, String[] text, color col)
   {
+   c = col;
    this.sliders = sliders;
    level = new int[sliders];
    selectedSlider = 0;
@@ -60,7 +62,7 @@ class Sliders
     y = 0;
     for(int i = 0; i < level.length;i++)
     {
-      fill(200);
+      fill(c);
       text(texts[i], width/2,height/2-200+y);
       image(slider,width/2,height/2-175+y,380,10);
       pushMatrix();

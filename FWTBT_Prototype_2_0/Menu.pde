@@ -65,7 +65,7 @@ class Menu
     //button[1].createButton();
     button[2] = new Buttons(width/2,height/2+75,"Exit","button",74);
     //button[2].createButton();    
-    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","rotatingText",255);
+    button[4] = new Buttons(width/2,height/2-200,"For whom the bell tolls","rotatingText",100);
     //button[4].createButton();
   }
   void createOptions()
@@ -80,7 +80,7 @@ class Menu
     level = null;
     sliders = null;
     String[] text = {"Music volume", "Sound effects volume"};
-    sliders = new Sliders(2,text);
+    sliders = new Sliders(2,text,100);
     sliders.createSlider();
     button[0] = new Buttons(width/2,height/2+75,"Back","button",74);
     button[0].createButton();

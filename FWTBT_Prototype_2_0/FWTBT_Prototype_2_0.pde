@@ -257,7 +257,7 @@ void draw()
      
     if(isMenu)
     {
-      image(background,width/2,height/2,width, height);
+      //image(background,width/2,height/2,width, height);
       if(isTypingName)
       {
         menu.showPlayerName();
