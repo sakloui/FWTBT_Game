@@ -9,6 +9,7 @@ Boss boss;
 //------Classes------
 Menu menu;
 Player player;
+Debug debug;
 CheckPointManager checkPointManager;
 BoxManager boxManager;
 Camera camera;
@@ -155,6 +156,7 @@ void setup()
 
 void draw()
 {
+  debug.log("player is typing: ", isTypingName);
   //------Time------
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
@@ -177,6 +179,7 @@ void draw()
         menu.showPlayerName();
       }
       menu.draw();
+      debug.drawDebug();
     }
     else
     {
@@ -279,6 +282,8 @@ void draw()
 
       player.Draw();
 
+      debug.drawDebug();
+
       if(boss!=null)
       {
         boss.bossUpdate();
@@ -286,7 +291,6 @@ void draw()
       }
 
       powerUpManager.DrawIcons();
-
 
       gameManager.Draw();
 
@@ -311,6 +315,7 @@ void draw()
     text("Loading...", width/2, height/2);
     popMatrix();
   }  
+
 }
 
 

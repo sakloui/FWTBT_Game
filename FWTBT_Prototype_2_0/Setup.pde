@@ -3,6 +3,7 @@ void extraSetup()
   //------Classes------
   camera = new Camera();
   player= new Player();
+  debug = new Debug();
   checkPointManager = new CheckPointManager();
   gameManager = new GameManager();
   //player = new Player(50);
