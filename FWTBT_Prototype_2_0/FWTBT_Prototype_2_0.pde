@@ -133,6 +133,7 @@ PImage tutorialSecret;
 PImage tutorialEnd;
 
 PImage uiScreen;
+PImage uiScreenEmpty;
 PImage uiScreenOverlay;
 PImage uiScreen2;
 PImage uiScreen2Overlay;
@@ -144,6 +145,16 @@ PImage uiScreen3;
 PImage uiScreen3Overlay;
 PImage uiScreen4;
 PImage uiScreen4Overlay;
+
+PImage rocketArmCooldown;
+PImage rocketArmCooldownOverlay;
+PImage rocketArmNotEquiped;
+PImage rocketArmReady;
+
+PImage rocketJumpCooldown;
+PImage rocketJumpCooldownOverlay;
+PImage rocketJumpNotEquiped;
+PImage rocketJumpReady;
 
 //------Font stuff------
 PFont font;
@@ -211,16 +222,16 @@ void draw()
   deltaTime = (millis() - lastTime) / 1000; //Calculates the diffrence in time between frames
   lastTime = millis();
 
-  
+
   //------Background Stuff------
-    background(0); 
+    background(0);
 
   //------Gamestate------
 
   counter += deltaTime;
   if (counter >= loadingTime)
-  {  
-     
+  {
+
     if(isMenu)
     {
       menu.draw();
@@ -228,7 +239,7 @@ void draw()
     else
     {
       if(input.isP){menu.menuState = 1; menu.createLevelSelect();isMenu = true;mainMusic.rewind();mainMusic.play();if(levelmusic != null)levelmusic.pause();gameManager = new GameManager();}
-      
+
       if(cameraTracking)
       {
         camera.UpdateX();
@@ -254,9 +265,9 @@ void draw()
           if(slipperyTiles.get(i).underPlayer)
             player.onOil = true;
         }
-      }      
+      }
       boxManager.Update();
-      powerUpManager.Update();  
+      powerUpManager.Update();
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Update();
@@ -264,36 +275,36 @@ void draw()
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
         bullet.get(i).Update();
-      }      
+      }
 
       for (int i = 0; i < particle.size(); ++i) {
         if(particle.size() > 100)
           particle.remove(0);
         if(particle.get(i) !=null)
           particle.get(i).Update();
-      }      
+      }
 
       menu.update();
-      highscore.updateScore();      
+      highscore.updateScore();
       gameManager.Update();
       for(Magnet mag: magnet){
         mag.Update();
       }
 
-      //----------Draws---------- 
+      //----------Draws----------
 
       boxManager.DrawBoxes();
-      
+
 
       for (int i = 0; i < bullet.size(); ++i) {
         if(bullet.get(i) !=null)
         bullet.get(i).Draw();
-      }     
+      }
 
       for (int i = 0; i < particle.size(); ++i) {
         if(particle.get(i) !=null)
         particle.get(i).Draw();
-      }      
+      }
 
       for(Magnet mag: magnet){
         mag.Draw();
@@ -303,13 +314,13 @@ void draw()
       {
         anchors.get(i).Draw();
       }
-      
-   
+
+
       gameManager.drawCurrency();
       for (int i = 0; i < enemies.size(); ++i) {
         if(enemies.get(i) !=null)
         enemies.get(i).Draw();
-      }  
+      }
 
       powerUpManager.DrawPowerUps();
 
@@ -350,7 +361,7 @@ void draw()
     image(biskitGames, width/2, height/2-150,200,200);
     text("Loading...", width/2, height/2);
     popMatrix();
-  }  
+  }
 }
 
 

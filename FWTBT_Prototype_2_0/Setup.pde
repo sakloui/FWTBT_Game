@@ -36,13 +36,13 @@ void extraSetup()
   box2CornerRechtsOnderLinksBoven= loadImage("Textures/box_2corner_rechtsonder_linksboven.png");
   box2LaagVerticaal= loadImage("Textures/box_2laag_vertical.png");
   box2LaagZijwaards= loadImage("Textures/box_2laag_zijwaards.png");
-  
+
   box3CornerNietLinksBoven= loadImage("Textures/box_3corner_nietlinksboven.png");
   box3CornerNietLinksOnder= loadImage("Textures/box_3corner_nietlinksonder.png");
   box3CornerNietRechtsBoven= loadImage("Textures/box_3corner_nietrechtsboven.png");
   box3CornerNietRechtsOnder= loadImage("Textures/box_3corner_nietrechtsonder.png");
   box4Corner= loadImage("Textures/box_4corner.png");
-  
+
   box3PointDown= loadImage("Textures/box_3point_down.png");
   box3PointLeft= loadImage("Textures/box_3point_left.png");
   box3PointRight= loadImage("Textures/box_3point_right.png");
@@ -54,7 +54,7 @@ void extraSetup()
   boxCornerLinksOnderLaagBoven= loadImage("Textures/box_corner_linksonder_laagboven.png");
   boxCornerLinksBovenLaagRechts= loadImage("Textures/box_corner_linksboven_laagrechts.png");
   box2CornerLinksOnderRechtsOnderLaagBoven = loadImage("Textures/box_2corner_linksonder_rechtsonder_laagboven.png");
-  
+
   boxCornerLinksBovenLaagRechtsLaagOnder= loadImage("Textures/box_corner_linksboven_laagrechts_laagonder.png");
   boxCornerLinksOnderLaagRechtsLaagBoven= loadImage("Textures/box_corner_linksonder_laagrechts_laagboven.png");
   boxCornerRechtsBovenLaaglinksLaagOnder= loadImage("Textures/box_corner_rechtsboven_laaglinks_laagonder.png");
@@ -94,7 +94,7 @@ void extraSetup()
   wireStartBroken = loadImage("Textures/Wires_start_point_broken.png");
   wireHeelBroken = loadImage("Textures/Wires_broken.png");
   wireHeel2Broken = loadImage("Textures/Wires_broken_2.png");
-  wireCompleetBroken = loadImage("Textures/Wires_complete_broken.png");  
+  wireCompleetBroken = loadImage("Textures/Wires_complete_broken.png");
 
   tutorialA = loadImage("Textures/Tutorial/Tutorial_A_groot.png");
   tutorialD = loadImage("Textures/Tutorial/Tutorial_D_groot.png");
@@ -110,6 +110,7 @@ void extraSetup()
   tutorialEnd = loadImage("Textures/Tutorial/Tutorial_Victory.png");
 
   uiScreen = loadImage("ui/screen.png");
+  uiScreenEmpty = loadImage("ui/screenEmpty.png");
   uiScreenOverlay = loadImage("ui/screenOverlay.png");
   uiScreen2 = loadImage("ui/screen2.png");
   uiScreen2Overlay = loadImage("ui/screen2Overlay.png");
@@ -124,18 +125,28 @@ void extraSetup()
   uiScreen4 = loadImage("ui/screen4.png");
   uiScreen4Overlay = loadImage("ui/screen4Overlay.png");
 
+  rocketArmCooldown = loadImage("ui/rocketArmCooldown.png");
+  rocketArmCooldownOverlay = loadImage("ui/rocketArmCooldownOverlay.png");
+  rocketArmNotEquiped = loadImage("ui/rocketArmNotEquiped.png");
+  rocketArmReady = loadImage("ui/rocketArmReady.png");
+
+  rocketJumpCooldown = loadImage("ui/rocketJumpCooldown.png");
+  rocketJumpCooldownOverlay = loadImage("ui/rocketJumpCooldownOverlay.png");
+  rocketJumpNotEquiped = loadImage("ui/rocketJumpNotEquiped.png");
+  rocketJumpReady = loadImage("ui/rocketJumpReady.png");
+
   for (int i = 0; i < basicEnemy.length; i++)
   {
     //load enemy run sprites
     basicEnemy[i] = loadImage("Sprites/RobotOvergrownRun (" + i + ").png");
     electricOrb[i] = loadImage("Sprites/ElectricOrb" + i + ".png");
-    electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");    
+    electricOrbPurple[i] = loadImage("Sprites/PurpleElectricOrb" + i + ".png");
   }
 
 
   //------Font stuff------
   font = createFont("fonts/kenvector_future.ttf", 28);
-  pixelFont = createFont("fonts/pixelated.ttf", 36);  
+  pixelFont = createFont("fonts/pixelated.ttf", 36);
   textFont(font);
   textMode(SHAPE);
   textAlign(CENTER,CENTER);
@@ -176,7 +187,7 @@ void extraSetup()
   jumpsound.setGain(-40 + volume[1]);
   walkingsound.setGain(-40 + volume[1]);
   interactionsound.setGain(-40 + volume[1]);
-  mainMusic.loop();  
+  mainMusic.loop();
 
 
 }
