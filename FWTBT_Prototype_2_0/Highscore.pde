@@ -31,8 +31,8 @@ class Highscore
 	
 	Highscore()
 	{
-		highscoreTable = loadTable("data/Highscores.csv", "header");
-		nameTable = loadTable("data/PlayerNames.csv", "header");
+		highscoreTable = loadTable("highscores.csv", "header");
+		nameTable = loadTable("PlayerNames.csv", "header");
 
 		//bolts
 		highscore = BOLTS_SCORE * gameManager.currencyValues[0];
