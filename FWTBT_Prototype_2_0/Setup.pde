@@ -158,14 +158,8 @@ void extraSetup()
     goldenBolts[i] = loadImage("Textures/CurrencyGoldBolt(" + i + ").png");
   }  
 
-bossSprite = new PImage();
+  bossSprite = new PImage();
   String bossSpriteName;
-
-
-
-
-
-
 
   //load the sprites
   idle = new PImage[6];
@@ -291,7 +285,23 @@ bossSprite = new PImage();
     grappleMidAir[i] = loadImage(grappleMidAirName);
   }
 
+  introIdleScreen = new PImage[14];
+  String introScreen;
 
+  for(int i = 0; i < 14; i++)
+  {
+    introScreen = "Introscherm/Menubackground"+(i+1)+".png";
+    introIdleScreen[i] = loadImage(introScreen);
+  }
+
+  intro = new PImage[27];
+  String introFileName;
+
+  for(int i = 0; i < 27; i++)
+  {
+    introFileName = "Introscherm/Menubackground"+(i+15)+".png";
+    intro[i] = loadImage(introFileName);
+  }
 
   //------Font stuff------
   font = createFont("fonts/kenvector_future.ttf", 28);
