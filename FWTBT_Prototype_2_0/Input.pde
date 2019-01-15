@@ -1,6 +1,6 @@
 class Input
 {
-  boolean isUp,isDown,isRight,isLeft,isSpace,isP,isK,isL,isR;
+  boolean isUp,isDown,isRight,isLeft,isSpace,isP,isK,isL,isR, isU;
   boolean enabled = true;
 
   boolean KeyDown(int k, boolean b)
@@ -29,7 +29,9 @@ class Input
         key = 0;
         return isP = b;  
       case 'R':
-        return isR = b;   
+        return isR = b;
+      case 'U':
+        return isU = b;
       default:
         return b;
       }
@@ -44,6 +46,7 @@ class Input
       isK = false; 
       isL = false; 
       isR = false;
+      isU = false;
       return false;
   }
 }

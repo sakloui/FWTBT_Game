@@ -27,6 +27,7 @@ class Introscherm
 			if(currentImage >= intro.length - 1 - animationSpeed)
 			{
 				displayIntro = false;
+				playIntroAnimation = false;
 				menu.createMainMenu();
 			}
 		}

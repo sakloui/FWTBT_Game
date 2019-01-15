@@ -268,6 +268,14 @@ void draw()
 
   //------Gamestate------
 
+  if(input.isU)
+  {
+    //reset menu stuff want errors
+    //geen error als je in het main menu zit en op u drukt
+    //........
+    displayIntro = true;
+  }
+
   counter += deltaTime;
   if (counter >= loadingTime)
   {  
