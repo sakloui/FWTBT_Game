@@ -11,6 +11,9 @@ class Box extends Rectangle
   float yOffset = 0;
   float xOffset = 0;
 
+  float currentImage;
+  float animationSpeed = 0.19f;
+
   //----------Other----------
   int collides;
   int foreCollides;
@@ -417,6 +420,11 @@ void createForegroundBox()
       translate(position.x  - camera.shiftX, position.y  - camera.shiftY);
       if (type == tileBox || type == water0)
         image(subtype, xOffset, yOffset, size, size);
+      else if(type == deathOrb)
+      {
+        currentImage = (currentImage + animationSpeed) % electricOrbPurple.length;
+        image(electricOrbPurple[int(currentImage)], xOffset, yOffset, size, size);
+      }
       else
         image(type, xOffset, yOffset, size, size);
       noTint();
