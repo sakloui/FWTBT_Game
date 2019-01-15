@@ -7774,7 +7774,7 @@ public abstract class State
 }
   public void settings() {  size(1280,720,P2D); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--present", "--window-color=#030303", "--stop-color=#030303", "FWTBT_Prototype_2_0" };
+    String[] appletArgs = new String[] { "FWTBT_Prototype_2_0" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
