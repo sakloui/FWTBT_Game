@@ -9,6 +9,7 @@ class Introscherm
 		if(input.isSpace)
 		{
 			playIntroAnimation = true;
+			currentImage = 0;
 		}
 	}
 
