@@ -17,6 +17,7 @@ Input input = new Input();
 PowerUpManager powerUpManager;
 GameManager gameManager;
 Highscore highscore;
+Introscherm introScherm = new Introscherm();
 
 //------ArrayList stuff------
 ArrayList<Anchor> anchors = new ArrayList<Anchor>();
@@ -163,6 +164,10 @@ PImage rocketJumpCooldownOverlay;
 PImage rocketJumpNotEquiped;
 PImage rocketJumpReady;
 
+//introschreen
+PImage[] introIdleScreen;
+PImage[] intro;
+
 //player animation
 PImage[] grappleGrounded;
 PImage[] grappleMidAir;
@@ -198,6 +203,7 @@ float loadingTime = 5f;
 boolean isMenu;
 boolean cameraTracking = true;
 boolean pauseWorld = false;
+boolean displayIntro = true;
 int currentLevel;
 
 float[] volume = new float[5];
@@ -262,6 +268,15 @@ void draw()
     background(0); 
 
   //------Gamestate------
+  if(input.isU && menu.mainmenuShown)
+  {
+    //reset menu stuff want errors
+    //geen error als je in het main menu zit en op u drukt
+    //........
+    playerName = "";
+    displayIntro = true;
+  }
+
 
   counter += deltaTime;
   if (counter >= loadingTime)
@@ -270,13 +285,21 @@ void draw()
     if(isMenu)
     {
       image(background,width/2,height/2,width, height);
-      if(isTypingName)
+      if(displayIntro)
       {
-
-        menu.showPlayerName();
+        introScherm.updateIntro();
+        introScherm.drawIntro();
       }
-      menu.draw();
-      debug.drawDebug();      
+      else 
+      {
+        if(isTypingName)
+        {
+
+          menu.showPlayerName();
+        }
+        menu.draw();
+        debug.drawDebug();      
+      }
     }
     else
     {
