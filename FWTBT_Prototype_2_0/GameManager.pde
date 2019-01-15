@@ -15,6 +15,7 @@ class GameManager
 
   float highS;
 
+  //constructor
   GameManager()
   {
     currencyNames = new String[6];
@@ -71,7 +72,7 @@ class GameManager
     imageMode(CORNERS);
     translate(imagePos.x, imagePos.y);
 
-    //GAS
+    //fuel
     if (currencyValues[1] < 10){
       image(uiScreenEmpty, 0 ,0);
     } else if (currencyValues[1] < (powerUpManager.maxFuelCount/2.5)){
