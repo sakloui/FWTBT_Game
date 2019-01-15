@@ -204,7 +204,6 @@ class Menu
           saveTable(highscore.nameTable, "data/PlayerNames.csv");
           isTypingName = false;
           button[0].selected = true;
-          playerName = "";
         }
         else
         {

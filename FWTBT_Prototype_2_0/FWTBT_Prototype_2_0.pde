@@ -268,11 +268,13 @@ void draw()
 
   //------Gamestate------
 
-  if(input.isU)
+  if(menu.mainmenuShown && input.isU)
   {
     //reset menu stuff want errors
     //geen error als je in het main menu zit en op u drukt
     //........
+
+    playerName = "";
     displayIntro = true;
   }
 
