@@ -31,7 +31,7 @@ class Highscore
 	
 	Highscore()
 	{
-		highscoreTable = loadTable("Highscores.csv", "header");
+		highscoreTable = loadTable("highscores.csv", "header");
 		nameTable = loadTable("PlayerNames.csv", "header");
 
 		//bolts
