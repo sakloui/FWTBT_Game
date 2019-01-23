@@ -34,7 +34,7 @@ class GameManager
     currencyValues[2] = 0f;
     currencyValues[3] = 0f;
     currencyValues[4] = 0f;
-    
+
   }
 
   void Update()
@@ -45,7 +45,7 @@ class GameManager
       currencyValues[1] = powerUpManager.fuelCount;
       currencyValues[2] += deltaTime;
       currencyValues[5] = round(frameRate);
-      seconds += deltaTime;    
+      seconds += deltaTime;
 
       if(seconds >= 60)
         seconds = 0;
@@ -57,17 +57,10 @@ class GameManager
 
   void Draw()
   {
-
+    //Lettertype en grootte
     textFont(pixelFont);
     textSize(32);
-    //pushMatrix();
-    // fill(255);
-    // translate(currencyPos.x, currencyPos.y);
-    // for(int i = 0; i < currencyNames.length; i++)
-    // {
-    //   text(currencyNames[i] + ": " + round(currencyValues[i]), 0, textOffset * i);
-    // }
-    //popMatrix();
+
     textAlign(LEFT,CENTER);
 
     //images
@@ -75,32 +68,24 @@ class GameManager
     imageMode(CORNERS);
     translate(imagePos.x, imagePos.y);
 
+    //Fuel
+    //empty
     if (currencyValues[1] < 10){
       image(uiScreenEmpty, 0 ,0);
+
+      //minder dan 25% rood
     } else if (currencyValues[1] < (powerUpManager.maxFuelCount/2.5)){
       image(uiScreen, 0, 0);
       image(uiScreenOverlay, 16, 40, 16+36, 40 + (69*(1 - currencyValues[1] / powerUpManager.maxFuelCount)));
+
+      //meer dan 25% groen
     } else {
       image(uiScreenGreen, 0, 0);
       image(uiScreenOverlayGreen, 16, 40, 16+36, 40 + (69*(1 - currencyValues[1] / powerUpManager.maxFuelCount)));
     }
 
-    // image(uiScreen3,60,60);
-    // fill(79,0,0);
-    // text("DEATHS :" + int(currencyValues[3]),72.5,89);
-    // fill(255,0,0);
-    // text("DEATHS :" + int(currencyValues[3]),72.5,85);
-    // fill(255);   
-
-
-
-    // image(uiScreen4,0,120);
-    // fill(79,0,0);
-    // text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
-    // fill(255,0,0);
-    // text("TiME : " + int(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
-    // fill(255);        
-
+    //HIGHSCORE
+    //overlay
     int uiScreenOverlayCropPixels = constrain(int(140 * (currencyValues[4] / highS)),0,140);
 
     PImage cropOverlayHighscore = uiScreen2Overlay.get(0, 0, uiScreenOverlayCropPixels, 32);
@@ -108,9 +93,13 @@ class GameManager
 
     int uiScreenOverlayPixels = int((56+8)*(1 + currencyValues[4] / highS));
 
+    //base
+    //highscore nog niet behaald rood
     if (currencyValues[4] < highS){
       image(uiScreen2, 56, 0);
       image(cropOverlayHighscore, 56+8, 16, uiScreenOverlayCropPixels + 56+8, 16+32);
+
+      //higscore behaald groen
     } else {
       image(uiScreen2Green, 56, 0);
       image(cropOverlayGreen, 56+8, 16, uiScreenOverlayCropPixels + 56+8, 16+32);
@@ -126,13 +115,18 @@ class GameManager
       if (powerUpManager.rocketArmCD){
         image(rocketArmCooldown, 56, 52);
 
+        //timer overlay
         int rocketArmCooldownOverlayCropPixels = int(56 * (powerUpManager.rocketArmCounter / powerUpManager.rocketArmDelay));
         PImage cropOverlayRocketArm = rocketArmCooldownOverlay.get(0, 0, rocketArmCooldownOverlayCropPixels, 48);
 
         image(cropOverlayRocketArm, 56 + 8, 52 + 16);
+
+        //ready
       } else {
         image(rocketArmReady, 56, 52);
       }
+
+      //not equiped
     } else {
       image(rocketArmNotEquiped, 56, 52);
     }
@@ -146,19 +140,24 @@ class GameManager
       if(powerUpManager.rocketJumpCD){
         image(rocketJumpCooldown, 56 + 72, 52);
 
+        //cooldown overlay
         int rocketJumpCooldownOverlayCropPixels = int(34 * (powerUpManager.rocketJumpCounter / powerUpManager.rocketJumpDelay));
         PImage cropOverlayRocketJump = rocketJumpCooldownOverlay.get(0, 0, rocketJumpCooldownOverlayCropPixels, 48);
 
         image(cropOverlayRocketJump, 56 + 72 + 8, 56 + 12);
+
+        //ready
       } else {
         image(rocketJumpReady, 56 + 72, 52);
       }
 
+      //not equiped
     } else {
       image(rocketJumpNotEquiped, 56 + 72 , 52);
     }
 
-
+    //stats
+    //death counter
     popMatrix();
     pushMatrix();
     translate(width-372, -120);
@@ -167,8 +166,8 @@ class GameManager
     counter = currencyValues[3]/highscore.MAX_DEATHS;
 
     pushStyle();
-    tint(lerp(0,79,counter),lerp(78,0,counter),0);  
-    image(uiScreen3Overlay,220,127.5);  
+    tint(lerp(0,79,counter),lerp(78,0,counter),0);
+    image(uiScreen3Overlay,220,127.5);
     noTint();
     popStyle();
 
@@ -177,15 +176,16 @@ class GameManager
     text("DEATHS :" + int(currencyValues[3]),226,149);
     fill(lerp(0, 255, counter),lerp(255, 0, counter),0);
     text("DEATHS :" + int(currencyValues[3]),226,145);
-    fill(255);   
+    fill(255);
 
+    //timer
     if(maxTime < 1)
       maxTime = currencyValues[2]/highscore.MAX_TIME;
 
     pushStyle();
-    tint(lerp(0,79,maxTime),lerp(78,0,maxTime),0);  
-    image(uiScreen4Overlay,6,127.5); 
-    noTint(); 
+    tint(lerp(0,79,maxTime),lerp(78,0,maxTime),0);
+    image(uiScreen4Overlay,6,127.5);
+    noTint();
     popStyle();
 
     image(uiScreen4,0,120);
@@ -193,11 +193,11 @@ class GameManager
     text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,149);
     fill(lerp(0, 255, maxTime),lerp(255, 0, maxTime),0);
     text("TiME : " + floor(currencyValues[2]/60) + ":" + int(seconds) + ":" + (int((currencyValues[2] - int(currencyValues[2]))*100)),10,145);
-    fill(255);        
+    fill(255);
 
     popMatrix();
     textSize(28);
-    textFont(font);    
+    textFont(font);
     imageMode(CENTER);
     textAlign(CENTER,CENTER);
   }
@@ -207,7 +207,7 @@ class GameManager
     currencyValues[0] = 0f;
     currencyValues[1] = 0f;
     currencyValues[4] = 0f;
-    highS = highscore.getHighscore(currentLevel-1);    
+    highS = highscore.getHighscore(currentLevel-1);
   }
 
   void drawCurrency()
