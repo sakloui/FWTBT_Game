@@ -1,6 +1,5 @@
-# FWTBT_Game
-best game in de universe
-## made by Biksit games
+# For Whom The Bell Tolls
+## made by Biskit games
 ### teamleden
 * Cas l
 * Idris
